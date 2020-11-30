@@ -1,0 +1,49 @@
+<div class="container prod-detail">
+  <div class="card mt-5">
+    <div class="card-body" *ngIf="producto">
+      <h5 class="card-title">
+        {{stringTitle}}
+      </h5>
+      <div class="row">
+        <div class="col-md-8">
+          <div class="row mt-5">
+            <div class="col-md-6 text-center">
+              <img [src]="'/api/' + producto.image" class="prod-img">
+            </div>
+            <div class="col-md-6">
+              <h4>{{producto.name}}</h4>
+              <p>Proveedor: <a routerLink="/supplier/{{producto.supplier.id}}">{{producto.supplier.name}}</a></p>
+              <p>Ubicación: {{producto.location}}</p>
+              <p>{{producto.description}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card border-dark product-options">
+            <div class="card-body">
+              <div class="row mt-2">
+                <div class="col-md-6">
+                  <h5>Precio</h5>
+                </div>
+                <div class="col-md-6">
+                  <h5 class="text-right">S/.{{carritoItem.totalPrice}}</h5>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-md-6">
+                  <label for="prodCantidad">Cantidad</label>
+                </div>
+                <div class="col-md-6 text-right">
+                  <input type="number" name="prodCantidad" id="prodCantidad" [(ngModel)]="carritoItem.quantity" (ngModelChange)="updatePrecioTotal()">
+                </div>
+              </div>
+              <div class="text-center mt-2">
+                <button class="btn btn-success text-center" (click)="addToCart()" [disabled]="carritoItem.quantity < 1">Agregar al carrito</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

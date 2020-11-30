@@ -1,1 +1,74 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@fortawesome/fontawesome-free/css/all.css";
+
+:root {
+    --primary1: #ba1cb3;
+    --primary2: #3939b5; 
+    --primary3: #1aa9e8;
+
+    --dark1: #b46caa;
+    --dark2: #5755a1;
+    --dark3: #4faee2;
+
+    --degradado1: #c18ebe;
+    --degradado2: #8a8ac1;
+    --degradado3: #94c9e0;
+}
+
+.cl-c1{
+    color: var(--primary1);
+}
+
+.cl-bg1{
+    background-color: var(--primary1);
+}
+
+.cl-c2{
+    color: var(--primary2);
+}
+
+.cl-bg2{
+    background-color: var(--primary2);
+}
+
+.cl-c3{
+    color: var(--primary3);
+}
+
+.cl-bg3{
+    background-color: var(--primary3);
+}
+
+body{
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+.btn-cl1{
+    background-color: var(--primary1);
+    color: white;
+}
+
+.btn-cl1:hover{
+    background-color: var(--dark1);
+    color: white;
+}
+
+.btn-cl2{
+    background-color: var(--primary2);
+    color: white;
+}
+
+.btn-cl2:hover{
+    background-color: var(--dark2);
+    color: white;
+}
+
+.btn-cl3{
+    background-color: var(--primary3);
+    color: white;
+}
+
+.btn-cl3:hover{
+    background-color: var(--dark3);
+    color: white;
+}

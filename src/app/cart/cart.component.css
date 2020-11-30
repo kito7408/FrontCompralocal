@@ -1,0 +1,22 @@
+.prod-img{
+    max-width: 80%;
+    max-height: 50px;
+}
+
+.cantText{
+    width: 2rem;
+    display: inline-block;
+}
+
+.my-custom-scrollbar {
+    position: relative;
+    height: 350px;
+    overflow: auto;
+}
+.table-wrapper-scroll-y {
+    display: block;
+}
+
+.sadImage{
+    max-width: 25%;
+}

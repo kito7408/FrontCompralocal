@@ -1,0 +1,45 @@
+.prod-img{
+    max-width: 90%;
+    max-height: 90%;
+    margin: auto;
+    line-height: 1.5;
+}
+
+.prod-item{
+    width: 18%;
+    height: 100%;
+    margin-right: 0.5%;
+}
+
+.img-prod-section{
+    height: 180px;
+}
+
+.page-link{
+    cursor: pointer;
+}
+
+.sadImage{
+    max-width: 17%;
+}
+
+.prod-section{
+    background-image: url('../../assets/imgs/alpacas.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.5;
+}
+
+li{
+    border: none;
+}
+
+.page-item > a{
+    color: var(--primary3);
+}
+
+.page-item.active-cl > a{
+    background-color: var(--primary1);
+    color: white;
+}

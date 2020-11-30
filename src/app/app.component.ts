@@ -6,5 +6,17 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  title = 'CompraLocal';
+
+  compo: any;
+
+  onActivate(componentReference) {
+    this.compo = componentReference;
+  }
+
+  listProd() {
+    if (this.compo.compName == 'Productos') {
+      this.compo.listProducts();
+    }
+  }
 }

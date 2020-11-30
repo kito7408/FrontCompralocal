@@ -1,0 +1,49 @@
+<div class="pt-5 pb-4">
+  <div class="container">
+    <h5 class="card-title" *ngIf="!searching">
+      {{filterString}}
+    </h5>
+    <h5 class="card-title" *ngIf="searching">
+      Busqueda
+      <h6>
+        {{filterString}}
+      </h6>
+    </h5>
+    <ul class="list-group list-group-horizontal justify-content-between">
+      <li class="list-group-item prod-item text-center" *ngFor="let prod of prodOnPage">
+        <div>
+          <div class="img-prod-section">
+            <img [src]="'/api/' + prod.image" class="prod-img">
+          </div>
+          <p>{{prod.name}}</p>
+          <p>S/. {{prod.price}}</p>
+          <button class="btn btn-cl2" routerLink="/products/{{prod.id}}" routerLinkActive="active">Ver más</button>
+        </div>
+      </li>
+    </ul>
+    <div *ngIf="noProds" class="text-center">
+      <h6>No se encontraron productos.</h6>
+      <img src="../../assets/imgs/triste.png" class="sadImage">
+    </div>
+    <nav aria-label="Pagination" *ngIf="!noProds" class="mt-4">
+      <ul class="pagination justify-content-center">
+        <li [className]="actualPage == 1? 'page-item disabled' : 'page-item'">
+          <a class="page-link" aria-label="Previous" (click)="prevPage()">
+            <span aria-hidden="true">&laquo;</span>
+            <span class="sr-only">Previous</span>
+          </a>
+        </li>
+        <li [className]="i+1 == actualPage? 'page-item active-cl' : 'page-item'"
+          *ngFor="let in of counter(numberOfPages) ;let i = index">
+          <a class="page-link" (click)="selectPage(i+1)">{{i+1}}</a>
+        </li>
+        <li [className]="actualPage == numberOfPages? 'page-item disabled' : 'page-item'">
+          <a class="page-link" aria-label="Next" (click)="nextPage()">
+            <span aria-hidden="true">&raquo;</span>
+            <span class="sr-only">Next</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>

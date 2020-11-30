@@ -1,0 +1,96 @@
+.img-fluid{
+    width: 100%;
+    height: 23rem;
+}
+
+.guide-img{
+    width: 40%;
+    /* margin-bottom: 2rem; */
+}
+
+.guide-title{
+    margin: 5rem;
+}
+
+.guide-subtitle{
+    color: #17a2b8;
+    font-weight: bold;
+}
+
+.guide-content{
+    padding-right: 3rem;
+    padding-left: 3rem;
+    font-size: 0.8rem;
+}
+
+.supplier img{
+    width: 100%;
+}
+
+.supplier a{
+    color: #17a2b8;
+    text-decoration: underline;
+}
+
+.supplier{
+    margin-bottom: 5rem;
+    margin-top: 5rem;
+}
+
+.hero-home{
+    background-image: url('../../assets/imgs/alpacas.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.carousel-item > img{
+    height: 30rem;
+}
+
+.guide-steps{
+    bottom: -4rem;
+}
+
+.category{
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+    background: linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url("../../assets/imgs/campo.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.category .list-group-item{
+    width: 15%;
+    cursor: pointer;
+}
+
+.category .list-group-item:hover{
+    background-color: var(--primary2);
+    color: white;
+}
+
+.img-category{
+    width: 100%;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.cont-item{
+    display: inline-block;
+    height: 15rem;
+    width: 15rem;
+    padding-top: 4rem;
+    border: solid 5px var(--primary3);
+}
+
+.cont-item > h1{
+    font-weight: 800;
+    font-size: 3.5rem;
+    color: var(--degradado3);
+}
+
+.cont-item > h5{
+    color: var(--dark3);
+    font-weight: 600;
+}
