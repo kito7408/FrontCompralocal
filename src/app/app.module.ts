@@ -4,12 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AgmCoreModule } from '@agm/core';
 import { YouTubePlayerModule } from "@angular/youtube-player";
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { NgCulqiModule } from 'ng-culqi';
 //Social media logins
 import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
 import { GoogleLoginProvider, FacebookLoginProvider } from "angularx-social-login";
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { ProductsComponent } from './products/products.component';
@@ -54,7 +55,8 @@ export function provideConfig() {
       apiKey: 'http://maps.google.com/maps/api/js?sensor=false'
     }),
     SocialLoginModule,
-    YouTubePlayerModule
+    YouTubePlayerModule,
+    NgCulqiModule
   ],
   providers: [
     {

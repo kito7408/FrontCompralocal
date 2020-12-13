@@ -71,4 +71,9 @@ export class ProductService {
     const newUrl = this.url + '/' + id;
     return this.http.delete<ProductPost>(newUrl);
   }
+
+  updateSales(prodInfo: any): Observable<any> {
+    const newUrl = this.url + '/sales';
+    return this.http.put<any>(newUrl, {data: prodInfo});
+  }
 }

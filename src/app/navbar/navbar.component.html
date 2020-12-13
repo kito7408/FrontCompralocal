@@ -22,10 +22,19 @@
         <a class="nav-link" href="#">Localizacion</a>
       </li>
       <li class="nav-item">
+        |
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="#">Mail</a>
       </li>
       <li class="nav-item">
+        |
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="#">Celular</a>
+      </li>
+      <li class="nav-item">
+        |
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">Telefono</a>
@@ -34,11 +43,10 @@
   </div>
 </nav>
 
-<!--navbar buscador, usuario y carrito-->
+<!--navbar logo, buscador, usuario y carrito-->
 <nav class="navbar navbar-light bg-light justify-content-between navbar-expand-lg row">
   <div class="col-md-4 text-left">
-    <a routerLink="/" routerLinkActive="active"><img src="../../assets/imgs/logoCL-Morado.png"
-        class="navbar-logo navbar-brand"></a>
+    <a (click)="goToHome()"><img src="../../assets/imgs/logoCL-Morado.png" class="navbar-logo navbar-brand"></a>
   </div>
 
   <div class="col-md-4">
@@ -58,33 +66,39 @@
   </div>
 
   <div class="col-md-4 text-right">
-    <div *ngIf="user" class="d-inline-block">
+    <div *ngIf="userService.userInfo" class="d-inline-block">
       <div class="dropdown mr-2">
-        <a class="btn btn-cl2 dropdown-toggle">
-          {{user.name}}
+        <a class="btn btn-link dropdown-toggle">
+          <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z" />
+            <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+            <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z" />
+          </svg>
+          {{userService.userInfo.name}}
         </a>
         <div class="dropdown-menu dropdown-menu-right">
-          <button *ngIf="user.userTypeId == 1" type="button" class="dropdown-item" data-toggle="modal"
+          <button *ngIf="userService.userInfo.userTypeId == 1" type="button" class="dropdown-item" data-toggle="modal"
             data-target="#ModalNewUser">Agregar Usuario</button>
-          <button *ngIf="user.userTypeId == 1" type="button" class="dropdown-item" data-toggle="modal"
+          <button *ngIf="userService.userInfo.userTypeId == 1" type="button" class="dropdown-item" data-toggle="modal"
             data-target="#ModalNewProduct">Agregar Producto</button>
-          <button *ngIf="user.userTypeId == 1" type="button" class="dropdown-item" data-toggle="modal"
+          <button *ngIf="userService.userInfo.userTypeId == 1" type="button" class="dropdown-item" data-toggle="modal"
             data-target="#ModalNewSupplier">Agregar Proveedor</button>
-          <button *ngIf="user.userTypeId == 1" type="button" class="dropdown-item" data-toggle="modal"
+          <button *ngIf="userService.userInfo.userTypeId == 1" type="button" class="dropdown-item" data-toggle="modal"
             data-target="#ModalNewCategoria">Agregar Categoria</button>
-            <button *ngIf="user.userTypeId == 1" type="button" class="dropdown-item" data-toggle="modal"
-              data-target="#ModalNewSubCategoria">Agregar Subcategoria</button>
+          <button *ngIf="userService.userInfo.userTypeId == 1" type="button" class="dropdown-item" data-toggle="modal"
+            data-target="#ModalNewSubCategoria">Agregar Subcategoria</button>
           <button type="button" class="dropdown-item" (click)="logout();" routerLink="/">Salir</button>
         </div>
       </div>
     </div>
-    <div *ngIf="!user" class="d-inline-block">
-      <button type="button" class="btn btn-link text-dark" data-toggle="modal"
-        data-target="#ModalIngreso">Ingresar</button>
+    <div *ngIf="!userService.userInfo" class="d-inline-block">
+      <button type="button" class="btn btn-link" data-toggle="modal" data-target="#ModalIngreso">Ingresar</button>
       /
-      <button type="button" class="btn btn-link text-dark" data-toggle="modal"
-        data-target="#ModalRegistro">Registrarse</button>
+      <button type="button" class="btn btn-link" data-toggle="modal" data-target="#ModalRegistro">Registrarse</button>
     </div>
+    |
     <div class="dropdown d-inline-block">
       <!-- <button type="button" class="btn btn-outline-secondary mr-3" [routerLink]="['/cart']">
         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart-fill" fill="currentColor"
@@ -93,15 +107,24 @@
             d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
         </svg>
       </button> -->
-      <button type="button" class="btn btn-outline-secondary dropdown-toggle" (click)="goToCart()">
-        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart-fill" fill="currentColor"
+      <button type="button" class="btn btn-link dropdown-toggle position-relative" (click)="goToCart()">
+        <!-- <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart-fill" fill="currentColor"
           xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd"
             d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+        </svg> -->
+        <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-bag-fill mr-2" fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd"
+            d="M8 1a2.5 2.5 0 0 0-2.5 2.5V4h5v-.5A2.5 2.5 0 0 0 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5z" />
         </svg>
+        <label class="position-absolute circle-count border border-dark rounded-circle">
+          {{cartService.cartQuantity}}
+        </label>
+        Tus productos
       </button>
       <div class="dropdown-menu dropdown-menu-right ddCart mr-3">
-        
+
         <div *ngIf="cartService.cartInfo && cartService.cartInfo.length > 0">
           <div class="d-flex justify-content-between pl-2 pr-2">
             <div class="text-left ml-2">
@@ -114,13 +137,14 @@
             </div>
           </div>
 
-          <div class="table-wrapper-scroll-y my-custom-scrollbar">
+          <div class="table-wrapper-scroll-y my-custom-scrollbar overflow-auto mini-cart-products">
             <table class="table text-center table-bordered table-striped">
               <tbody>
-                <tr *ngFor="let c of cartService.cartInfo; index as i;" (click)="goToProducto(c.product.id)" class="cart-item">
-                  <td><img [src]="'/api/' + c.product.image" class="cart-img"></td>
+                <tr *ngFor="let c of cartService.cartInfo; index as i;" (click)="goToProducto(c.product.id)"
+                  class="cart-item">
+                  <td><img [src]="'https://compralocal-s3-product-images.s3.us-east-2.amazonaws.com/' + c.product.image" class="cart-img"></td>
                   <td>
-                    <p>{{c.product.name}}</p>
+                    <p>{{c.product.name}} ({{c.product.price}})</p>
                     <p>{{c.quantity}}</p>
                   </td>
                   <td>{{c.totalPrice}}</td>
@@ -130,15 +154,20 @@
           </div>
 
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item text-center" href="#">Finalizar Compra</a>
+          <a class="dropdown-item text-center" (click)="goToCart()">Finalizar Compra</a>
         </div>
         <div *ngIf="cartService.cartInfo == 0" class="text-center">
           No se encuentran items.
         </div>
-        
+
       </div>
     </div>
   </div>
+</nav>
+
+<!--Navbar relleno de color-->
+<nav class="navbar navbar-light cl-bg2 navbar-expand-lg">
+  <hr>
 </nav>
 
 <!--navbar categorias-->
@@ -146,11 +175,12 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item dropdown" *ngFor="let cate of categorias">
-        <a class="nav-link dropdown-toggle" (click)="listProdCat(cate.id);">
+        <a class="nav-link" (click)="listProdCat(cate.id);">
           {{cate.name}}
         </a>
         <div class="dropdown-menu" *ngIf="cate.subcategories.length > 0">
-          <a class="dropdown-item" *ngFor="let sub of cate.subcategories" (click)="listProdSubCat(sub.id)">{{sub.name}}</a>
+          <a class="dropdown-item" *ngFor="let sub of cate.subcategories"
+            (click)="listProdSubCat(sub.id)">{{sub.name}}</a>
         </div>
       </li>
     </ul>
@@ -304,13 +334,15 @@
           </div>
           <div class="form-group">
             <label for="categoriaProd">Categoria</label>
-            <select class="form-control" id="categoriaProd" name="categoriaProd" [(ngModel)]="newProduct.categoryId" (ngModelChange)="getSubcategoriasByCategoria(newProduct.categoryId)">
+            <select class="form-control" id="categoriaProd" name="categoriaProd" [(ngModel)]="newProduct.categoryId"
+              (ngModelChange)="getSubcategoriasByCategoria(newProduct.categoryId)">
               <option value="{{cat.id}}" *ngFor="let cat of categorias">{{cat.name}}</option>
             </select>
           </div>
           <div class="form-group" *ngIf="newProduct.categoryId">
             <label for="subcategoriaProd">Subcategoria</label>
-            <select class="form-control" id="subcategoriaProd" name="subcategoriaProd" [(ngModel)]="newProduct.subcategoryId">
+            <select class="form-control" id="subcategoriaProd" name="subcategoriaProd"
+              [(ngModel)]="newProduct.subcategoryId">
               <option value="{{subcat.id}}" *ngFor="let subcat of subcategorias">{{subcat.name}}</option>
             </select>
           </div>

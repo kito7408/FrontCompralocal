@@ -1,6 +1,6 @@
 <div>
-  <div class="container mt-5 mb-5 table-wrapper-scroll-y my-custom-scrollbar">
-    <table class="table text-center table-bordered table-striped mb-0" *ngIf="cartService.cartInfo.length > 0">
+  <div class="container mt-5 mb-2 table-wrapper-scroll-y my-custom-scrollbar">
+    <table class="table text-center table-bordered table-striped" *ngIf="cartService.cartInfo.length > 0">
       <thead class="thead-light">
         <tr>
           <th scope="col">#</th>
@@ -15,7 +15,7 @@
       <tbody>
         <tr *ngFor="let item of cartService.cartInfo; index as i;">
           <th scope="row">1</th>
-          <td><img [src]="'/api/' + item.product.image" class="prod-img"></td>
+          <td><img [src]="'https://compralocal-s3-product-images.s3.us-east-2.amazonaws.com/' + item.product.image" class="prod-img"></td>
           <td>{{item.product.name}}</td>
           <td>{{item.product.price}}</td>
           <td>
@@ -64,9 +64,93 @@
       <h3>No hay prouctos en el carrito.</h3>
       <img src="../../assets/imgs/triste.png" class="sadImage">
     </div>
-    <div class="d-block text-right">
-      <button class="btn btn-cl" id="buyButton" (click)="pagar($event)">Pagar</button>
-    </div>
+  </div>
+  <div class="container mb-4 d-block text-right" *ngIf="cartService.cartInfo.length > 0">
+    <!-- <button class="btn btn-cl2" id="buyButton" (click)="pagar($event)">Pagar</button> -->
+    <button type="button" class="btn btn-cl2" data-toggle="modal" data-target="#ModaPayment" *ngIf="userService.userInfo">Pagar</button>
+    <button type="button" class="btn btn-cl2" data-toggle="modal" data-target="#ModaNoLogged" *ngIf="!userService.userInfo">Pagar</button>
   </div>
 </div>
 <!-- <input type="text"  (ngModelChange)="culqi_next()" [(ngModel)]="helper" id="culq_aux"> -->
+
+
+
+<!--Modal Tarjeta-->
+<div class="modal fade" id="ModaPayment" tabindex="-1" role="dialog" aria-labelledby="ModaPayment" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModaPaymentLongTitle">CompraLocal</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeModaPayment>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form>
+        <div class="modal-body">
+          <div class="form-group">
+            <input type="text" class="form-control" id="tarjetaNum" name="tarjetaNum" [(ngModel)]="tarjeta.card_number"
+              placeholder="Número de Tarjeta" maxlength="16" [disabled]="paying">
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-3">
+              <input type="text" class="form-control" id="tarjetaMes" name="tarjetaMes"
+                [(ngModel)]="tarjeta.expiration_month" placeholder="Mes" maxlength="2" [disabled]="paying">
+            </div>
+            <div class="form-group col-md-1">
+              /
+            </div>
+            <div class="form-group col-md-3">
+              <input type="text" class="form-control" id="tarjetaAño" name="tarjetaAño"
+                [(ngModel)]="tarjeta.expiration_year" placeholder="Año" maxlength="2" [disabled]="paying">
+            </div>
+            <div class="form-group col-md-5">
+              <input type="text" class="form-control" id="tarjetaCVV" name="tarjetaCVV" [(ngModel)]="tarjeta.cvv"
+                placeholder="CVV" maxlength="3" [disabled]="paying">
+            </div>
+          </div>
+          <div class="form-group">
+            <input type="email" class="form-control" id="tarjetaEmail" name="tarjetaEmail" [(ngModel)]="tarjeta.email"
+              placeholder="Email" [disabled]="paying">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-cl1 btn-block btn-disabled" type="button" disabled *ngIf="paying">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Loading...
+          </button>
+          <button type="submit" class="btn btn-cl1 btn-block" (click)="enviarInfoTarjeta();" *ngIf="!paying">Pagar <b>S/.
+              {{cartService.cartTotalPrice}}</b> PEN</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!--Modal No logged-->
+<div class="modal fade" id="ModaNoLogged" tabindex="-1" role="dialog" aria-labelledby="ModaNoLogged" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">CompraLocal</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Necesita haber ingresado con una cuenta para poder pagar.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--Alerts section-->
+<div class="alert alert-success success fixed-bottom" role="alert" *ngIf="successAlert">
+  {{successMessage}}
+</div>
+<div class="alert alert-danger error fixed-bottom" role="alert" *ngIf="errorAlert">
+  {{errorMessage}}
+</div>

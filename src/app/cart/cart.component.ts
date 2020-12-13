@@ -1,12 +1,14 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { ProductGet } from '../classes/productGet';
 import { User } from '../classes/user';
 import { CartGet } from '../classes/cartGet';
 import { CartPost } from '../classes/cartPost';
 import { CartService } from '../services/cart.service';
 import { UserService } from '../services/user.service';
-declare var Culqi: any;
-declare var culqi_aux: any;
+import { Tarjeta } from '../classes/tarjeta';
+import { Router } from '@angular/router';
+import { isNgTemplate } from '@angular/compiler';
+import { ProductService } from '../services/product.service';
 
 @Component({
   selector: 'app-cart',
@@ -16,41 +18,34 @@ declare var culqi_aux: any;
 export class CartComponent implements OnInit {
 
   // carritoList: CartGet[];
-  user: User;
+  // user: User;
   helper: string;
+  charging: boolean;
+  tarjeta = new Tarjeta;
+  paying: boolean;
+  @ViewChild('closeModaPayment') closeModaPayment: ElementRef;
+  successAlert: boolean;
+  successMessage: string;
+  errorAlert: boolean;
+  errorMessage: string;
   // cantOriginal: number[];
   // @Output() cartEvent = new EventEmitter;
 
   constructor(
     public cartService: CartService,
-    private userService: UserService
+    private routes: Router,
+    public userService: UserService,
+    private productService: ProductService
   ) {
-    Culqi.publicKey = "pk_test_20064752bb0ebab1";
-    this.user = JSON.parse(localStorage.getItem('user'));
+    this.charging = false;
+    this.paying = false;
+    if (localStorage.getItem('user')) {
+      this.userService.userInfo = JSON.parse(localStorage.getItem('user'));
+    }
     this.listCarrito();
   }
 
   ngOnInit() {
-    console.log(culqi_aux);
-    console.log(Culqi);
-    
-    // this.cartService.someChange.subscribe((result) => {
-    //   console.log("test", result);
-    // })
-
-    // Culqi.options({
-    //   lang: 'auto',
-    //   modal: false,
-    //   installments: true,
-    //   customButton: 'Donar',
-    //   style: {
-    //     logo: 'https://culqi.com/LogoCulqi.png',
-    //     maincolor: '#0ec1c1',
-    //     buttontext: '#ffffff',
-    //     maintext: '#4A4A4A',
-    //     desctext: '#4A4A4A'
-    //   }
-    // });
   }
 
   getTotals() {
@@ -66,8 +61,8 @@ export class CartComponent implements OnInit {
 
   listCarrito() {
     // this.cantOriginal = [];
-    if (this.user) {
-      this.cartService.getByUserId(this.user.id).subscribe((data) => {
+    if (this.userService.userInfo) {
+      this.cartService.getByUserId(this.userService.userInfo.id).subscribe((data) => {
         this.cartService.cartInfo = data;
         this.getTotals();
         // data.forEach(element => {
@@ -102,7 +97,7 @@ export class CartComponent implements OnInit {
   }
 
   deleteItem(item: CartGet) {
-    if (this.user) {
+    if (this.userService.userInfo) {
       this.cartService.delete(item.id).subscribe((data) => {
         this.listCarrito();
         // this.cartEvent.emit(null);
@@ -117,7 +112,7 @@ export class CartComponent implements OnInit {
   }
 
   updateItem(item: CartGet) {
-    if (this.user) {
+    if (this.userService.userInfo) {
       const itemToUpdate = new CartPost;
       itemToUpdate.quantity = item.quantity;
       itemToUpdate.id = item.id;
@@ -136,24 +131,93 @@ export class CartComponent implements OnInit {
     }
   }
 
-  pagar(e) {
+  // pagar(e) {
 
-    Culqi.settings({
-      title: 'CompraLocal',
-      currency: 'PEN',
-      description: 'Articulos varios',
-      amount: this.cartService.cartTotalPrice * 100
+  //   Culqi.settings({
+  //     title: 'CompraLocal',
+  //     currency: 'PEN',
+  //     description: 'Articulos varios',
+  //     amount: this.cartService.cartTotalPrice * 100
+  //   });
+
+  //   Culqi.open();
+  //   e.preventDefault();
+
+  //   console.log('culqi next');
+    
+  // }
+
+  enviarInfoTarjeta(){
+    this.paying = true;
+    this.tarjeta.expiration_year = "20" + this.tarjeta.expiration_year;
+    this.cartService.sendToCulqi(this.tarjeta).subscribe((dataToken) => {
+      // console.log("info culqi token",dataToken);
+      var infoCargo = {
+        amount: this.cartService.cartTotalPrice * 100,
+        currency_code: 'PEN',
+        email: dataToken.email,
+        source_id: dataToken.id
+      }
+      this.cartService.crearCargo(infoCargo).subscribe((dataCargo) => {
+        // console.log("cargo creado correctamente", dataCargo);
+        // alert("cargo creado correctamente")
+        this.updateProdSales();
+        this.limpiarCarrito();
+      }, (error) => {
+        console.log(error);
+        this.errorEvent("Hubo un problema al realizar el pago.")
+      });
+    }, (err) => {
+      console.log(err);
+      this.errorEvent("Hubo un problema al realizar el pago.")
     });
-
-    Culqi.open();
-    e.preventDefault();
-
   }
 
-  culqi_next(){
-    console.log(Culqi);
-    
-    console.log(culqi_aux);
-    
+  limpiarCarrito(){
+    this.cartService.clearCart(this.userService.userInfo.id).subscribe((data) => {
+      this.successAlert = true;
+      this.successMessage = "El pago se realizó con exito.";
+      setTimeout(() => {
+        this.successAlert = false;
+        this.successMessage = '';
+        this.paying = false;
+        this.tarjeta = new Tarjeta;
+        this.cartService.cartInfo = [];
+        this.cartService.cartQuantity = 0;
+        this.cartService.cartTotalPrice = 0;
+        this.closeModaPayment.nativeElement.click();
+        this.routes.navigate(['/']);
+      }, 3000);
+    })
+  }
+
+  updateProdSales(){
+    var prodsInfo = [];
+    this.cartService.cartInfo.forEach(item => {
+      var itemInfo = {
+        prodId: item.productId,
+        cant: item.quantity
+      };
+      prodsInfo.push(itemInfo);
+    });
+    this.productService.updateSales(prodsInfo);
+  }
+
+  successEvent(msg: string) {
+    this.successAlert = true;
+    this.successMessage = msg;
+    setTimeout(() => {
+      this.successAlert = false;
+      this.successMessage = '';
+    }, 3000);
+  }
+
+  errorEvent(msg: string) {
+    this.errorAlert = true;
+    this.errorMessage = msg
+    setTimeout(() => {
+      this.errorAlert = false;
+      this.errorMessage = '';
+    }, 3000);
   }
 }

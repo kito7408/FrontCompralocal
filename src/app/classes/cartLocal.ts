@@ -1,6 +1,6 @@
 import { ProductGet } from "./productGet";
 
-export class CartGet{
+export class CartLocal{
     id: number;
     quantity: number;
     totalPrice: number;

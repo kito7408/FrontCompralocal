@@ -1,4 +1,4 @@
-<div class="pt-5 pb-4">
+<div [className]="isInProd? 'pb-5 pt-5' : 'pb-5'">
   <div class="container">
     <h5 class="card-title" *ngIf="!searching">
       {{filterString}}
@@ -9,23 +9,105 @@
         {{filterString}}
       </h6>
     </h5>
-    <ul class="list-group list-group-horizontal justify-content-between">
-      <li class="list-group-item prod-item text-center" *ngFor="let prod of prodOnPage">
-        <div>
-          <div class="img-prod-section">
-            <img [src]="'/api/' + prod.image" class="prod-img">
+
+    <div *ngFor="let num of pageArr">
+      <ul class="list-group list-group-horizontal mb-4" *ngIf="productos">
+        <li class="list-group-item prod-item text-center" *ngFor="let prod of productos.slice(num * 10, num * 10 + 5)">
+          <div>
+            <div class="img-prod-section">
+              <img [src]="'https://compralocal-s3-product-images.s3.us-east-2.amazonaws.com/' + prod.image" class="prod-img" routerLink="/products/{{prod.id}}"
+                routerLinkActive="active">
+            </div>
+            <hr>
+            <p class="fw-700">{{prod.name}}</p>
+            <p>{{prod.supplier.name}}</p>
+            <p class="cl-c1 fw-600">S/. {{prod.price}}</p>
+            <hr>
+            <div class="d-block  prod-cart-section">
+              <button class="btn btn-link" [disabled]="prod.cant == 1" (click)="restCant(prod.id)">
+                <svg width="1.7em" height="1.7em" viewBox="0 0 16 16" class="bi bi-dash-square" fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd"
+                    d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                  <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
+                </svg>
+              </button>
+              <input type="number" class="d-inline-block number-items text-center" [value]="prod.cant" disabled>
+              <button class="btn btn-link" (click)="addCant(prod.id)">
+                <svg width="1.7em" height="1.7em" viewBox="0 0 16 16" class="bi bi-plus-square" fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd"
+                    d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                  <path fill-rule="evenodd"
+                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                </svg>
+              </button>
+              <button class="btn btn-link ml-3" (click)="sendToCart(prod)">
+                <svg width="1.7em" height="1.7em" viewBox="0 0 16 16" class="bi bi-bag-plus-fill d-inline-block"
+                  fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd"
+                    d="M5.5 3.5a2.5 2.5 0 0 1 5 0V4h-5v-.5zm6 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0zM8.5 8a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V12a.5.5 0 0 0 1 0v-1.5H10a.5.5 0 0 0 0-1H8.5V8z" />
+                </svg>
+              </button>
+            </div>
           </div>
-          <p>{{prod.name}}</p>
-          <p>S/. {{prod.price}}</p>
-          <button class="btn btn-cl2" routerLink="/products/{{prod.id}}" routerLinkActive="active">Ver más</button>
-        </div>
-      </li>
-    </ul>
+        </li>
+      </ul>
+      <ul class="list-group list-group-horizontal mb-4" *ngIf="productos">
+        <li class="list-group-item prod-item text-center" *ngFor="let prod of productos.slice(num * 10 + 5, num * 10 + 10)">
+          <div>
+            <div class="img-prod-section">
+              <img [src]="'https://compralocal-s3-product-images.s3.us-east-2.amazonaws.com/' + prod.image" class="prod-img" routerLink="/products/{{prod.id}}"
+                routerLinkActive="active">
+            </div>
+            <hr>
+            <p class="fw-700">{{prod.name}}</p>
+            <p>{{prod.supplier.name}}</p>
+            <p class="cl-c1 fw-600">S/. {{prod.price}}</p>
+            <hr>
+            <div class="d-block prod-cart-section">
+              <button class="btn btn-link" [disabled]="prod.cant == 1" (click)="restCant(prod.id)">
+                <svg width="1.7em" height="1.7em" viewBox="0 0 16 16" class="bi bi-dash-square" fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd"
+                    d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                  <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
+                </svg>
+              </button>
+              <input type="number" class="d-inline-block number-items text-center" [value]="prod.cant" disabled>
+              <button class="btn btn-link" (click)="addCant(prod.id)">
+                <svg width="1.7em" height="1.7em" viewBox="0 0 16 16" class="bi bi-plus-square" fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd"
+                    d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                  <path fill-rule="evenodd"
+                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                </svg>
+              </button>
+              <button class="btn btn-link ml-3" (click)="sendToCart(prod)">
+                <svg width="1.7em" height="1.7em" viewBox="0 0 16 16" class="bi bi-bag-plus-fill d-inline-block"
+                  fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd"
+                    d="M5.5 3.5a2.5 2.5 0 0 1 5 0V4h-5v-.5zm6 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0zM8.5 8a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V12a.5.5 0 0 0 1 0v-1.5H10a.5.5 0 0 0 0-1H8.5V8z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+
+
+    <div class="d-block text-center mt-3" *ngIf="thereMoreProds && !noProds" (click)="showMoreProducts()">
+      <button class="btn btn-cl2">Ver más</button>
+    </div>
     <div *ngIf="noProds" class="text-center">
       <h6>No se encontraron productos.</h6>
       <img src="../../assets/imgs/triste.png" class="sadImage">
     </div>
-    <nav aria-label="Pagination" *ngIf="!noProds" class="mt-4">
+    <!--Pagination-->
+    <!-- <nav aria-label="Pagination" *ngIf="!noProds" class="mt-4">
       <ul class="pagination justify-content-center">
         <li [className]="actualPage == 1? 'page-item disabled' : 'page-item'">
           <a class="page-link" aria-label="Previous" (click)="prevPage()">
@@ -44,6 +126,15 @@
           </a>
         </li>
       </ul>
-    </nav>
+    </nav> -->
   </div>
+</div>
+
+
+<!--Alerts section-->
+<div class="alert alert-success success fixed-bottom" role="alert" *ngIf="successAlert">
+  {{successMessage}}
+</div>
+<div class="alert alert-danger error fixed-bottom" role="alert" *ngIf="errorAlert">
+  {{errorMessage}}
 </div>

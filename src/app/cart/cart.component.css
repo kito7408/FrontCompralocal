@@ -20,3 +20,21 @@
 .sadImage{
     max-width: 25%;
 }
+
+.success, .error{
+    width: 35%;
+    left: auto;
+    z-index: 1050;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

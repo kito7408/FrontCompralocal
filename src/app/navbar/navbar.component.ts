@@ -27,7 +27,7 @@ import { CartPost } from '../classes/cartPost';
 })
 export class NavbarComponent implements OnInit {
 
-  user: User;           //for localstorage
+  // user: User;           //for localstorage
   newUser = new User;   //for forms
   newProduct = new ProductPost;
   newCategoria = new CategoryPost;
@@ -64,7 +64,7 @@ export class NavbarComponent implements OnInit {
   @Output() prodEvent = new EventEmitter;
 
   constructor(
-    private userService: UserService,
+    public userService: UserService,
     private prodService: ProductService,
     private route: ActivatedRoute,
     private routes: Router,
@@ -84,7 +84,7 @@ export class NavbarComponent implements OnInit {
     this.getCategorias();
     this.getSuppliers();
     if (localStorage.getItem('user')) {
-      this.user = JSON.parse(localStorage.getItem('user'));
+      this.userService.userInfo = JSON.parse(localStorage.getItem('user'));
       this.updateCart();
     } else {
       if (localStorage.getItem('cartLocal')) {
@@ -101,15 +101,15 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.authService.authState.subscribe((result) => {
-      console.log("socialuser",result);
+      console.log("socialuser", result);
       this.socialUser = result;
       this.loggedIn = (result != null);
     });
   }
 
   updateCart() {
-    this.cartService.getByUserId(this.user.id).subscribe((dataCart: CartGet[]) => {
-      
+    this.cartService.getByUserId(this.userService.userInfo.id).subscribe((dataCart: CartGet[]) => {
+
       this.cartService.cartInfo = dataCart;
       this.cartService.cartQuantity = 0;
       this.cartService.cartTotalPrice = 0;
@@ -130,7 +130,7 @@ export class NavbarComponent implements OnInit {
         cl.productId = item.productId;
         cl.quantity = item.quantity;
         cl.totalPrice = item.totalPrice;
-        cl.userId = this.user.id;
+        cl.userId = this.userService.userInfo.id;
         cartLocalToSave.push(cl);
       });
 
@@ -156,7 +156,7 @@ export class NavbarComponent implements OnInit {
   actionsOnLogin(dataUser) {
     localStorage.setItem('user', JSON.stringify(dataUser));
     // localStorage.setItem('cartLocal', JSON.stringify(this.cartService.cartInfo));
-    this.user = dataUser;
+    this.userService.userInfo = dataUser;
     this.cartLocalToDB();
     this.newUser.username = '';
     this.newUser.password = '';
@@ -168,7 +168,9 @@ export class NavbarComponent implements OnInit {
   logout() {
     localStorage.removeItem('user');
     this.cartService.cartInfo = new Array<CartGet>();
-    this.user = null;
+    this.cartService.cartQuantity = 0;
+    this.cartService.cartTotalPrice = 0;
+    this.userService.userInfo = null;
     this.closeModal();
     if (this.loggedIn) {
       this.signOut();
@@ -178,9 +180,9 @@ export class NavbarComponent implements OnInit {
   register() {
     if (this.newUser.password == this.repass) {
       this.userService.save(this.newUser).subscribe((data: any) => {
-        if (!this.user) {
+        if (!this.userService.userInfo) {
           localStorage.setItem('user', JSON.stringify(data.data));
-          this.user = data.data;
+          this.userService.userInfo = data.data;
           this.cartLocalToDB();
         }
         this.closeRegModal.nativeElement.click();
@@ -206,6 +208,7 @@ export class NavbarComponent implements OnInit {
     this.newSupplier = new Supplier;
     this.newCategoria = new CategoryPost;
     this.newSubcategoria = new Subcategory;
+    this.searchText = '';
   }
 
   selectFile(event) {
@@ -222,6 +225,8 @@ export class NavbarComponent implements OnInit {
     }
 
     this.prodImg = <File>event.target.files[0];
+    console.log(this.prodImg);
+    
     this.filemsg = '';
   }
 
@@ -323,6 +328,14 @@ export class NavbarComponent implements OnInit {
     this.routes.navigate(['/cart']);
   }
 
+  goToHome() {
+    this.searchText = '';
+    this.prodService.filterType = 0;
+    this.prodService.filter = '';
+    this.prodEvent.emit();
+    this.routes.navigate(['/']);
+  }
+
   successEvent(msg: string) {
     this.successAlert = true;
     this.successMessage = msg;
@@ -343,30 +356,30 @@ export class NavbarComponent implements OnInit {
 
   //Event Emitters
   listProdCat(categoriaId: number) {
-    this.routes.navigate(['/products'])
     this.prodService.filterType = 1;
     this.prodService.filter = String(categoriaId);
+    this.routes.navigate(['/products'])
     this.prodEvent.emit();;
   }
 
   listProdSubCat(subcategoriaId: number) {
-    this.routes.navigate(['/products'])
     this.prodService.filterType = 2;
     this.prodService.filter = String(subcategoriaId);
+    this.routes.navigate(['/products'])
     this.prodEvent.emit();
   }
 
   listProdSearch() {
-    this.routes.navigate(['/products'])
     this.prodService.filterType = 3;
     this.prodService.filter = this.searchText;
+    this.routes.navigate(['/products'])
     this.prodEvent.emit();
   }
 
   listAll() {
-    this.routes.navigate(['/products'])
     this.prodService.filterType = 0;
     this.prodService.filter = '';
+    this.routes.navigate(['/products'])
     this.prodEvent.emit();
   }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { from } from 'rxjs';
 import { Supplier } from '../classes/supplier';
 import { SupplierService } from '../services/supplier.service';
 
@@ -25,7 +26,7 @@ export class SupplierComponent implements OnInit {
     this.lat = 40;
     this.lng = -3;
     this.zoom = 6;
-    this.mapTypeId = 'hybrid';
+    this.mapTypeId = 'terrain';
 
     this.route.params.subscribe((params) => {
       this.suppId = params['id'];

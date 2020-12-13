@@ -7,6 +7,7 @@ import { CartPost } from '../classes/cartPost';
 import { ProductService } from '../services/product.service';
 import { CartService } from '../services/cart.service';
 import { CartGet } from '../classes/cartGet';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-prod-detail',
@@ -18,7 +19,7 @@ export class ProdDetailComponent implements OnInit {
   producto: ProductGet;
   prodId: number;
   stringTitle: string;
-  user: User;
+  // user: User;
   carritoItem = new CartPost;
   // cartLocal: CartGet[];
 
@@ -26,11 +27,14 @@ export class ProdDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private routes: Router,
     private prodService: ProductService,
-    public cartService: CartService
+    public cartService: CartService,
+    public userService: UserService
   ) {
     this.stringTitle = '';
     this.carritoItem.quantity = 1;
-    this.user = JSON.parse(localStorage.getItem('user'));
+    if (localStorage.getItem('user')) {
+      this.userService.userInfo = JSON.parse(localStorage.getItem('user'));
+    }
     if (localStorage.getItem('cartLocal')) {
       this.cartService.cartInfo = JSON.parse(localStorage.getItem('cartLocal'));
     }
@@ -55,8 +59,8 @@ export class ProdDetailComponent implements OnInit {
 
   addToCart() {
     if (this.carritoItem.quantity > 0) {
-      if (this.user) {
-        this.carritoItem.userId = this.user.id;
+      if (this.userService.userInfo) {
+        this.carritoItem.userId = this.userService.userInfo.id;
         this.carritoItem.productId = this.prodId;
         this.carritoItem.isBuyed = false;
   

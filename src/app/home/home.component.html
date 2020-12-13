@@ -10,7 +10,7 @@
   </p>
 </div> -->
 
-<div id="carouselExampleIndicators" class="carousel slide position-relative" data-ride="carousel">
+<div id="carouselExampleIndicators" class="carousel slide position-relative" data-ride="carousel" #carousel>
   <div class="carousel-inner">
     <div class="carousel-item active">
       <img class="d-block w-100" src="../../assets//imgs/campo.jpg" alt="First slide">
@@ -32,13 +32,13 @@
   </a>
   <div class="row text-center position-absolute guide-steps">
     <div class="col-4">
-      <img src="../../assets/imgs/bag.png" class="guide-img">
+      <img src="../../assets/imgs/text-box1.png" class="guide-img">
     </div>
     <div class="col-4">
-      <img src="../../assets/imgs/bag.png" class="guide-img">
+      <img src="../../assets/imgs/text-box2.png" class="guide-img">
     </div>
     <div class="col-4">
-      <img src="../../assets/imgs/bag.png" class="guide-img">
+      <img src="../../assets/imgs/text-box3.png" class="guide-img">
     </div>
   </div>
 </div>
@@ -83,6 +83,14 @@
         <p>Carne</p>
       </li>
       <li class="list-group-item text-center rounded">
+        <img src="../../assets/imgs/carne.png" alt="carne" class="img-category">
+        <p>Carne</p>
+      </li>
+      <li class="list-group-item text-center rounded">
+        <img src="../../assets/imgs/lacteos.png" alt="lacteos" class="img-category">
+        <p>Lacteos</p>
+      </li>
+      <li class="list-group-item text-center rounded">
         <img src="../../assets/imgs/lacteos.png" alt="lacteos" class="img-category">
         <p>Lacteos</p>
       </li>
@@ -91,6 +99,14 @@
       <li class="list-group-item text-center rounded">
         <img src="../../assets/imgs/carne.png" alt="carne" class="img-category">
         <p>Carne</p>
+      </li>
+      <li class="list-group-item text-center rounded">
+        <img src="../../assets/imgs/carne.png" alt="carne" class="img-category">
+        <p>Carne</p>
+      </li>
+      <li class="list-group-item text-center rounded">
+        <img src="../../assets/imgs/lacteos.png" alt="lacteos" class="img-category">
+        <p>Lacteos</p>
       </li>
       <li class="list-group-item text-center rounded">
         <img src="../../assets/imgs/lacteos.png" alt="lacteos" class="img-category">
@@ -105,8 +121,8 @@
 <!--Seccion de contadores-->
 <div class="container d-flex text-center justify-content-between mt-5">
   <div class="cont-item rounded-circle">
-      <h1>111</h1>
-      <h5>PRODUCTORES</h5>
+    <h1>111</h1>
+    <h5>PRODUCTORES</h5>
   </div>
   <div class="cont-item rounded-circle">
     <h1>222</h1>
@@ -119,15 +135,23 @@
   </div>
 </div>
 
-<div>
-  Youtube
-</div>
-<youtube-player 
-  videoId="qj_AZ_FkPtQ">
-</youtube-player>
-
 <!--Sección de productos-->
+
+<table class="container table table-bordered mt-5 text-center">
+  <thead>
+    <tr>
+      <th scope="col" *ngFor="let cate of categorias">
+        <button class="btn btn-link text-dark" (click)="goToCategory(cate.id)">{{cate.name}}</button>  
+      </th>
+    </tr>
+  </thead>
+</table>
+<div class="container text-right">
+  <button class="btn btn-cl1">+ Comprados</button>
+</div>
+
 <app-products></app-products>
+
 
 <!--Sección de proveedores-->
 <div class="container text-center supplier">
@@ -152,6 +176,41 @@
         <img src="../../assets/imgs/proveedor.jpg" class="img-supplier">
         <h3>Proveedor 3</h3>
         <a href="">Saber más</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid text-center">
+  <youtube-player videoId="LiLUqhDwOcs">
+  </youtube-player>
+</div>
+
+<!--Seccion contacto-->
+<div class="cl-bg3 pt-5 pb-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-6 text-center contact-info">
+        <h1>
+          ¿Quieres formar parte de nuestra familia?
+        </h1>
+        <button class="btn btn-cl2">Contactanos</button>
+      </div>
+      <div class="col-6 text-right">
+        <img src="../../assets/imgs/agricultor.jpg" alt="Agricultor" class="contac-img rounded-circle">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Seccion subscribe-->
+<div class="cl-bg2 pt-5 pb-5 text-center text-light">
+  <div class="container">
+    <h1>MANTENTE INFORMADO</h1>
+    <div class="input-group subscribe-input">
+      <input type="text" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="Email">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button">Enviar</button>
       </div>
     </div>
   </div>

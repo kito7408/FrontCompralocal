@@ -8,6 +8,7 @@ import { User } from '../classes/user';
 })
 export class UserService {
 
+  userInfo: User;
   private url = '/api/users';
 
   constructor(private http: HttpClient) { }
