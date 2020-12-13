@@ -9,7 +9,8 @@ import { User } from '../classes/user';
 export class UserService {
 
   userInfo: User;
-  private url = '/api/users';
+  // private url = '/api/users';
+  private url = 'http://18.223.22.157:3000/users';
 
   constructor(private http: HttpClient) { }
 

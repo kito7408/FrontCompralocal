@@ -12,7 +12,8 @@ export class ProductService {
   filter: string = '';
   filterType: number = 0;
 
-  private url = '/api/products';
+  // private url = '/api/products';
+  private url = 'http://18.223.22.157:3000/products';
 
   constructor(private http: HttpClient) { }
 

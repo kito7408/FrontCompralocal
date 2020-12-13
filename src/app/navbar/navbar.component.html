@@ -156,7 +156,7 @@
           <div class="dropdown-divider"></div>
           <a class="dropdown-item text-center" (click)="goToCart()">Finalizar Compra</a>
         </div>
-        <div *ngIf="cartService.cartInfo == 0" class="text-center">
+        <div *ngIf="cartService.cartInfo.length == 0" class="text-center">
           No se encuentran items.
         </div>
 

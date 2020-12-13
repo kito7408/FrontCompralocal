@@ -8,7 +8,8 @@ import { Supplier } from '../classes/supplier';
 })
 export class SupplierService {
 
-  private url = '/api/suppliers';
+  // private url = '/api/suppliers';
+  private url = 'http://18.223.22.157:3000/suppliers';
 
   constructor(private http: HttpClient) { }
 

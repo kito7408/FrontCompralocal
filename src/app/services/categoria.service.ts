@@ -9,7 +9,8 @@ import { CategoryGet } from '../classes/categoryGet';
 })
 export class CategoriaService {
 
-  private url = '/api/category';
+  // private url = '/api/category';
+  private url = 'http://18.223.22.157:3000/category';
 
   constructor(private http: HttpClient) { }
 
