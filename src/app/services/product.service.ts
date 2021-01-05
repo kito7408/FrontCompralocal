@@ -21,6 +21,11 @@ export class ProductService {
     return this.http.get<ProductGet[]>(this.url);
   }
 
+  getSortedByBuyed(): Observable<ProductGet[]>{
+    const newUrl = this.url + '/mostbuyed';
+    return this.http.get<ProductGet[]>(newUrl);
+  }
+
   getById(id: number): Observable<ProductGet> {
     const newUrl = this.url + '/' + id;
     return this.http.get<ProductGet>(newUrl);

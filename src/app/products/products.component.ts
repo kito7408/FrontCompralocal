@@ -114,6 +114,12 @@ export class ProductsComponent implements OnInit {
           });
         }
         break;
+      case 4:
+        this.prodService.getSortedByBuyed().subscribe((data) => {
+          this.productos = data;
+          this.startPag();
+        });
+        break;
 
       default:
         break;
@@ -241,7 +247,7 @@ export class ProductsComponent implements OnInit {
 
         this.cartService.cartInfo.push(cartL);
       }
-      
+
       this.cartService.cartQuantity = 0;
       this.cartService.cartTotalPrice = 0;
       this.cartService.cartInfo.forEach(element => {

@@ -14,8 +14,8 @@ export class CartService {
   cartQuantity: number = 0;
   cartTotalPrice: number = 0;
   publicKey = "pk_test_20064752bb0ebab1";
-  // private url = '/api/cart';
-  private url = 'http://18.223.22.157:3000/cart';
+  // private url = '/api/cart';                            //dev
+  private url = 'http://18.223.22.157:3000/cart';    //prod
   private culqiURL = "https://secure.culqi.com/v2"; //api culqi
 
   constructor(private http: HttpClient) { }

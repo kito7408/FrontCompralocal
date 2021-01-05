@@ -89,7 +89,7 @@
         <div class="modal-body">
           <div class="form-group">
             <input type="text" class="form-control" id="tarjetaNum" name="tarjetaNum" [(ngModel)]="tarjeta.card_number"
-              placeholder="Número de Tarjeta" maxlength="16" [disabled]="paying">
+              placeholder="Número de Tarjeta" maxlength="19" [disabled]="paying"  (ngModelChange)="card_number_eval()">
           </div>
           <div class="form-row">
             <div class="form-group col-md-3">
@@ -101,7 +101,7 @@
             </div>
             <div class="form-group col-md-3">
               <input type="text" class="form-control" id="tarjetaAño" name="tarjetaAño"
-                [(ngModel)]="tarjeta.expiration_year" placeholder="Año" maxlength="2" [disabled]="paying">
+                [(ngModel)]="short_year" placeholder="Año" maxlength="2" [disabled]="paying">
             </div>
             <div class="form-group col-md-5">
               <input type="text" class="form-control" id="tarjetaCVV" name="tarjetaCVV" [(ngModel)]="tarjeta.cvv"

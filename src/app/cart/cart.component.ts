@@ -28,6 +28,7 @@ export class CartComponent implements OnInit {
   successMessage: string;
   errorAlert: boolean;
   errorMessage: string;
+  short_year: string = '';
   // cantOriginal: number[];
   // @Output() cartEvent = new EventEmitter;
 
@@ -144,12 +145,14 @@ export class CartComponent implements OnInit {
   //   e.preventDefault();
 
   //   console.log('culqi next');
-    
+
   // }
 
-  enviarInfoTarjeta(){
+  enviarInfoTarjeta() {
     this.paying = true;
-    this.tarjeta.expiration_year = "20" + this.tarjeta.expiration_year;
+    this.tarjeta.expiration_year = "20" + this.short_year;
+    this.tarjeta.card_number = this.tarjeta.card_number.replace(/\s+/g, "");
+    
     this.cartService.sendToCulqi(this.tarjeta).subscribe((dataToken) => {
       // console.log("info culqi token",dataToken);
       var infoCargo = {
@@ -165,33 +168,40 @@ export class CartComponent implements OnInit {
         this.limpiarCarrito();
       }, (error) => {
         console.log(error);
+        this.closeModalTarjetaInfo();
         this.errorEvent("Hubo un problema al realizar el pago.")
       });
     }, (err) => {
       console.log(err);
+      this.closeModalTarjetaInfo();
       this.errorEvent("Hubo un problema al realizar el pago.")
     });
   }
 
-  limpiarCarrito(){
+  limpiarCarrito() {
     this.cartService.clearCart(this.userService.userInfo.id).subscribe((data) => {
       this.successAlert = true;
       this.successMessage = "El pago se realizó con exito.";
       setTimeout(() => {
         this.successAlert = false;
         this.successMessage = '';
-        this.paying = false;
-        this.tarjeta = new Tarjeta;
         this.cartService.cartInfo = [];
         this.cartService.cartQuantity = 0;
         this.cartService.cartTotalPrice = 0;
-        this.closeModaPayment.nativeElement.click();
+        this.closeModalTarjetaInfo();
         this.routes.navigate(['/']);
       }, 3000);
     })
   }
 
-  updateProdSales(){
+  closeModalTarjetaInfo() {
+    this.paying = false;
+    this.tarjeta = new Tarjeta;
+    this.short_year = '';
+    this.closeModaPayment.nativeElement.click();
+  }
+
+  updateProdSales() {
     var prodsInfo = [];
     this.cartService.cartInfo.forEach(item => {
       var itemInfo = {
@@ -200,7 +210,17 @@ export class CartComponent implements OnInit {
       };
       prodsInfo.push(itemInfo);
     });
-    this.productService.updateSales(prodsInfo);
+    this.productService.updateSales(prodsInfo).subscribe((data) => {
+      console.log("dat", data);
+      
+    });
+  }
+
+  card_number_eval() {
+    if (this.tarjeta.card_number.length == 4 || this.tarjeta.card_number.length == 9 || 
+      this.tarjeta.card_number.length == 14) {
+        this.tarjeta.card_number += ' ';
+    }
   }
 
   successEvent(msg: string) {

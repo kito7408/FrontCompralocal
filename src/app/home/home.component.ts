@@ -1,6 +1,7 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { CategoryGet } from '../classes/categoryGet';
+import { ProductsComponent } from '../products/products.component';
 import { CategoriaService } from '../services/categoria.service';
 import { ProductService } from '../services/product.service';
 
@@ -12,6 +13,7 @@ import { ProductService } from '../services/product.service';
 export class HomeComponent implements OnInit {
 
   categorias: CategoryGet[];
+  @ViewChild('prodComp') prodComp:ProductsComponent;
   
   constructor(
     private catService: CategoriaService,
@@ -38,5 +40,11 @@ export class HomeComponent implements OnInit {
     this.prodService.filterType = 1;
     this.prodService.filter = String(id);
     this.routes.navigate(['/products']);
+  }
+
+  sortByBuyed(){
+    this.prodService.filterType = 4;
+    this.prodService.filter = '';
+    this.prodComp.listProducts();
   }
 }

@@ -8,6 +8,11 @@
     /* margin-bottom: 2rem; */
 }
 
+.info-img{
+    width: 40%;
+    margin-bottom: 2rem;
+}
+
 .guide-title{
     margin: 5rem;
 }
@@ -116,6 +121,7 @@
 
 .table th{
     padding: 0;
+    width: 33%;
 }
 
 .table button{

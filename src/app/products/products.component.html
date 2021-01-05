@@ -12,7 +12,7 @@
 
     <div *ngFor="let num of pageArr">
       <ul class="list-group list-group-horizontal mb-4" *ngIf="productos">
-        <li class="list-group-item prod-item text-center" *ngFor="let prod of productos.slice(num * 10, num * 10 + 5)">
+        <li [className]="i==4? 'list-group-item prod-item text-center last-prod-item' : 'list-group-item prod-item text-center' " *ngFor="let prod of productos.slice(num * 10, num * 10 + 5); let i = index">
           <div>
             <div class="img-prod-section">
               <img [src]="'https://compralocal-s3-product-images.s3.us-east-2.amazonaws.com/' + prod.image" class="prod-img" routerLink="/products/{{prod.id}}"
@@ -54,7 +54,7 @@
         </li>
       </ul>
       <ul class="list-group list-group-horizontal mb-4" *ngIf="productos">
-        <li class="list-group-item prod-item text-center" *ngFor="let prod of productos.slice(num * 10 + 5, num * 10 + 10)">
+        <li [className]="i==4? 'list-group-item prod-item text-center last-prod-item' : 'list-group-item prod-item text-center' " *ngFor="let prod of productos.slice(num * 10 + 5, num * 10 + 10); let i = index">
           <div>
             <div class="img-prod-section">
               <img [src]="'https://compralocal-s3-product-images.s3.us-east-2.amazonaws.com/' + prod.image" class="prod-img" routerLink="/products/{{prod.id}}"
