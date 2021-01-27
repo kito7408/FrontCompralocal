@@ -2,14 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Supplier } from '../classes/supplier';
+import { Constants } from '../constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SupplierService {
 
-  // private url = '/api/suppliers';
-  private url = 'http://18.223.22.157:3000/suppliers';
+  private backend_url = Constants.URL_BACKEND;
+  private url = this.backend_url + '/suppliers';
 
   constructor(private http: HttpClient) { }
 
@@ -23,7 +24,16 @@ export class SupplierService {
   }
 
   save(data: Supplier):Observable<Supplier>{
-    return this.http.post<Supplier>(this.url,data);
+
+    const formData: FormData = new FormData();
+    formData.append('image', data.image);
+    formData.append('name', data.name);
+    formData.append('bank', data.bank);
+    formData.append('account_number', data.account_number);
+    formData.append('email', data.email);
+    formData.append('contact_person', data.contact_person);
+
+    return this.http.post<Supplier>(this.url,formData);
   }
 
   update(data: Supplier): Observable<Supplier> {

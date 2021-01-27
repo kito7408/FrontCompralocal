@@ -22,6 +22,11 @@ export class ProdDetailComponent implements OnInit {
   // user: User;
   carritoItem = new CartPost;
   // cartLocal: CartGet[];
+  isInHome: boolean;
+  successAlert: boolean;
+  successMessage: string;
+  errorAlert: boolean;
+  errorMessage: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -38,17 +43,31 @@ export class ProdDetailComponent implements OnInit {
     if (localStorage.getItem('cartLocal')) {
       this.cartService.cartInfo = JSON.parse(localStorage.getItem('cartLocal'));
     }
+
     this.route.params.subscribe((params) => {
-      this.prodId = params['id'];
+      if (params['id']) {
+        this.prodId = params['id'];
+      } else {
+        this.prodId = 1;
+      }
       this.prodService.getById(this.prodId).subscribe((data) => {
-        this.producto = data;
-        this.stringTitle = data.category.name + ' > ' + data.name;
-        this.updatePrecioTotal();
+        this.updateInfo(data);
       });
     });
+
+    if (this.routes.url == '/home') {
+      // console.log(this.router.url);
+      this.isInHome = true;
+    }
   }
 
   ngOnInit() {
+  }
+
+  updateInfo(prodData: ProductGet) {
+    this.producto = prodData;
+    this.stringTitle = prodData.category.name + ' > ' + prodData.name;
+    this.updatePrecioTotal();
   }
 
   updatePrecioTotal() {
@@ -63,13 +82,26 @@ export class ProdDetailComponent implements OnInit {
         this.carritoItem.userId = this.userService.userInfo.id;
         this.carritoItem.productId = this.prodId;
         this.carritoItem.isBuyed = false;
-  
+
         this.cartService.save(this.carritoItem).subscribe((data) => {
-          this.routes.navigate(['/cart']);
+          this.cartService.getByUserId(this.userService.userInfo.id).subscribe((data) => {
+            this.cartService.cartInfo = data;
+            this.cartService.cartQuantity = 0;
+            this.cartService.cartTotalPrice = 0;
+            this.cartService.cartInfo.forEach(element => {
+              this.cartService.cartQuantity += element.quantity;
+              this.cartService.cartTotalPrice += element.totalPrice;
+            });
+            this.successEvent('Producto agregado al carrito');
+          }, (err) => {
+            this.errorEvent('No se pudo agregar el producto al carrito');
+          });
+        }, (err) => {
+          this.errorEvent('No se pudo agregar el producto al carrito');
         });
 
       } else {
-        if(this.cartService.cartInfo.find(x => x.productId === this.prodId)){
+        if (this.cartService.cartInfo.find(x => x.productId === this.prodId)) {
           this.cartService.cartInfo.find(x => x.productId === this.prodId).quantity += this.carritoItem.quantity;
           this.cartService.cartInfo.find(x => x.productId === this.prodId).totalPrice += this.carritoItem.totalPrice;
         } else {
@@ -79,14 +111,40 @@ export class ProdDetailComponent implements OnInit {
           cartL.isBuyed = false;
           cartL.productId = this.prodId;
           cartL.product = this.producto;
-  
+
           this.cartService.cartInfo.push(cartL);
         }
-        
+
+        this.cartService.cartQuantity = 0;
+        this.cartService.cartTotalPrice = 0;
+        this.cartService.cartInfo.forEach(element => {
+          this.cartService.cartQuantity += element.quantity;
+          this.cartService.cartTotalPrice += element.totalPrice;
+        });
+
         localStorage.setItem('cartLocal', JSON.stringify(this.cartService.cartInfo));
-        this.routes.navigate(['/cart']);
+        this.successEvent('Producto agregado al carrito');
+
       }
     }
   }
 
+
+  successEvent(msg: string) {
+    this.successAlert = true;
+    this.successMessage = msg;
+    setTimeout(() => {
+      this.successAlert = false;
+      this.successMessage = '';
+    }, 3000);
+  }
+
+  errorEvent(msg: string) {
+    this.errorAlert = true;
+    this.errorMessage = msg
+    setTimeout(() => {
+      this.errorAlert = false;
+      this.errorMessage = '';
+    }, 3000);
+  }
 }

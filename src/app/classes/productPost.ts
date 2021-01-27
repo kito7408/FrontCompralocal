@@ -6,8 +6,10 @@ export class ProductPost{
     image: any;
     numSellOnWeek: number;
     isTrent: boolean;
-    location: string;   //local o externa
     categoryId: number;
     subcategoryId: number;
     supplierId: number;
+    isOffer: boolean;
+    priceOffer: number;
+    unit: string;
 }

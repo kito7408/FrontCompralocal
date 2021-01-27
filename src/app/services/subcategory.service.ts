@@ -2,14 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Subcategory } from '../classes/subCategory';
+import { Constants } from '../constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SubcategoryService {
 
-  // private url = '/api/subcategory';
-  private url = 'http://18.223.22.157:3000/subcategory';
+  private backend_url = Constants.URL_BACKEND;
+  private url = this.backend_url + '/subcategory';
 
   constructor(private http: HttpClient) { }
 

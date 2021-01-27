@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../classes/user';
+import { Constants } from '../constants';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +10,8 @@ import { User } from '../classes/user';
 export class UserService {
 
   userInfo: User;
-  // private url = '/api/users';
-  private url = 'http://18.223.22.157:3000/users';
+  private backend_url = Constants.URL_BACKEND;
+  private url = this.backend_url + '/users';
 
   constructor(private http: HttpClient) { }
 

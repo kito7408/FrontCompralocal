@@ -1,0 +1,15 @@
+<div class="container mb-5 position-relative">
+    <div class="position-absolute back-section">
+        <i class="far fa-arrow-alt-circle-left back" routerLink="/blog" routerLinkActive="active"></i>
+    </div>
+    <div class="img-post-section">
+        <img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/blog-posts/' + post.image" alt=""
+            class="img-post">
+    </div>
+    <div class="post-content-section">
+        <div class="post-title">
+            <h3>{{post.title}}</h3>
+        </div>
+        <div class="post-content" [innerHtml]='post.content'></div>
+    </div>
+</div>

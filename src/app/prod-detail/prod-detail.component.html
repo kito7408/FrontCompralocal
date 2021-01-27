@@ -1,19 +1,18 @@
 <div class="container prod-detail">
-  <div class="card mt-5">
+  <div [className]="isInHome? 'card' : 'card mt-5'">
     <div class="card-body" *ngIf="producto">
       <h5 class="card-title">
         {{stringTitle}}
       </h5>
-      <div class="row">
+      <!-- <div class="row">
         <div class="col-md-8">
           <div class="row mt-5">
             <div class="col-md-6 text-center">
-              <img [src]="'https://compralocal-s3-product-images.s3.us-east-2.amazonaws.com/' + producto.image" class="prod-img">
+              <img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/products/' + producto.image" class="prod-img">
             </div>
             <div class="col-md-6">
               <h4>{{producto.name}}</h4>
               <p>Proveedor: <a routerLink="/supplier/{{producto.supplier.id}}">{{producto.supplier.name}}</a></p>
-              <p>Ubicación: {{producto.location}}</p>
               <p>{{producto.description}}</p>
             </div>
           </div>
@@ -43,7 +42,51 @@
             </div>
           </div>
         </div>
+      </div> -->
+      <div class="prod-detail-content">
+        <div class="text-center prod-detail-section" id="detail-img">
+          <img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/products/' + producto.image" class="prod-img">
+        </div>
+        <div class="prod-detail-section" id="detail-info">
+          <h4>{{producto.name}}</h4>
+          <p>Proveedor: <a routerLink="/supplier/{{producto.supplier.id}}">{{producto.supplier.name}}</a></p>
+          <p>{{producto.description}}</p>
+        </div>
+        <div class="action-section" id="detail-action">
+          <div class="card border-dark product-options">
+            <div class="card-body">
+              <div class="row mt-2">
+                <div class="col-md-6">
+                  <h5>Precio</h5>
+                </div>
+                <div class="col-md-6">
+                  <h5 class="text-right">S/.{{carritoItem.totalPrice}}</h5>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-md-6">
+                  <label for="prodCantidad">Cantidad</label>
+                </div>
+                <div class="col-md-6 text-right">
+                  <input type="number" name="prodCantidad" id="prodCantidad" [(ngModel)]="carritoItem.quantity" (ngModelChange)="updatePrecioTotal()">
+                </div>
+              </div>
+              <div class="text-center mt-2">
+                <button class="btn btn-success text-center" (click)="addToCart()" [disabled]="carritoItem.quantity < 1">Agregar al carrito</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+</div>
+
+
+<!--Alerts section-->
+<div class="alert alert-success success fixed-bottom" role="alert" *ngIf="successAlert">
+  {{successMessage}}
+</div>
+<div class="alert alert-danger error fixed-bottom" role="alert" *ngIf="errorAlert">
+  {{errorMessage}}
 </div>

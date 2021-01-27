@@ -1,5 +1,5 @@
 <div>
-  <div class="container mt-5 mb-2 table-wrapper-scroll-y my-custom-scrollbar">
+  <div class="container mt-5 mb-2 table-wrapper-scroll-y my-custom-scrollbar" *ngIf="cartService.cartInfo.length != 0">
     <table class="table text-center table-bordered table-striped" *ngIf="cartService.cartInfo.length > 0">
       <thead class="thead-light">
         <tr>
@@ -15,9 +15,10 @@
       <tbody>
         <tr *ngFor="let item of cartService.cartInfo; index as i;">
           <th scope="row">1</th>
-          <td><img [src]="'https://compralocal-s3-product-images.s3.us-east-2.amazonaws.com/' + item.product.image" class="prod-img"></td>
+          <td><img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/products/' + item.product.image" class="prod-img"></td>
           <td>{{item.product.name}}</td>
-          <td>{{item.product.price}}</td>
+          <td *ngIf="!item.product.isOffer">{{item.product.price}}</td>
+          <td *ngIf="item.product.isOffer">{{item.product.priceOffer}}</td>
           <td>
             <button type="button" class="btn btn-outline-secondary pt-0 pb-1 pr-1 pl-1" [disabled]="item.quantity == 1"
               (click)="menosCantidad(item.productId)">
@@ -60,14 +61,14 @@
         </tr>
       </tbody>
     </table>
-    <div *ngIf="cartService.cartInfo.length == 0" class="text-center">
-      <h3>No hay prouctos en el carrito.</h3>
-      <img src="../../assets/imgs/triste.png" class="sadImage">
-    </div>
+  </div>
+  <div *ngIf="cartService.cartInfo.length == 0" class="text-center">
+    <!-- <h3>No hay prouctos en el carrito.</h3> -->
+    <img src="../../assets/imgs/no-prods.png" class="sadImage">
   </div>
   <div class="container mb-4 d-block text-right" *ngIf="cartService.cartInfo.length > 0">
     <!-- <button class="btn btn-cl2" id="buyButton" (click)="pagar($event)">Pagar</button> -->
-    <button type="button" class="btn btn-cl2" data-toggle="modal" data-target="#ModaPayment" *ngIf="userService.userInfo">Pagar</button>
+    <button type="button" class="btn btn-cl2" data-toggle="modal" data-target="#ModalAyuda" *ngIf="userService.userInfo">Pagar</button>
     <button type="button" class="btn btn-cl2" data-toggle="modal" data-target="#ModaNoLogged" *ngIf="!userService.userInfo">Pagar</button>
   </div>
 </div>
@@ -146,6 +147,42 @@
   </div>
 </div>
 
+<!--Modal ayuda causas-->
+<div class="modal fade" id="ModalAyuda" tabindex="-1" role="dialog" aria-labelledby="ModalAyuda"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+    <div class="modal-content">
+      <!-- <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">CompraLocal</h5>
+      </div> -->
+      <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5>CompraLocal destina un porcentaje de las ventas para apoyar estos proyectos.</h5>
+        <small>Por favor ayúdanos a seleccionar a cuál apoyar en esta oportunidad.</small>
+        <ul class="list-group list-group-horizontal">
+          <li class="list-group-item" (click)="selectHelp('reforestacion')">
+            <div class="form-check">
+              <input class="form-check-input check-img" type="radio" name="exampleRadios" id="exampleRadios1" value="reforestacion" checked [(ngModel)]="help_proy">
+              <img src="../../assets/imgs/reforest-photo.jpg" class="help-img">
+            </div>
+          </li>
+          <li class="list-group-item" (click)="selectHelp('educacion')">
+            <div class="form-check">
+              <input class="form-check-input check-img" type="radio" name="exampleRadios" id="exampleRadios2" value="educacion" [(ngModel)]="help_proy">
+              <img src="../../assets/imgs/educa-imacta-crece.jpg" class="help-img">
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#ModaPayment" (click)="GoToPay()">Siguiente ></button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!--Alerts section-->
 <div class="alert alert-success success fixed-bottom" role="alert" *ngIf="successAlert">

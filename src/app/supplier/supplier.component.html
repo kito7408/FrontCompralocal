@@ -1,11 +1,51 @@
-<div class="container mt-5 mb-5" *ngIf="supplier">
-  <h2>{{supplier.name}}</h2>
+<div class="container mt-5 mb-5">
+  <h2 *ngIf="supplier">{{supplier.name}}</h2>
+  <h2 *ngIf="educacion">Educa Impacta Crece</h2>
+  <h2 *ngIf="reforestacion">Andoforestando</h2>
   <hr>
-  <h5>Descripción</h5>
-  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Blanditiis voluptatem, eos repellat quam dicta beatae
-    ullam deserunt, consectetur cum eum esse possimus, praesentium nostrum dolorum alias necessitatibus quidem dolore
-    qui!</p>
+  <div class="row">
+    <div class="col-8">
+      <h5>Descripción</h5>
+      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Blanditiis voluptatem, eos repellat quam dicta beatae
+        ullam deserunt, consectetur cum eum esse possimus, praesentium nostrum dolorum alias necessitatibus quidem
+        dolore
+        qui!</p>
+    </div>
+    <div class="col-4">
+      <img *ngIf="supplier" [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/suppliers/' + supplier.image" alt="" class="supp-img">
+      <img *ngIf="educacion" src="../../assets/imgs/educa-imacta-crece.jpg" alt="" class="supp-img">
+      <img *ngIf="reforestacion" src="../../assets/imgs/andoforestando.png" alt="" class="supp-img">
+    </div>
+  </div>
+
   <hr>
+  <div *ngIf="reforestacion" class="text-center">
+    <img src="../../assets/imgs/reforest-photo.jpg" alt="" class="img-content">
+    <p>
+      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Blanditiis voluptatem, eos repellat quam dicta beatae
+      ullam deserunt, consectetur cum eum esse possimus, praesentium nostrum dolorum alias necessitatibus quidem
+      dolore
+      qui!
+    </p>
+  </div>
+
+  <div *ngIf="educacion" class="text-center">
+    <img src="../../assets/imgs/educacion-niños.jpg" alt="" class="img-content">
+    <p>
+      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Blanditiis voluptatem, eos repellat quam dicta beatae
+      ullam deserunt, consectetur cum eum esse possimus, praesentium nostrum dolorum alias necessitatibus quidem
+      dolore
+      qui!
+    </p>
+  </div>
+
+  <h5 *ngIf="supplier">Productos</h5>
+
+  <!--Sección de productos-->
+  <app-products #prodComp *ngIf="supplier"></app-products>
+  
+  <!-- <hr>
   <h5>Ubicación</h5>
-  <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [mapTypeId]="mapTypeId"></agm-map>
+  <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [mapTypeId]="mapTypeId"></agm-map> -->
+
 </div>

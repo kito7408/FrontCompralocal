@@ -1,25 +1,25 @@
 <!--3 navbar section-->
 <!--navbar información y contacto-->
-<nav class="navbar navbar-light bg-light justify-content-between navbar-expand-lg border-bottom first-nav">
+<nav class="navbar navbar-light bg-light justify-content-between navbar-expand-lg border-bottom first-nav" id="first">
   <div class="pl-3">
     <!--Información-->
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="#">Como funciona</a>
+        <a class="nav-link" routerLink="/como-funciona" routerLinkActive="active">¿Cómo funciona?</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Blog</a>
+        <a class="nav-link" routerLink="/blog" routerLinkActive="active">Blog</a>
       </li>
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link" href="#">Ayuda</a>
-      </li>
+      </li> -->
     </ul>
   </div>
   <div class="pr-3">
     <!--Contacto-->
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="#">Localizacion</a>
+      <!-- <li class="nav-item">
+        <a class="nav-link" href="#">Localización</a>
       </li>
       <li class="nav-item">
         |
@@ -37,21 +37,25 @@
         |
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Telefono</a>
+        <a class="nav-link" href="#">Teléfono</a>
+      </li> -->
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="modal" data-target="#ModalContactanos">Contáctanos</a>
       </li>
     </ul>
   </div>
 </nav>
 
 <!--navbar logo, buscador, usuario y carrito-->
-<nav class="navbar navbar-light bg-light justify-content-between navbar-expand-lg row">
-  <div class="col-md-4 text-left">
-    <a (click)="goToHome()"><img src="../../assets/imgs/logoCL-Morado.png" class="navbar-logo navbar-brand"></a>
+<nav class="navbar navbar-light bg-light navbar-expand-lg nav-middle">
+  <div class="text-left logo-section">
+    <!-- <a (click)="goToHome()"><img src="../../assets/imgs/logoCL-Morado.png" class="navbar-logo navbar-brand"></a> -->
+    <a (click)="goToHome()"><img src="../../assets/imgs/logo_before.png" class="navbar-logo navbar-brand ml-4"></a>
   </div>
 
-  <div class="col-md-4">
+  <!-- <div class="col-xl-4 search-between">
     <form class="form-inline text-center search">
-      <input class="form-control" type="search" placeholder="Buscar" aria-label="Search" id="search" name="search"
+      <input class="form-control" type="search" placeholder="Busca tu producto" aria-label="Search" id="search" name="search"
         [(ngModel)]="searchText">
       <button class="btn btn-link" type="submit" (click)="listProdSearch()">
         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor"
@@ -63,12 +67,12 @@
         </svg>
       </button>
     </form>
-  </div>
+  </div> -->
 
-  <div class="col-md-4 text-right">
-    <div *ngIf="userService.userInfo" class="d-inline-block">
+  <div class="text-right navbar-nav nav-user-options">
+    <div *ngIf="userService.userInfo">
       <div class="dropdown mr-2">
-        <a class="btn btn-link dropdown-toggle">
+        <button class="btn btn-link dropdown-toggle">
           <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentColor"
             xmlns="http://www.w3.org/2000/svg">
             <path
@@ -77,29 +81,30 @@
             <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z" />
           </svg>
           {{userService.userInfo.name}}
-        </a>
+        </button>
         <div class="dropdown-menu dropdown-menu-right">
+          <button type="button" class="dropdown-item" (click)="goToOrders()">Mis ordenes</button>
           <button *ngIf="userService.userInfo.userTypeId == 1" type="button" class="dropdown-item" data-toggle="modal"
             data-target="#ModalNewUser">Agregar Usuario</button>
           <button *ngIf="userService.userInfo.userTypeId == 1" type="button" class="dropdown-item" data-toggle="modal"
             data-target="#ModalNewProduct">Agregar Producto</button>
           <button *ngIf="userService.userInfo.userTypeId == 1" type="button" class="dropdown-item" data-toggle="modal"
             data-target="#ModalNewSupplier">Agregar Proveedor</button>
-          <button *ngIf="userService.userInfo.userTypeId == 1" type="button" class="dropdown-item" data-toggle="modal"
-            data-target="#ModalNewCategoria">Agregar Categoria</button>
-          <button *ngIf="userService.userInfo.userTypeId == 1" type="button" class="dropdown-item" data-toggle="modal"
-            data-target="#ModalNewSubCategoria">Agregar Subcategoria</button>
+          <!-- <button *ngIf="userService.userInfo.userTypeId == 1" type="button" class="dropdown-item" data-toggle="modal"
+            data-target="#ModalNewCategoria">Agregar Categoria</button> -->
+          <!-- <button *ngIf="userService.userInfo.userTypeId == 1" type="button" class="dropdown-item" data-toggle="modal"
+            data-target="#ModalNewSubCategoria">Agregar Subcategoria</button> -->
           <button type="button" class="dropdown-item" (click)="logout();" routerLink="/">Salir</button>
         </div>
       </div>
     </div>
-    <div *ngIf="!userService.userInfo" class="d-inline-block">
+    <div *ngIf="!userService.userInfo" class="login-signin">
       <button type="button" class="btn btn-link" data-toggle="modal" data-target="#ModalIngreso">Ingresar</button>
       /
       <button type="button" class="btn btn-link" data-toggle="modal" data-target="#ModalRegistro">Registrarse</button>
     </div>
-    |
-    <div class="dropdown d-inline-block">
+    
+    <div class="dropdown">
       <!-- <button type="button" class="btn btn-outline-secondary mr-3" [routerLink]="['/cart']">
         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart-fill" fill="currentColor"
           xmlns="http://www.w3.org/2000/svg">
@@ -107,7 +112,7 @@
             d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
         </svg>
       </button> -->
-      <button type="button" class="btn btn-link dropdown-toggle position-relative" (click)="goToCart()">
+      <button type="button" class="btn btn-link dropdown-toggle position-relative">
         <!-- <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart-fill" fill="currentColor"
           xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd"
@@ -142,7 +147,7 @@
               <tbody>
                 <tr *ngFor="let c of cartService.cartInfo; index as i;" (click)="goToProducto(c.product.id)"
                   class="cart-item">
-                  <td><img [src]="'https://compralocal-s3-product-images.s3.us-east-2.amazonaws.com/' + c.product.image" class="cart-img"></td>
+                  <td><img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/products/' + c.product.image" class="cart-img"></td>
                   <td>
                     <p>{{c.product.name}} ({{c.product.price}})</p>
                     <p>{{c.quantity}}</p>
@@ -163,10 +168,26 @@
       </div>
     </div>
   </div>
+
+  <div class="search-section">
+    <form class="form-inline text-center search">
+      <input class="form-control" type="search" placeholder="Busca tu producto" aria-label="Search" id="search" name="search"
+        [(ngModel)]="searchText">
+      <button class="btn btn-link" type="submit" (click)="listProdSearch()">
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd"
+            d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z" />
+          <path fill-rule="evenodd"
+            d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z" />
+        </svg>
+      </button>
+    </form>
+  </div>
 </nav>
 
 <!--Navbar relleno de color-->
-<nav class="navbar navbar-light cl-bg2 navbar-expand-lg">
+<nav class="navbar navbar-light cl-bg2 navbar-expand-lg nav-relleno">
   <hr>
 </nav>
 
@@ -178,10 +199,10 @@
         <a class="nav-link" (click)="listProdCat(cate.id);">
           {{cate.name}}
         </a>
-        <div class="dropdown-menu" *ngIf="cate.subcategories.length > 0">
+        <!-- <div class="dropdown-menu" *ngIf="cate.subcategories.length > 0">
           <a class="dropdown-item" *ngFor="let sub of cate.subcategories"
             (click)="listProdSubCat(sub.id)">{{sub.name}}</a>
-        </div>
+        </div> -->
       </li>
     </ul>
   </div>
@@ -217,10 +238,10 @@
             <i class="fab fa-google"></i>
             Iniciar con Google
           </button>
-          <button class="btn btn-block bg-info text-light" (click)="signInWithFB()">
+          <!-- <button class="btn btn-block bg-info text-light" (click)="signInWithFB()">
             <i class="fab fa-facebook"></i>
             Iniciar con Facebook
-          </button>
+          </button> -->
         </div>
       </form>
     </div>
@@ -286,7 +307,7 @@
           </div>
           <div class="form-group">
             <label for="usernameAU">Usuario</label>
-            <input type="text" class="form-control" id="usernameAU" name="usernameAU" [(ngModel)]="newUser.username">
+            <input type="email" class="form-control" id="usernameAU" name="usernameAU" [(ngModel)]="newUser.username">
           </div>
           <div class="form-group">
             <label for="contraseñaAU">Contraseña</label>
@@ -339,13 +360,13 @@
               <option value="{{cat.id}}" *ngFor="let cat of categorias">{{cat.name}}</option>
             </select>
           </div>
-          <div class="form-group" *ngIf="newProduct.categoryId">
+          <!-- <div class="form-group" *ngIf="newProduct.categoryId">
             <label for="subcategoriaProd">Subcategoria</label>
             <select class="form-control" id="subcategoriaProd" name="subcategoriaProd"
               [(ngModel)]="newProduct.subcategoryId">
               <option value="{{subcat.id}}" *ngFor="let subcat of subcategorias">{{subcat.name}}</option>
             </select>
-          </div>
+          </div> -->
           <div class="form-group">
             <label for="proveedorProd">Proveedor</label>
             <select class="form-control" id="proveedorProd" name="proveedorProd" [(ngModel)]="newProduct.supplierId">
@@ -362,11 +383,21 @@
             <label for="precioProd">Precio</label>
             <input type="number" class="form-control" id="precioProd" name="precioProd" [(ngModel)]="newProduct.price">
           </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="isOffer" name="isOffer" [(ngModel)]="newProduct.isOffer">
+            <label class="form-check-label" for="isOffer">¿Está en oferta?</label>
+          </div>
+          <div class="form-group" *ngIf="newProduct.isOffer">
+            <label for="precioOfertaProd">Precio en oferta</label>
+            <input type="number" class="form-control" id="precioOfertaProd" name="precioOfertaProd" [(ngModel)]="newProduct.priceOffer">
+          </div>
           <div class="form-group">
-            <label for="locationProd">Locación</label>
-            <select class="form-control" id="locationProd" name="locationProd" [(ngModel)]="newProduct.location">
-              <option value="local">Local</option>
-              <option value="externo">Externo</option>
+            <label for="unitProd">Unidad de medida</label>
+            <select class="form-control" id="unitProd" name="unitProd" [(ngModel)]="newProduct.unit">
+              <option value="und">Unidad</option>
+              <option value="kg">Kilogramos</option>
+              <option value="g">Gramos</option>
+              <option value="L">Litros</option>
             </select>
           </div>
           <div class="form-group">
@@ -398,8 +429,35 @@
       <form>
         <div class="modal-body">
           <div class="form-group">
-            <label for="nombreAS">Nombre</label>
-            <input type="text" class="form-control" id="nombreAS" name="nombreAS" [(ngModel)]="newSupplier.name">
+            <label for="suppNombre">Nombre</label>
+            <input type="text" class="form-control" id="suppNombre" name="suppNombre" [(ngModel)]="newSupplier.name">
+          </div>
+          <div class="form-group">
+            <label for="suppImg">Imagen</label>
+            <input type="file" class="form-control-file" id="suppImg" name="suppImg"
+              (change)="selectFileSupp($event)">
+          </div>
+          <div [innerHtml]='suppfilemsg' *ngIf="suppfilemsg" style="color: red;"></div>
+          <div class="form-group">
+            <label for="suppBanco">Banco</label>
+            <select class="form-control" id="suppBanco" name="suppBanco" [(ngModel)]="newSupplier.bank">
+              <option value="BBVA">BBVA</option>
+              <option value="BCP">BCP</option>
+              <option value="Interbank">Interbank</option>
+              <option value="Scotiabank">Scotiabank</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="suppAccNum">Número de cuenta</label>
+            <input type="number" class="form-control" id="suppAccNum" name="suppAccNum" [(ngModel)]="newSupplier.account_number">
+          </div>
+          <div class="form-group">
+            <label for="suppContact">Persona de contacto</label>
+            <input type="text" class="form-control" id="suppContact" name="suppContact" [(ngModel)]="newSupplier.contact_person">
+          </div>
+          <div class="form-group">
+            <label for="suppEmail">Email</label>
+            <input type="email" class="form-control" id="suppEmail" name="suppEmail" [(ngModel)]="newSupplier.email">
           </div>
         </div>
         <div class="modal-footer">
@@ -471,6 +529,36 @@
   </div>
 </div>
 
+<div class="modal fade" id="ModalContactanos" tabindex="-1" role="dialog" aria-labelledby="ModalContactanos"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">CompraLocal</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Puedes contactarnos mediante los siguientes medios:</p>
+        <div class="text-center">
+          <p>
+            <i class="fab fa-whatsapp"></i> 973-853-443
+          </p>
+          <!-- <p>
+            <i class="fas fa-at"></i> ayuda@compralocal.pe
+          </p> -->
+          <p>
+            <i class="far fa-envelope"></i> admin@compralocal.pe
+          </p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!--Alerts section-->
 <div class="alert alert-success success fixed-bottom" role="alert" *ngIf="successAlert">

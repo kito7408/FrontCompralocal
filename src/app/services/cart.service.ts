@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { CartGet } from '../classes/cartGet';
 import { CartPost } from '../classes/cartPost';
 import { Tarjeta } from '../classes/tarjeta';
+import { Constants } from '../constants';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,8 @@ export class CartService {
   cartQuantity: number = 0;
   cartTotalPrice: number = 0;
   publicKey = "pk_test_20064752bb0ebab1";
-  // private url = '/api/cart';                            //dev
-  private url = 'http://18.223.22.157:3000/cart';    //prod
+  private backend_url = Constants.URL_BACKEND;
+  private url = this.backend_url + '/cart';
   private culqiURL = "https://secure.culqi.com/v2"; //api culqi
 
   constructor(private http: HttpClient) { }
@@ -74,8 +75,8 @@ export class CartService {
     return this.http.post(newUrl, dataCargo);
   }
 
-  clearCart(userId: number){
+  buyCart(userId: number, orderId: number){
     const newUrl = this.url + '/userbuy';
-    return this.http.post(newUrl, {userId: userId});
+    return this.http.post(newUrl, {userId: userId, orderId: orderId});
   }
 }

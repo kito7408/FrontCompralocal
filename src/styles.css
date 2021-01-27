@@ -3,7 +3,7 @@
 
 :root {
     --primary1: #ba1cb3;
-    --primary2: #3939b5; 
+    --primary2: #5e17eb; 
     --primary3: #1aa9e8;
 
     --dark1: #b46caa;
@@ -13,6 +13,14 @@
     --degradado1: #c18ebe;
     --degradado2: #8a8ac1;
     --degradado3: #94c9e0;
+}
+
+body{
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+.row{
+    margin: 0%;
 }
 
 .cl-c1{
@@ -37,10 +45,6 @@
 
 .cl-bg3{
     background-color: var(--primary3);
-}
-
-body{
-    font-family: 'Montserrat', sans-serif !important;
 }
 
 .btn-cl1{
@@ -111,4 +115,25 @@ body{
 
 .fw-900{
     font-weight: 900;
+}
+
+
+@media(max-width: 575px){
+    
+}
+
+@media(min-width: 576px) and (max-width: 767px){
+    
+}
+
+@media(min-width: 768px) and (max-width: 992px){
+    
+}
+
+@media(min-width: 992px) and (max-width: 1199px){
+    
+}
+
+@media(min-width: 1200px){
+    
 }

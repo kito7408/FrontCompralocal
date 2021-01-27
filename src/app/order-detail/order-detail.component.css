@@ -1,0 +1,10 @@
+.order-product-img{
+    max-height: 7rem;
+}
+
+.back{
+    font-size: 2rem;
+    margin-left: -2rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+}

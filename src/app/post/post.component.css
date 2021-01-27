@@ -1,0 +1,35 @@
+.img-post{
+    width: 100%;
+    height: 25rem;
+    object-fit: cover;
+}
+
+.post-content-section{
+    text-align: center;
+}
+
+.post-content-section>h3{
+    font-weight: 700;
+}
+
+.post-title{
+    margin-bottom: 2rem;
+}
+
+.post-content{
+    text-align: justify;
+}
+
+.img-post-section{
+    margin-bottom: 2rem;
+}
+
+.back{
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.back-section{
+    top: 1rem;
+    left: -2.5rem;
+}

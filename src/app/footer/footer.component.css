@@ -8,3 +8,15 @@
 a{
     cursor: pointer;
 }
+
+@media(max-width: 575px){
+    .footer-logo-section{
+        display: none;
+    }
+}
+
+@media(min-width: 576px) and (max-width: 767px){
+    .footer-logo-section{
+        display: none;
+    }
+}

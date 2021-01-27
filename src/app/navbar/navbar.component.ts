@@ -38,6 +38,8 @@ export class NavbarComponent implements OnInit {
   repass: string;
   prodImg: File;
   filemsg: string;
+  suppImg: File;
+  suppfilemsg: string;
   searchText: string;
   categorias: CategoryGet[];
   subcategorias: Subcategory[];
@@ -79,8 +81,11 @@ export class NavbarComponent implements OnInit {
     this.successMessage = '';
     this.errorMessage = '';
     this.filemsg = '';
+    this.suppfilemsg = '';
     this.searchText = '';
     this.newUser.userTypeId = 2;
+    this.newProduct.isOffer = false;
+    this.newProduct.priceOffer = 0;
     this.getCategorias();
     this.getSuppliers();
     if (localStorage.getItem('user')) {
@@ -225,9 +230,28 @@ export class NavbarComponent implements OnInit {
     }
 
     this.prodImg = <File>event.target.files[0];
-    console.log(this.prodImg);
-    
+    // console.log(this.prodImg);
+
     this.filemsg = '';
+  }
+
+  selectFileSupp(event) {
+    if (!event.target.files[0] || event.target.files[0].length == 0) {
+      this.suppfilemsg = 'Debes seleccionar una imagen';
+      return;
+    }
+
+    var mimeType = event.target.files[0].type;
+
+    if (mimeType.match(/image\/*/) == null) {
+      this.suppfilemsg = "Solo se aceptan imagenes";
+      return;
+    }
+
+    this.suppImg = <File>event.target.files[0];
+    // console.log(this.suppImg);
+
+    this.suppfilemsg = '';
   }
 
   addProd() {
@@ -235,6 +259,7 @@ export class NavbarComponent implements OnInit {
       this.newProduct.image = this.prodImg;
       this.newProduct.numSellOnWeek = 0;
       this.newProduct.isTrent = false;
+      this.newProduct.subcategoryId = 1;
       this.prodService.save(this.newProduct).subscribe((data: any) => {
         this.listAll();
         this.closeAddProductModal.nativeElement.click();
@@ -248,15 +273,19 @@ export class NavbarComponent implements OnInit {
   }
 
   addSupplier() {
-    this.suppService.save(this.newSupplier).subscribe((data: any) => {
-      this.getSuppliers();
-      this.closeModal();
-      this.closeAddSupplierModal.nativeElement.click();
-      this.successEvent('Proveedor creado correctamente')
-    }, (error) => {
-      console.log(error);
-      this.errorEvent('Error al crear proveedor')
-    });
+    if (this.suppfilemsg == '' && this.suppImg) {
+      this.newSupplier.image = this.suppImg;
+
+      this.suppService.save(this.newSupplier).subscribe((data: any) => {
+        this.getSuppliers();
+        this.closeModal();
+        this.closeAddSupplierModal.nativeElement.click();
+        this.successEvent('Proveedor creado correctamente')
+      }, (error) => {
+        console.log(error);
+        this.errorEvent('Error al crear proveedor')
+      });
+    }
   }
 
   addCategoria() {
@@ -334,6 +363,10 @@ export class NavbarComponent implements OnInit {
     this.prodService.filter = '';
     this.prodEvent.emit();
     this.routes.navigate(['/']);
+  }
+
+  goToOrders() {
+    this.routes.navigate(['/orders']);
   }
 
   successEvent(msg: string) {

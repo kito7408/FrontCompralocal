@@ -3,14 +3,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CategoryPost } from '../classes/categoryPost';
 import { CategoryGet } from '../classes/categoryGet';
+import { Constants } from '../constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoriaService {
 
-  // private url = '/api/category';
-  private url = 'http://18.223.22.157:3000/category';
+  private backend_url = Constants.URL_BACKEND;
+  private url = this.backend_url + '/category';
 
   constructor(private http: HttpClient) { }
 

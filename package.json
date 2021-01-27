@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "aws-deploy": "aws s3 sync dist/frontCompralocal/ s3://compralocal-frontend-devtest"
+    "aws-deploy": "aws s3 sync dist/frontCompralocal/ s3://compralocal.pe"
   },
   "private": true,
   "dependencies": {
@@ -36,6 +36,7 @@
     "bootstrap-icons": "^1.1.0",
     "core-js": "^2.5.4",
     "jquery": "^3.5.1",
+    "moment": "^2.29.1",
     "ng-culqi": "0.0.5",
     "request": "^2.88.2",
     "rxjs": "^6.6.3",

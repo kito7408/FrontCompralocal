@@ -18,6 +18,11 @@ import { HomeComponent } from './home/home.component';
 import { ProdDetailComponent } from './prod-detail/prod-detail.component';
 import { CartComponent } from './cart/cart.component';
 import { SupplierComponent } from './supplier/supplier.component';
+import { OrdersComponent } from './orders/orders.component';
+import { OrderDetailComponent } from './order-detail/order-detail.component';
+import { HowWorksComponent } from './how-works/how-works.component';
+import { BlogComponent } from './blog/blog.component';
+import { PostComponent } from './post/post.component';
 
 
 let config = new AuthServiceConfig([
@@ -44,7 +49,12 @@ export function provideConfig() {
     HomeComponent,
     ProdDetailComponent,
     CartComponent,
-    SupplierComponent
+    SupplierComponent,
+    OrdersComponent,
+    OrderDetailComponent,
+    HowWorksComponent,
+    BlogComponent,
+    PostComponent
   ],
   imports: [
     BrowserModule,

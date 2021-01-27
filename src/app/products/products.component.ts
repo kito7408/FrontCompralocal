@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { CartGet } from '../classes/cartGet';
 import { CartPost } from '../classes/cartPost';
@@ -8,6 +8,7 @@ import { User } from '../classes/user';
 import { CartService } from '../services/cart.service';
 import { ProductService } from '../services/product.service';
 import { UserService } from '../services/user.service';
+import { ProdDetailComponent } from '../prod-detail/prod-detail.component';
 
 @Component({
   selector: 'app-products',
@@ -18,9 +19,9 @@ export class ProductsComponent implements OnInit {
 
   productos: any;
   prodPerPage: number = 10;
-  prodOnPage: any;
-  actualPage: number;
-  numberOfPages: number;
+  // prodOnPage: any;
+  // actualPage: number;
+  // numberOfPages: number;
   filterString: string;
   searching: boolean;
   noProds: boolean;
@@ -32,9 +33,15 @@ export class ProductsComponent implements OnInit {
   successMessage: string;
   errorAlert: boolean;
   errorMessage: string;
+  detailProd: ProductGet;
 
-  page: number = 0;
-  pageArr: Array<number> = [];
+  // page: number = 0;
+  // pageArr: Array<number> = [];
+
+  pageNum: number = 0;
+
+  @ViewChild('prodDetailComp') prodDetailComp: ProdDetailComponent;
+  @ViewChild('closeProdFastViewModal') closeProdFastViewModal: ElementRef;
 
   constructor(
     private prodService: ProductService,
@@ -54,11 +61,9 @@ export class ProductsComponent implements OnInit {
       this.isInProd = true;
     }
 
-    this.pageArr.push(this.page);
-    this.page++;
-
-    this.actualPage = 1;
-    this.numberOfPages = 1;
+    this.pageNum = 1;
+    // this.actualPage = 1;
+    // this.numberOfPages = 1;
     this.searching = false;
     this.noProds = false;
     this.thereMoreProds = false;
@@ -120,6 +125,12 @@ export class ProductsComponent implements OnInit {
           this.startPag();
         });
         break;
+      case 5:
+        this.prodService.getBySupplierId(Number(this.prodService.filter)).subscribe((data) => {
+          this.productos = data;
+          this.startPag();
+        });
+        break;
 
       default:
         break;
@@ -127,11 +138,11 @@ export class ProductsComponent implements OnInit {
   }
 
   startPag() {
-    this.numberOfPages = Math.floor(this.productos.length / this.prodPerPage);
-    if (this.productos.length % this.prodPerPage != 0) {
-      this.numberOfPages += 1;
-    }
-    this.actualPage = 1;
+    // this.numberOfPages = Math.floor(this.productos.length / this.prodPerPage);
+    // if (this.productos.length % this.prodPerPage != 0) {
+    //   this.numberOfPages += 1;
+    // }
+    // this.actualPage = 1;
 
     this.productos.forEach(element => {
       element.cant = 1;
@@ -141,7 +152,7 @@ export class ProductsComponent implements OnInit {
       this.noProds = true;
     }
 
-    if ((this.page * 10) < this.productos.length) {
+    if ((this.pageNum * this.prodPerPage) < this.productos.length) {
       this.thereMoreProds = true;
     } else {
       this.thereMoreProds = false;
@@ -188,10 +199,9 @@ export class ProductsComponent implements OnInit {
   // }
 
   showMoreProducts() {
-    this.pageArr.push(this.page);
-    this.page++;
+    this.pageNum++;
 
-    if ((this.page * 10) < this.productos.length) {
+    if ((this.pageNum * this.prodPerPage) < this.productos.length) {
       this.thereMoreProds = true;
     } else {
       this.thereMoreProds = false;
@@ -213,7 +223,11 @@ export class ProductsComponent implements OnInit {
       cartInfo.isBuyed = false;
       cartInfo.productId = prod.id;
       cartInfo.quantity = prod.cant;
-      cartInfo.totalPrice = (prod.cant * prod.price);
+      if(prod.isOffer){
+        cartInfo.totalPrice = (prod.cant * prod.priceOffer);
+      } else {
+        cartInfo.totalPrice = (prod.cant * prod.price);        
+      }
       cartInfo.userId = this.userService.userInfo.id;
 
       this.cartService.save(cartInfo).subscribe((res) => {
@@ -240,7 +254,11 @@ export class ProductsComponent implements OnInit {
       } else {
         var cartL = new CartGet;
         cartL.quantity = prod.cant;
-        cartL.totalPrice = (prod.cant * prod.price);
+        if(prod.isOffer){
+          cartL.totalPrice = (prod.cant * prod.priceOffer);
+        } else {
+          cartL.totalPrice = (prod.cant * prod.price);        
+        }
         cartL.isBuyed = false;
         cartL.productId = prod.id;
         cartL.product = prod;
@@ -259,6 +277,12 @@ export class ProductsComponent implements OnInit {
 
       this.successEvent('Producto agregado al carrito');
     }
+  }
+
+  prodFastView(prod: ProductGet){
+    this.detailProd = prod;
+    this.prodDetailComp.prodId = prod.id;
+    this.prodDetailComp.updateInfo(prod);
   }
 
   successEvent(msg: string) {

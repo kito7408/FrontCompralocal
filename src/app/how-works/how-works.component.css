@@ -1,0 +1,26 @@
+li{
+    margin-bottom: 1rem;
+    border-top: 1px solid rgba(0,0,0,.125) !important;
+    border-radius: 10px !important;
+}
+
+.info-content{
+    background-color: var(--degradado1);
+    /* border: 1px solid var(--primary1); */
+    margin-top: 1rem;
+    padding-top: 1rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px #aaa;
+}
+
+.section-title{
+    color: var(--primary1);
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    margin-bottom: .75rem;
+}
+
+.info-block{
+    margin-top: 3.5rem;
+}

@@ -4,22 +4,72 @@
 }
 
 .guide-img{
-    width: 70%;
+    width: 80%;
     /* margin-bottom: 2rem; */
 }
 
 .info-img{
-    width: 40%;
-    margin-bottom: 2rem;
+    width: 30%;
+    margin-bottom: 2vw;
+}
+
+.info-img1{
+    width: 48%;
+    cursor: pointer;
+}
+
+.info-img2{
+    width: 100%;
+    cursor: pointer;
+}
+
+.info-img3{
+    width: 80%;
+}
+
+.fix-heigh-img{
+    /* height: 12rem; */
+    margin-bottom: 1rem;
+}
+
+.motive-title{
+    color: var(--primary3);
+    font-weight: 700;
+    font-size: 2.5rem;
 }
 
 .guide-title{
-    margin: 5rem;
+    color: var(--primary3);
+    margin-top: 7rem;
+    margin-bottom: 2rem;
 }
 
 .guide-subtitle{
-    color: #17a2b8;
+    color: black;
     font-weight: bold;
+}
+
+.guide-subtitle1{
+    color: black;
+    font-weight: bold;
+    width: 55%;
+    margin: auto;
+}
+
+.guide-subtitle2{
+    color: black;
+    font-weight: bold;
+    width: 55%;
+    margin: auto;
+}
+
+.guide-subtitle3{
+    color: black;
+    font-weight: bold;
+    width: 85%;
+    margin: auto;
+    /* text-align: justify; */
+    margin-right: 0px;
 }
 
 .guide-content{
@@ -42,6 +92,12 @@
     margin-top: 5rem;
 }
 
+.supp-img{
+    height: 15rem;
+    object-fit: cover;
+    width: auto;
+}
+
 .hero-home{
     background-image: url('../../assets/imgs/alpacas.jpg');
     background-repeat: no-repeat;
@@ -49,31 +105,58 @@
 }
 
 .carousel-item > img{
-    height: 40rem;
+    height: 20rem;
+    object-fit: cover;
 }
 
 .guide-steps{
-    bottom: -6rem;
+    bottom: -8.5vw;
+    z-index: 10;
 }
 
 .category{
-    padding-top: 7rem;
-    padding-bottom: 7rem;
-    background: linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url("../../assets/imgs/campo.jpg");
+    padding-top: 5rem;
+    /* padding-bottom: 7rem; */
+    /* background: linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url("../../assets/imgs/campo.jpg");
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: center;
+    background-position: center; */
+}
+
+.category h1{
+    font-size: 3.5rem;
+}
+
+.category .container-fluid{
+    padding-right: 2rem;
+    padding-left: 2rem;
 }
 
 .category .list-group-item{
-    width: 20%;
     cursor: pointer;
+    background-color: #ba1cb31f;
 }
 
 .category .list-group-item:hover{
     background-color: var(--primary1);
     color: white;
 }
+
+.cat-title{
+    color: var(--primary3);
+}
+
+/* .category .list-group-item-mod{
+    width: 10%;
+    cursor: pointer;
+    background-color: #eeeeee;
+    border: 1px solid var(--primary1);
+}
+
+.category .list-group-item-mod:hover{
+    background-color: var(--primary1);
+    color: white;
+} */
 
 .img-category{
     width: 100%;
@@ -106,7 +189,12 @@
 }
 
 .contact-info{
-    padding-top: 7rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: center;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
     color: white;
 }
 
@@ -126,4 +214,191 @@
 
 .table button{
     font-weight: 600;
+}
+
+#ModalContactanos i{
+    font-size: 1.5rem;
+}
+
+.navbar{
+    height: 2.5vw;
+}
+
+th > button{
+    color: var(--primary3);
+}
+
+.supplier > h1{
+    color: var(--primary3);
+    font-weight: 600;
+}
+
+.supp{
+    margin-top: 3rem;
+}
+
+.supp > h1{
+    color: var(--primary3);
+    font-weight: 600;
+}
+
+.img-post{
+    width: 100%;
+    height: 15rem;
+    object-fit: cover;
+}
+
+.post-content{
+    cursor: pointer;
+    border: 1px solid rgba(0,0,0,.125) !important;
+}
+
+.post-content:hover{
+    box-shadow: 0 5px 20px #aaa;
+}
+
+.post-text{
+    padding: 2rem;
+}
+
+.info-post{
+    color: rgba(0,0,0,.3);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.post-title{
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+.btn-outline-secondary{
+    background-color: var(--primary1);
+    color: white;
+    font-weight: 600;
+}
+
+#category-list{
+    display: grid;
+    grid-template-areas:
+    'category1 category2 category3 category4 category5 category6 category7 category8';
+    grid-template-columns: 11% 11% 11% 11% 11% 11% 11% 11%;
+    justify-content: space-between!important;
+    grid-gap: 1rem;
+}
+
+#category1{
+    grid-area: category1;
+}
+#category2{
+    grid-area: category2;
+}
+#category3{
+    grid-area: category3;
+}
+#category4{
+    grid-area: category4;
+}
+#category5{
+    grid-area: category5;
+}
+#category6{
+    grid-area: category6;
+}
+#category7{
+    grid-area: category7;
+}
+#category8{
+    grid-area: category8;
+}
+
+@media(max-width: 575px){
+    .guide-steps{
+        display: none;
+    }
+    .category h1{
+        font-size: 2.5rem;
+    }
+    .guide-subtitle3{
+        margin: auto;
+    }
+    .category [class*="col-"]{
+        margin-bottom: 2rem;
+    }
+    .info-img1{
+        width: 60%;
+    }
+    #category-list{
+        grid-template-areas:
+        'category1 category1 category2'
+        'category3 category4 category5'
+        'category6 category7 category8';
+        grid-template-columns: 30% 30% 30%;
+    }
+    .info-section>h1{
+        font-size: 2rem;
+    }
+    .subscribe-input{
+        width: 90%;
+    }
+}
+
+@media(min-width: 576px) and (max-width: 767px){
+    .guide-steps{
+        display: none;
+    }
+    .guide-subtitle3{
+        margin: auto;
+    }
+    #category-list{
+        grid-template-areas:
+        'category1 category1 category2'
+        'category3 category4 category5'
+        'category6 category7 category8';
+        grid-template-columns: 30% 30% 30%;
+    }
+    .info-section>h1{
+        font-size: 2rem;
+    }
+    .subscribe-input{
+        width: 90%;
+    }
+}
+
+@media(min-width: 768px) and (max-width: 992px){
+    .guide-steps{
+        bottom: -10.5vw;
+    }
+    .guide-img{
+        width: 100%;
+    }
+    .info-img{
+        width: 45%;
+    }
+    #category-list{
+        grid-template-areas:
+        'category1 category1 category2'
+        'category3 category4 category5'
+        'category6 category7 category8';
+        grid-template-columns: 30% 30% 30%;
+    }
+    .subscribe-input{
+        width: 85%;
+    }
+}
+
+@media(min-width: 992px) and (max-width: 1199px){
+    #category-list{
+        grid-template-areas:
+        'category1 category2 category3 category4'
+        'category5 category6 category7 category8';
+        grid-template-columns: 20% 20% 20% 20%;
+    }
+    .subscribe-input{
+        width: 70%;
+    }
+}
+
+@media(min-width: 1200px){
+    
 }

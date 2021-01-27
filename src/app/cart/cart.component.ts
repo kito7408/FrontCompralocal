@@ -9,6 +9,9 @@ import { Tarjeta } from '../classes/tarjeta';
 import { Router } from '@angular/router';
 import { isNgTemplate } from '@angular/compiler';
 import { ProductService } from '../services/product.service';
+import { OrderService } from '../services/order.service';
+import { OrderGet, OrderPost } from '../classes/order';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-cart',
@@ -29,6 +32,7 @@ export class CartComponent implements OnInit {
   errorAlert: boolean;
   errorMessage: string;
   short_year: string = '';
+  help_proy: string;
   // cantOriginal: number[];
   // @Output() cartEvent = new EventEmitter;
 
@@ -36,10 +40,12 @@ export class CartComponent implements OnInit {
     public cartService: CartService,
     private routes: Router,
     public userService: UserService,
-    private productService: ProductService
+    private productService: ProductService,
+    private orderService: OrderService
   ) {
     this.charging = false;
     this.paying = false;
+    this.help_proy = "reforestacion";
     if (localStorage.getItem('user')) {
       this.userService.userInfo = JSON.parse(localStorage.getItem('user'));
     }
@@ -152,7 +158,7 @@ export class CartComponent implements OnInit {
     this.paying = true;
     this.tarjeta.expiration_year = "20" + this.short_year;
     this.tarjeta.card_number = this.tarjeta.card_number.replace(/\s+/g, "");
-    
+
     this.cartService.sendToCulqi(this.tarjeta).subscribe((dataToken) => {
       // console.log("info culqi token",dataToken);
       var infoCargo = {
@@ -165,7 +171,7 @@ export class CartComponent implements OnInit {
         // console.log("cargo creado correctamente", dataCargo);
         // alert("cargo creado correctamente")
         this.updateProdSales();
-        this.limpiarCarrito();
+        this.crearOrden();
       }, (error) => {
         console.log(error);
         this.closeModalTarjetaInfo();
@@ -178,8 +184,32 @@ export class CartComponent implements OnInit {
     });
   }
 
-  limpiarCarrito() {
-    this.cartService.clearCart(this.userService.userInfo.id).subscribe((data) => {
+  crearOrden() {
+    var orderInfo = new OrderPost;
+    orderInfo.num = String(Math.floor(new Date().getTime() / 1000)) + String(this.userService.userInfo.id);
+    orderInfo.totalPrice = this.cartService.cartTotalPrice;
+    orderInfo.userId = this.userService.userInfo.id;
+
+    switch (this.help_proy) {
+      case "reforestacion":
+        orderInfo.helpProyectId = 1;
+        break;
+      case "educacion":
+        orderInfo.helpProyectId = 2;
+        break;
+
+      default:
+        break;
+    }
+
+    this.orderService.save(orderInfo).subscribe((dataOrden: any) => {
+      this.limpiarCarrito(dataOrden.data.id);
+    });
+  }
+
+  limpiarCarrito(orderId: number) {
+    this.cartService.buyCart(this.userService.userInfo.id, orderId).subscribe((data) => {
+      this.sendMail(orderId);
       this.successAlert = true;
       this.successMessage = "El pago se realizó con exito.";
       setTimeout(() => {
@@ -189,8 +219,20 @@ export class CartComponent implements OnInit {
         this.cartService.cartQuantity = 0;
         this.cartService.cartTotalPrice = 0;
         this.closeModalTarjetaInfo();
-        this.routes.navigate(['/']);
-      }, 3000);
+        this.routes.navigate(['/orders/' + orderId]);
+      }, 2000);
+    })
+  }
+
+  sendMail(order_id: number) {
+    this.orderService.getById(order_id).subscribe((orderData: any) => {
+      orderData.date = moment(orderData.createdAt).locale('es').format('LL');
+      this.orderService.sendUserMail(orderData).subscribe((data) => {
+        setTimeout(() => {
+          this.orderService.sendAdminMail(orderData).subscribe((data2) => {
+          });
+        }, 3000);
+      });
     })
   }
 
@@ -212,15 +254,23 @@ export class CartComponent implements OnInit {
     });
     this.productService.updateSales(prodsInfo).subscribe((data) => {
       console.log("dat", data);
-      
+
     });
   }
 
   card_number_eval() {
-    if (this.tarjeta.card_number.length == 4 || this.tarjeta.card_number.length == 9 || 
+    if (this.tarjeta.card_number.length == 4 || this.tarjeta.card_number.length == 9 ||
       this.tarjeta.card_number.length == 14) {
-        this.tarjeta.card_number += ' ';
+      this.tarjeta.card_number += ' ';
     }
+  }
+
+  GoToPay() {
+    console.log(this.help_proy);
+  }
+
+  selectHelp(proy: string) {
+    this.help_proy = proy;
   }
 
   successEvent(msg: string) {
