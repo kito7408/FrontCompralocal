@@ -14,7 +14,7 @@ import { GoogleLoginProvider, FacebookLoginProvider } from "angularx-social-logi
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { ProductsComponent } from './products/products.component';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent, SafeHtmlPipe } from './home/home.component';
 import { ProdDetailComponent } from './prod-detail/prod-detail.component';
 import { CartComponent } from './cart/cart.component';
 import { SupplierComponent } from './supplier/supplier.component';
@@ -54,7 +54,8 @@ export function provideConfig() {
     OrderDetailComponent,
     HowWorksComponent,
     BlogComponent,
-    PostComponent
+    PostComponent,
+    SafeHtmlPipe
   ],
   imports: [
     BrowserModule,

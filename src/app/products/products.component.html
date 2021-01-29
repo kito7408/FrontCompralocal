@@ -27,7 +27,9 @@
             </div>
             <!-- <hr> -->
             <div class="prod-second-section">
-              <p class="fw-700">{{prod.name}}</p>
+              <div class="prod-title-section">
+                <p class="fw-700 prod-title">{{prod.name}}</p>
+              </div>
               <small>({{prod.unit}})</small>
               <p>{{prod.supplier.name}}</p>
               <p class="cl-c1 fw-600" *ngIf="!prod.isOffer">S/. {{prod.price}}</p>

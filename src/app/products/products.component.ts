@@ -9,6 +9,8 @@ import { CartService } from '../services/cart.service';
 import { ProductService } from '../services/product.service';
 import { UserService } from '../services/user.service';
 import { ProdDetailComponent } from '../prod-detail/prod-detail.component';
+import { CategoriaService } from '../services/categoria.service';
+import { CategoryGet } from '../classes/categoryGet';
 
 @Component({
   selector: 'app-products',
@@ -25,7 +27,6 @@ export class ProductsComponent implements OnInit {
   filterString: string;
   searching: boolean;
   noProds: boolean;
-  compName: string;
   thereMoreProds: boolean;
   // user: User;
   isInProd: boolean;
@@ -34,6 +35,7 @@ export class ProductsComponent implements OnInit {
   errorAlert: boolean;
   errorMessage: string;
   detailProd: ProductGet;
+  categorias: CategoryGet[];
 
   // page: number = 0;
   // pageArr: Array<number> = [];
@@ -47,7 +49,8 @@ export class ProductsComponent implements OnInit {
     private prodService: ProductService,
     private cartService: CartService,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private categoryService: CategoriaService
   ) {
     if (localStorage.getItem('cartLocal')) {
       this.cartService.cartInfo = JSON.parse(localStorage.getItem('cartLocal'));
@@ -61,13 +64,16 @@ export class ProductsComponent implements OnInit {
       this.isInProd = true;
     }
 
+    this.categoryService.getAll().subscribe((dataCategory: CategoryGet[])=> {
+      this.categorias = dataCategory;
+    });
+
     this.pageNum = 1;
     // this.actualPage = 1;
     // this.numberOfPages = 1;
     this.searching = false;
     this.noProds = false;
     this.thereMoreProds = false;
-    this.compName = 'Productos';
     this.listProducts();
   }
 
@@ -92,9 +98,7 @@ export class ProductsComponent implements OnInit {
       case 1:
         this.prodService.getByCategoriaId(Number(this.prodService.filter)).subscribe((data) => {
           this.productos = data;
-          if (data && data.length > 0) {
-            this.filterString = "Productos > " + data[0].category.name;
-          }
+          this.filterString = "Productos > " + this.categorias[Number(this.prodService.filter) - 1].name;
           this.startPag();
         });
         break;

@@ -1,6 +1,7 @@
 .prod-img{
     max-width: 100%;
     max-height: 80%;
+    object-fit: cover;
 }
 
 input{

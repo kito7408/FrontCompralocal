@@ -1,8 +1,9 @@
 <div class="container mt-5 mb-5 table-wrapper-scroll-y my-custom-scrollbar">
-    <table class="table table-bordered table-hover">
+    <table class="table table-bordered table-hover" *ngIf="!noOrders">
         <thead class="thead-light">
           <tr>
             <th scope="col">Orden #</th>
+            <th scope="col">Usuario</th>
             <th scope="col">Fecha</th>
             <th scope="col">Precio total</th>
             <!-- <th scope="col">Estado</th> -->
@@ -11,10 +12,14 @@
         <tbody>
           <tr routerLink="/orders/{{item.id}}" routerLinkActive="active" *ngFor="let item of orders">
             <th scope="row">{{item.num}}</th>
+            <td>{{item.user.name}}</td>
             <td>{{item.date}}</td>
             <td>{{item.totalPrice}}</td>
             <!-- <td>La Orden ha sido entregada.</td> -->
           </tr>
         </tbody>
       </table>
+      <div class="text-center" *ngIf="noOrders">
+        <h2 class="fw-700">No has realizado ninguna orden.</h2>
+      </div>
 </div>

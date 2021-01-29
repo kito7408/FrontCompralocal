@@ -144,6 +144,16 @@ s{
     padding: 1rem 1rem;
 }
 
+.prod-title-section{
+    height: 3rem;
+    display: flex;
+    align-items: center;
+}
+
+.prod-title{
+    margin: auto !important;
+}
+
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

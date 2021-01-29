@@ -27,6 +27,15 @@
     width: 80%;
 }
 
+.info-img1,.info-img2{
+    border: 1px solid;
+    border-radius: 10px;
+}
+
+.info-img1:hover,.info-img2:hover{
+    box-shadow: 0 5px 20px #aaa;
+}
+
 .fix-heigh-img{
     /* height: 12rem; */
     margin-bottom: 1rem;
@@ -112,6 +121,10 @@
 .guide-steps{
     bottom: -8.5vw;
     z-index: 10;
+}
+
+.info{
+    padding-top: 5rem;
 }
 
 .category{
@@ -251,6 +264,8 @@ th > button{
 .post-content{
     cursor: pointer;
     border: 1px solid rgba(0,0,0,.125) !important;
+    width: 75%;
+    margin: auto;
 }
 
 .post-content:hover{
@@ -276,6 +291,55 @@ th > button{
     background-color: var(--primary1);
     color: white;
     font-weight: 600;
+}
+
+.bl-1{
+    border-left: 1px solid rgba(0,0,0,.125);
+}
+
+.supp-carousel{
+    display: grid;
+    grid-template-areas: 'i1 i2 i3';
+    grid-template-columns: 30% 30% 30%;
+    justify-content: space-between !important;
+}
+
+.supp-carousel>img{
+    width: 100%;
+    border: 1px solid black;
+    cursor: pointer;
+    background-color: var(--degradado1);
+}
+
+#carouselSupps{
+    margin-bottom: 5rem;
+}
+
+#carouselSupps > .carousel-indicators{
+    bottom: -3rem;
+}
+
+#carouselSupps > .carousel-indicators>li{
+    background-color: var(--primary3);
+}
+
+.carousel-icon-custom{
+    display: inline-block;
+    background: no-repeat 50%/100% 100%;
+    color: var(--primary3);
+    font-size: 2rem;
+}
+
+#carouselSupps > .carousel-control-next, #carouselSupps > .carousel-control-prev{
+    width: 5%;
+}
+
+#carouselSupps > .carousel-control-prev{
+    left: -3%;
+}
+
+#carouselSupps > .carousel-control-next{
+    right: -3%;
 }
 
 #category-list{
@@ -341,6 +405,9 @@ th > button{
     .subscribe-input{
         width: 90%;
     }
+    .bl-1{
+        border-left: 0px solid rgba(0,0,0,.125);
+    }
 }
 
 @media(min-width: 576px) and (max-width: 767px){
@@ -363,6 +430,9 @@ th > button{
     .subscribe-input{
         width: 90%;
     }
+    .bl-1{
+        border-left: 0px solid rgba(0,0,0,.125);
+    }
 }
 
 @media(min-width: 768px) and (max-width: 992px){
@@ -384,6 +454,9 @@ th > button{
     }
     .subscribe-input{
         width: 85%;
+    }
+    .bl-1{
+        border-left: 0px solid rgba(0,0,0,.125);
     }
 }
 

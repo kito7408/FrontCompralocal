@@ -28,10 +28,16 @@ export class SupplierService {
     const formData: FormData = new FormData();
     formData.append('image', data.image);
     formData.append('name', data.name);
+    formData.append('business_name', data.business_name);
     formData.append('bank', data.bank);
     formData.append('account_number', data.account_number);
     formData.append('email', data.email);
     formData.append('contact_person', data.contact_person);
+    formData.append('description', data.description);
+    formData.append('dni_contact', data.dni_contact);
+    formData.append('fiscal_address', data.fiscal_address);
+    formData.append('phone_contact', data.phone_contact);
+    formData.append('ruc', data.ruc);
 
     return this.http.post<Supplier>(this.url,formData);
   }

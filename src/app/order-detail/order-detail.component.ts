@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { OrderGet } from '../classes/order';
 import { OrderService } from '../services/order.service';
 import * as moment from 'moment';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-order-detail',
@@ -17,7 +18,8 @@ export class OrderDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private orderService: OrderService
+    private orderService: OrderService,
+    public userService: UserService
   ) {
     this.fromBuy = false;
     this.route.params.subscribe((params) => {

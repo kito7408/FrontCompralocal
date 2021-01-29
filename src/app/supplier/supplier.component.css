@@ -4,10 +4,62 @@ agm-map{
 }
 
 .supp-img{
-    max-width: 100%;
+    max-width: 50%;
     height: auto;
 }
 
 .img-content{
-    width: 50%;
+    width: 70%;
+}
+
+.info-eic-section{
+    display: flex;
+    margin-bottom: 2rem;
+    text-align: initial;
+    font-size: 1.15rem;
+    text-align: justify;
+}
+
+.info-eic-section>p{
+    margin-left: 1rem;
+}
+
+.title-eic-section{
+    display: flex;
+    align-self: center;
+    color: rgb(96, 96, 96);
+}
+
+.title-eic-section>h2{
+    font-weight: 700;
+    font-size: 2.5rem;
+}
+
+.title{
+    align-self: center;
+}
+
+
+@media(max-width: 575px){
+    .img-content{
+        width: 100%;
+    }
+}
+
+@media(min-width: 576px) and (max-width: 767px){
+    .img-content{
+        width: 100%;
+    }
+}
+
+@media(min-width: 768px) and (max-width: 992px){
+    
+}
+
+@media(min-width: 992px) and (max-width: 1199px){
+    
+}
+
+@media(min-width: 1200px){
+    
 }

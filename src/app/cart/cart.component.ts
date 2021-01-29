@@ -266,7 +266,7 @@ export class CartComponent implements OnInit {
   }
 
   GoToPay() {
-    console.log(this.help_proy);
+    this.tarjeta.email = this.userService.userInfo.username;
   }
 
   selectHelp(proy: string) {

@@ -144,6 +144,7 @@ td > p{
 .success, .error{
     width: 35%;
     left: auto;
+    z-index: 1051;
 }
 
 ::placeholder{
@@ -227,10 +228,31 @@ td > p{
     align-items: center;
 }
 
+input.ng-invalid{
+    border-color: red;
+}
+
+input.ng-untouched{
+    border-color: #ced4da;
+}
+
 #navbarSupportedContent>ul{
     display: grid;
     grid-template-areas: 'c1 c2 c3 c4 c5 c6 c7 c8';
     width: 100%;
+}
+
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
 
 

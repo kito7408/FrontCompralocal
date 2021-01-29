@@ -1,6 +1,6 @@
 <div class="container mt-5 mb-5">
     <div class="post-list">
-        <div class="container d-block text-right mb-3" *ngIf="userService.userInfo.userTypeId == 1">
+        <div class="container d-block text-right mb-3" *ngIf="userService.userInfo && userService.userInfo.userTypeId == 1">
             <button class="btn btn-cl2" data-toggle="modal" data-target="#ModalNewPost">
                 Nuevo Post
             </button>

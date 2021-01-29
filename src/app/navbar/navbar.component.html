@@ -83,13 +83,14 @@
           {{userService.userInfo.name}}
         </button>
         <div class="dropdown-menu dropdown-menu-right">
-          <button type="button" class="dropdown-item" (click)="goToOrders()">Mis ordenes</button>
+          <button type="button" *ngIf="userService.userInfo.userTypeId == 2" class="dropdown-item" (click)="goToOrders()">Mis ordenes</button>
+          <button type="button" *ngIf="userService.userInfo.userTypeId == 1" class="dropdown-item" (click)="goToOrders()">Lista de ordenes</button>
           <button *ngIf="userService.userInfo.userTypeId == 1" type="button" class="dropdown-item" data-toggle="modal"
             data-target="#ModalNewUser">Agregar Usuario</button>
           <button *ngIf="userService.userInfo.userTypeId == 1" type="button" class="dropdown-item" data-toggle="modal"
-            data-target="#ModalNewProduct">Agregar Producto</button>
-          <button *ngIf="userService.userInfo.userTypeId == 1" type="button" class="dropdown-item" data-toggle="modal"
             data-target="#ModalNewSupplier">Agregar Proveedor</button>
+          <button *ngIf="userService.userInfo.userTypeId == 1" type="button" class="dropdown-item" data-toggle="modal"
+            data-target="#ModalNewProduct">Agregar Producto</button>
           <!-- <button *ngIf="userService.userInfo.userTypeId == 1" type="button" class="dropdown-item" data-toggle="modal"
             data-target="#ModalNewCategoria">Agregar Categoria</button> -->
           <!-- <button *ngIf="userService.userInfo.userTypeId == 1" type="button" class="dropdown-item" data-toggle="modal"
@@ -103,7 +104,7 @@
       /
       <button type="button" class="btn btn-link" data-toggle="modal" data-target="#ModalRegistro">Registrarse</button>
     </div>
-    
+
     <div class="dropdown">
       <!-- <button type="button" class="btn btn-outline-secondary mr-3" [routerLink]="['/cart']">
         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart-fill" fill="currentColor"
@@ -147,7 +148,8 @@
               <tbody>
                 <tr *ngFor="let c of cartService.cartInfo; index as i;" (click)="goToProducto(c.product.id)"
                   class="cart-item">
-                  <td><img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/products/' + c.product.image" class="cart-img"></td>
+                  <td><img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/products/' + c.product.image"
+                      class="cart-img"></td>
                   <td>
                     <p>{{c.product.name}} ({{c.product.price}})</p>
                     <p>{{c.quantity}}</p>
@@ -171,8 +173,8 @@
 
   <div class="search-section">
     <form class="form-inline text-center search">
-      <input class="form-control" type="search" placeholder="Busca tu producto" aria-label="Search" id="search" name="search"
-        [(ngModel)]="searchText">
+      <input class="form-control" type="search" placeholder="Busca tu producto" aria-label="Search" id="search"
+        name="search" [(ngModel)]="searchText">
       <button class="btn btn-link" type="submit" (click)="listProdSearch()">
         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor"
           xmlns="http://www.w3.org/2000/svg">
@@ -194,7 +196,7 @@
 <!--navbar categorias-->
 <nav class="navbar navbar-light cl-bg3 justify-content-between navbar-expand-lg nav-categoria">
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
+    <ul class="navbar-nav mr-auto text-center">
       <li class="nav-item dropdown" *ngFor="let cate of categorias">
         <a class="nav-link" (click)="listProdCat(cate.id);">
           {{cate.name}}
@@ -214,27 +216,30 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="ModalIngresoLongTitle">Ingresar</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeLoginModal
-          (click)="closeModal();">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeLoginModal>
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form>
+      <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
         <div class="modal-body">
           <div class="form-group">
             <label for="usernameLog">Usuario</label>
-            <input type="text" class="form-control" id="usernameLog" name="usernameLog" [(ngModel)]="newUser.username">
+            <input type="email" class="form-control" id="usernameLog" name="usernameLog" [(ngModel)]="newUser.username"
+              [disabled]="loading" required email>
           </div>
           <div class="form-group">
             <label for="contraseñaLog">Contraseña</label>
             <input type="password" class="form-control" id="contraseñaLog" name="contraseñaLog"
-              [(ngModel)]="newUser.password">
+              [(ngModel)]="newUser.password" [disabled]="loading" required>
           </div>
         </div>
         <div class="modal-footer">
           <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal();">Cerrar</button> -->
-          <button type="submit" class="btn btn-primary btn-block" (click)="login();">Ingresar</button>
-          <button class="btn btn-danger btn-block" (click)="signInWithGoogle()">
+          <button type="submit" class="btn btn-primary btn-block" [disabled]="loading || loginForm.invalid">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="loading"></span>
+            Ingresar
+          </button>
+          <button class="btn btn-danger btn-block" (click)="signInWithGoogle()" [disabled]="loading">
             <i class="fab fa-google"></i>
             Iniciar con Google
           </button>
@@ -254,35 +259,39 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="ModalRegistroLongTitle" routerLink="/">Registrarse</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeRegModal
-          (click)="closeModal();">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeRegModal>
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form>
+      <form #registerForm="ngForm" (ngSubmit)="register(registerForm)">
         <div class="modal-body">
           <div class="form-group">
             <label for="nombreReg">Nombre</label>
-            <input type="text" class="form-control" id="nombreReg" name="nombreReg" [(ngModel)]="newUser.name">
+            <input type="text" class="form-control" id="nombreReg" name="nombreReg" [(ngModel)]="newUser.name"
+              [disabled]="loading" required>
           </div>
           <div class="form-group">
             <label for="usernameReg">Usuario</label>
-            <input type="text" class="form-control" id="usernameReg" name="usernameReg" [(ngModel)]="newUser.username">
+            <input type="email" class="form-control" id="usernameReg" name="usernameReg" [(ngModel)]="newUser.username"
+              [disabled]="loading" required email>
           </div>
           <div class="form-group">
             <label for="contraseñaReg">Contraseña</label>
             <input type="password" class="form-control" id="contraseñaReg" name="contraseñaReg"
-              [(ngModel)]="newUser.password">
+              [(ngModel)]="newUser.password" [disabled]="loading" required>
           </div>
           <div class="form-group">
             <label for="re-contraseñaReg">Repetir Contraseña</label>
             <input type="password" class="form-control" id="re-contraseñaReg" name="re-contraseñaReg"
-              [(ngModel)]="repass">
+              [(ngModel)]="repass" [disabled]="loading" required>
           </div>
         </div>
         <div class="modal-footer">
           <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal();">Cerrar</button> -->
-          <button type="submit" class="btn btn-primary btn-block" (click)="register();">Registrar</button>
+          <button type="submit" class="btn btn-primary btn-block" [disabled]="loading || registerForm.invalid">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="loading"></span>
+            Registrar
+          </button>
         </div>
       </form>
     </div>
@@ -294,34 +303,35 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="ModalNewUserLongTitle">Nuevo Usuario</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeAddUserModal
-          (click)="closeModal();">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeAddUserModal>
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form>
+      <form #newUserForm="ngForm" (ngSubmit)="register(newUserForm)">
         <div class="modal-body">
           <div class="form-group">
             <label for="nombreAU">Nombre</label>
-            <input type="text" class="form-control" id="nombreAU" name="nombreAU" [(ngModel)]="newUser.name">
+            <input type="text" class="form-control" id="nombreAU" name="nombreAU" [(ngModel)]="newUser.name"
+              [disabled]="loading" required>
           </div>
           <div class="form-group">
             <label for="usernameAU">Usuario</label>
-            <input type="email" class="form-control" id="usernameAU" name="usernameAU" [(ngModel)]="newUser.username">
+            <input type="email" class="form-control" id="usernameAU" name="usernameAU" [(ngModel)]="newUser.username"
+              [disabled]="loading" required email>
           </div>
           <div class="form-group">
             <label for="contraseñaAU">Contraseña</label>
             <input type="password" class="form-control" id="contraseñaAU" name="contraseñaAU"
-              [(ngModel)]="newUser.password">
+              [(ngModel)]="newUser.password" [disabled]="loading" required>
           </div>
           <div class="form-group">
             <label for="re-contraseñaAU">Repetir Contraseña</label>
-            <input type="password" class="form-control" id="re-contraseñaAU" name="re-contraseñaAU"
-              [(ngModel)]="repass">
+            <input type="password" class="form-control" id="re-contraseñaAU" name="re-contraseñaAU" [(ngModel)]="repass"
+              [disabled]="loading" required>
           </div>
           <div class="form-group">
             <label for="userType">Tipo de Usuario</label>
-            <select class="form-control" id="admin" name="admin" [(ngModel)]="newUser.userTypeId">
+            <select class="form-control" id="admin" name="admin" [(ngModel)]="newUser.userTypeId" [disabled]="loading">
               <option value="1">Admin</option>
               <option value="2">Comprador</option>
             </select>
@@ -329,7 +339,10 @@
         </div>
         <div class="modal-footer">
           <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal();">Cerrar</button> -->
-          <button type="submit" class="btn btn-primary btn-block" (click)="register();">Registrar</button>
+          <button type="submit" class="btn btn-primary btn-block" [disabled]="loading || newUserForm.invalid">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="loading"></span>
+            Registrar
+          </button>
         </div>
       </form>
     </div>
@@ -342,21 +355,21 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="ModalNewProductLongTitle">Nuevo Producto</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeAddProductModal
-          (click)="closeModal();">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeAddProductModal>
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form>
+      <form #newProductForm="ngForm" (ngSubmit)="addProd(newProductForm)">
         <div class="modal-body">
           <div class="form-group">
             <label for="nombreProd">Nombre</label>
-            <input type="text" class="form-control" id="nombreProd" name="nombreProd" [(ngModel)]="newProduct.name">
+            <input type="text" class="form-control" id="nombreProd" name="nombreProd" [(ngModel)]="newProduct.name"
+              [disabled]="loading" required>
           </div>
           <div class="form-group">
             <label for="categoriaProd">Categoria</label>
             <select class="form-control" id="categoriaProd" name="categoriaProd" [(ngModel)]="newProduct.categoryId"
-              (ngModelChange)="getSubcategoriasByCategoria(newProduct.categoryId)">
+              (ngModelChange)="getSubcategoriasByCategoria(newProduct.categoryId)" [disabled]="loading" required>
               <option value="{{cat.id}}" *ngFor="let cat of categorias">{{cat.name}}</option>
             </select>
           </div>
@@ -369,46 +382,55 @@
           </div> -->
           <div class="form-group">
             <label for="proveedorProd">Proveedor</label>
-            <select class="form-control" id="proveedorProd" name="proveedorProd" [(ngModel)]="newProduct.supplierId">
+            <select class="form-control" id="proveedorProd" name="proveedorProd" [(ngModel)]="newProduct.supplierId"
+              [disabled]="loading" required>
               <option value="{{supp.id}}" *ngFor="let supp of suppliers">{{supp.name}}</option>
             </select>
           </div>
           <div class="form-group">
             <label for="imagenProd">Imagen</label>
-            <input type="file" class="form-control-file" id="imagenProd" name="imagenProd"
-              (change)="selectFile($event)">
+            <input type="file" class="form-control-file" id="imagenProd" name="imagenProd" (change)="selectFile($event)"
+              [disabled]="loading" required>
           </div>
           <div [innerHtml]='filemsg' *ngIf="filemsg" style="color: red;"></div>
           <div class="form-group">
             <label for="precioProd">Precio</label>
-            <input type="number" class="form-control" id="precioProd" name="precioProd" [(ngModel)]="newProduct.price">
+            <input type="number" class="form-control" id="precioProd" name="precioProd" [(ngModel)]="newProduct.price"
+              [disabled]="loading" required>
           </div>
           <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="isOffer" name="isOffer" [(ngModel)]="newProduct.isOffer">
+            <input type="checkbox" class="form-check-input" id="isOffer" name="isOffer" [(ngModel)]="newProduct.isOffer"
+              [disabled]="loading" required>
             <label class="form-check-label" for="isOffer">¿Está en oferta?</label>
           </div>
           <div class="form-group" *ngIf="newProduct.isOffer">
             <label for="precioOfertaProd">Precio en oferta</label>
-            <input type="number" class="form-control" id="precioOfertaProd" name="precioOfertaProd" [(ngModel)]="newProduct.priceOffer">
+            <input type="number" class="form-control" id="precioOfertaProd" name="precioOfertaProd"
+              [(ngModel)]="newProduct.priceOffer" [disabled]="loading" required>
           </div>
           <div class="form-group">
             <label for="unitProd">Unidad de medida</label>
-            <select class="form-control" id="unitProd" name="unitProd" [(ngModel)]="newProduct.unit">
+            <select class="form-control" id="unitProd" name="unitProd" [(ngModel)]="newProduct.unit"
+              [disabled]="loading" required>
               <option value="und">Unidad</option>
               <option value="kg">Kilogramos</option>
               <option value="g">Gramos</option>
               <option value="L">Litros</option>
+              <option value="ml">Mililitros</option>
             </select>
           </div>
           <div class="form-group">
             <label for="descripcionProd">Descripción</label>
             <textarea class="form-control" id="descripcionProd" name="descripcionProd" cols="30" rows="4"
-              [(ngModel)]="newProduct.description"></textarea>
+              [(ngModel)]="newProduct.description" [disabled]="loading" required></textarea>
           </div>
         </div>
         <div class="modal-footer">
           <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal();">Cerrar</button> -->
-          <button type="submit" class="btn btn-primary btn-block" (click)="addProd();">Agregar</button>
+          <button type="submit" class="btn btn-primary btn-block" [disabled]="loading || newProductForm.invalid">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="loading"></span>
+            Agregar
+          </button>
         </div>
       </form>
     </div>
@@ -421,26 +443,67 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="ModalNewSupplierLongTitle">Nuevo Proveedor</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeAddSupplierModal
-          (click)="closeModal();">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeAddSupplierModal>
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form>
+      <form #newSupplierForm="ngForm" (ngSubmit)="addSupplier(newSupplierForm)">
         <div class="modal-body">
           <div class="form-group">
-            <label for="suppNombre">Nombre</label>
-            <input type="text" class="form-control" id="suppNombre" name="suppNombre" [(ngModel)]="newSupplier.name">
+            <label for="suppNombre">Nombre Comercial</label>
+            <input type="text" class="form-control" id="suppNombre" name="suppNombre" [(ngModel)]="newSupplier.name"
+              [disabled]="loading" required>
           </div>
           <div class="form-group">
-            <label for="suppImg">Imagen</label>
-            <input type="file" class="form-control-file" id="suppImg" name="suppImg"
-              (change)="selectFileSupp($event)">
+            <label for="suppRazSocial">Razón Social</label>
+            <input type="text" class="form-control" id="suppRazSocial" name="suppRazSocial"
+              [(ngModel)]="newSupplier.business_name" [disabled]="loading" required>
+          </div>
+          <div class="form-group">
+            <label for="suppRUC">RUC</label>
+            <input type="text" pattern="\d*" class="form-control" id="suppRUC" name="suppRUC" [(ngModel)]="newSupplier.ruc"
+              [disabled]="loading" required>
+          </div>
+          <div class="form-group">
+            <label for="suppImg">Logo de la empresa</label>
+            <input type="file" class="form-control-file" id="suppImg" name="suppImg" (change)="selectFileSupp($event)"
+              [disabled]="loading" required>
           </div>
           <div [innerHtml]='suppfilemsg' *ngIf="suppfilemsg" style="color: red;"></div>
           <div class="form-group">
+            <label for="suppDesc">Cuéntanos tu historia</label>
+            <textarea class="form-control" id="suppDesc" name="suppDesc" cols="30" rows="5"
+              [(ngModel)]="newSupplier.description" [disabled]="loading"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="suppContact">Representante legal</label>
+            <input type="text" class="form-control" id="suppContact" name="suppContact"
+              [(ngModel)]="newSupplier.contact_person" [disabled]="loading" required>
+          </div>
+          <div class="form-group">
+            <label for="suppDNI">DNI</label>
+            <input type="text" pattern="\d*" class="form-control" id="suppDNI" name="suppDNI" [(ngModel)]="newSupplier.dni_contact"
+              [disabled]="loading" minlength="8" maxlength="8" required>
+          </div>
+          <div class="form-group">
+            <label for="suppTelf">Teléfono de contacto</label>
+            <input type="tel" pattern="\d{3}[-]\d{3}[-]\d{3}" class="form-control" id="suppTelf" name="suppTelf" [(ngModel)]="newSupplier.phone_contact"
+              minlength="11" maxlength="11" (ngModelChange)="telephone_eval()" [disabled]="loading" required>
+          </div>
+          <div class="form-group">
+            <label for="suppEmail">Correo de contacto</label>
+            <input type="email" class="form-control" id="suppEmail" name="suppEmail" [(ngModel)]="newSupplier.email"
+              [disabled]="loading" required email>
+          </div>
+          <div class="form-group">
+            <label for="suppDir">Dirección fiscal</label>
+            <input type="text" class="form-control" id="suppDir" name="suppDir" [(ngModel)]="newSupplier.fiscal_address"
+              [disabled]="loading" required>
+          </div>
+          <div class="form-group">
             <label for="suppBanco">Banco</label>
-            <select class="form-control" id="suppBanco" name="suppBanco" [(ngModel)]="newSupplier.bank">
+            <select class="form-control" id="suppBanco" name="suppBanco" [(ngModel)]="newSupplier.bank"
+              [disabled]="loading" required>
               <option value="BBVA">BBVA</option>
               <option value="BCP">BCP</option>
               <option value="Interbank">Interbank</option>
@@ -449,34 +512,31 @@
           </div>
           <div class="form-group">
             <label for="suppAccNum">Número de cuenta</label>
-            <input type="number" class="form-control" id="suppAccNum" name="suppAccNum" [(ngModel)]="newSupplier.account_number">
-          </div>
-          <div class="form-group">
-            <label for="suppContact">Persona de contacto</label>
-            <input type="text" class="form-control" id="suppContact" name="suppContact" [(ngModel)]="newSupplier.contact_person">
-          </div>
-          <div class="form-group">
-            <label for="suppEmail">Email</label>
-            <input type="email" class="form-control" id="suppEmail" name="suppEmail" [(ngModel)]="newSupplier.email">
+            <input type="text" pattern="\d{4} \d{4} \d{4} \d{4}" class="form-control" id="suppAccNum" name="suppAccNum"
+              [(ngModel)]="newSupplier.account_number" minlength="19" maxlength="19" (ngModelChange)="card_number_eval()"
+              [disabled]="loading" required>
           </div>
         </div>
         <div class="modal-footer">
           <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal();">Cerrar</button> -->
-          <button type="submit" class="btn btn-primary btn-block" (click)="addSupplier();">Registrar</button>
+          <button type="submit" class="btn btn-primary btn-block" [disabled]="loading || newSupplierForm.invalid">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="loading"></span>
+            Registrar
+          </button>
         </div>
       </form>
     </div>
   </div>
 </div>
 
-<div class="modal fade" id="ModalNewCategoria" tabindex="-1" role="dialog" aria-labelledby="ModalNewCategoria"
+<!--Falta poner las validaciones en este form, de momento esta oculto por lo que no hay problema-->
+<!-- <div class="modal fade" id="ModalNewCategoria" tabindex="-1" role="dialog" aria-labelledby="ModalNewCategoria"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="ModalNewCategoriaLongTitle">Nueva Categoria</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeAddCategoriaModal
-          (click)="closeModal();">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeAddCategoriaModal>
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -484,26 +544,29 @@
         <div class="modal-body">
           <div class="form-group">
             <label for="nombreAC">Nombre</label>
-            <input type="text" class="form-control" id="nombreAC" name="nombreAC" [(ngModel)]="newCategoria.name">
+            <input type="text" class="form-control" id="nombreAC" name="nombreAC" [(ngModel)]="newCategoria.name"
+              [disabled]="loading">
           </div>
         </div>
         <div class="modal-footer">
-          <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal();">Cerrar</button> -->
-          <button type="submit" class="btn btn-primary btn-block" (click)="addCategoria();">Registrar</button>
+          <button type="submit" class="btn btn-primary btn-block" (click)="addCategoria();" [disabled]="loading">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="loading"></span>
+            Registrar
+          </button>
         </div>
       </form>
     </div>
   </div>
-</div>
+</div> -->
 
-<div class="modal fade" id="ModalNewSubCategoria" tabindex="-1" role="dialog" aria-labelledby="ModalNewSubCategoria"
+<!--Falta poner las validaciones en este form, de momento esta oculto por lo que no hay problema-->
+<!-- <div class="modal fade" id="ModalNewSubCategoria" tabindex="-1" role="dialog" aria-labelledby="ModalNewSubCategoria"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="ModalNewSubCategoriaLongTitle">Nueva Subcategoria</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeAddSubCategoriaModal
-          (click)="closeModal();">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeAddSubCategoriaModal>
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -511,23 +574,27 @@
         <div class="modal-body">
           <div class="form-group">
             <label for="nombreASC">Nombre</label>
-            <input type="text" class="form-control" id="nombreASC" name="nombreASC" [(ngModel)]="newSubcategoria.name">
+            <input type="text" class="form-control" id="nombreASC" name="nombreASC" [(ngModel)]="newSubcategoria.name"
+              [disabled]="loading">
           </div>
           <div class="form-group">
             <label for="categoriaASC">Categoria</label>
-            <select class="form-control" id="categoriaASC" name="categoriaASC" [(ngModel)]="newSubcategoria.categoryId">
+            <select class="form-control" id="categoriaASC" name="categoriaASC" [(ngModel)]="newSubcategoria.categoryId"
+              [disabled]="loading">
               <option value="{{c.id}}" *ngFor="let c of categorias">{{c.name}}</option>
             </select>
           </div>
         </div>
         <div class="modal-footer">
-          <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal();">Cerrar</button> -->
-          <button type="submit" class="btn btn-primary btn-block" (click)="addSubcategoria();">Agregar</button>
+          <button type="submit" class="btn btn-primary btn-block" (click)="addSubcategoria();" [disabled]="loading">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="loading"></span>
+            Agregar
+          </button>
         </div>
       </form>
     </div>
   </div>
-</div>
+</div> -->
 
 <div class="modal fade" id="ModalContactanos" tabindex="-1" role="dialog" aria-labelledby="ModalContactanos"
   aria-hidden="true">

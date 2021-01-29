@@ -14,9 +14,20 @@ export class AppComponent {
     this.compo = componentReference;
   }
 
-  listProd() {
-    if (this.compo.compName == 'Productos') {
-      this.compo.listProducts();
+  emitterAction(e) {
+    
+    switch (e) {
+      case 'products':
+        this.compo.listProducts();
+        break;
+
+      case 'suppliers':      //cuando se agregan proveedores
+        this.compo.getSuppliers();
+        break;
+
+      default:
+        break;
     }
   }
+  
 }

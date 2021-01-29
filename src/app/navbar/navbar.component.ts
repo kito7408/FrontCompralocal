@@ -18,6 +18,7 @@ import { SubcategoryService } from '../services/subcategory.service';
 import { AuthService, SocialUser } from "angularx-social-login";
 import { FacebookLoginProvider, GoogleLoginProvider } from "angularx-social-login";
 import { CartPost } from '../classes/cartPost';
+import { NgForm } from '@angular/forms';
 
 
 @Component({
@@ -44,6 +45,7 @@ export class NavbarComponent implements OnInit {
   categorias: CategoryGet[];
   subcategorias: Subcategory[];
   suppliers: Supplier[];
+  loading: boolean;
   // cart: CartGet[];
   // cartPrice: number;
   // cartQuantity: number;
@@ -63,7 +65,7 @@ export class NavbarComponent implements OnInit {
   @ViewChild('closeAddCategoriaModal') closeAddCategoriaModal: ElementRef;
   @ViewChild('closeAddSubCategoriaModal') closeAddSubCategoriaModal: ElementRef;
 
-  @Output() prodEvent = new EventEmitter;
+  @Output() addEvent = new EventEmitter;
 
   constructor(
     public userService: UserService,
@@ -76,6 +78,7 @@ export class NavbarComponent implements OnInit {
     public cartService: CartService,
     private sbcService: SubcategoryService
   ) {
+    this.loading = false;
     this.successAlert = false;
     this.errorAlert = false;
     this.successMessage = '';
@@ -149,11 +152,12 @@ export class NavbarComponent implements OnInit {
   }
 
   login() {
+    this.loading = true;
     this.userService.login(this.newUser.username, this.newUser.password)
       .subscribe((data: any) => {
         this.actionsOnLogin(data.data);
       }, (error) => {
-        console.log(error);
+        // console.log(error);
         this.errorEvent('El usuario es invalido');
       });
   }
@@ -165,7 +169,6 @@ export class NavbarComponent implements OnInit {
     this.cartLocalToDB();
     this.newUser.username = '';
     this.newUser.password = '';
-    this.closeLoginModal.nativeElement.click();
     this.closeModal();
     this.successEvent('Bienvenido ' + dataUser.name);
   }
@@ -182,30 +185,36 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  register() {
-    if (this.newUser.password == this.repass) {
-      this.userService.save(this.newUser).subscribe((data: any) => {
-        if (!this.userService.userInfo) {
-          localStorage.setItem('user', JSON.stringify(data.data));
-          this.userService.userInfo = data.data;
-          this.cartLocalToDB();
-        }
-        this.closeRegModal.nativeElement.click();
-        this.closeAddUserModal.nativeElement.click();
-        this.closeModal();
-
-        this.successEvent('Nuevo usuario registrado.');
-
-      }, (error) => {
-        console.log(error);
-        this.errorEvent('Error al registrar nuevo usuario.')
-      })
-    } else {
-      this.errorEvent('La contraseña repetida no es igual a la original.')
+  register(form: NgForm) {
+    if(form.valid){
+      if (this.newUser.password == this.repass) {
+        this.loading = true;
+        this.userService.save(this.newUser).subscribe((data: any) => {
+          if (!this.userService.userInfo) {
+            localStorage.setItem('user', JSON.stringify(data.data));
+            this.userService.userInfo = data.data;
+            this.cartLocalToDB();
+          }
+          this.successEvent('Nuevo usuario registrado.');
+          this.closeModal();
+        }, (error) => {
+          // console.log(error);
+          this.errorEvent('Error al registrar nuevo usuario.')
+        })
+      } else {
+        this.errorEvent('La contraseña repetida debe ser igual a la original.')
+      }
     }
   }
 
   closeModal() {
+    this.closeLoginModal.nativeElement.click();
+    this.closeRegModal.nativeElement.click();
+    this.closeAddUserModal.nativeElement.click();
+    this.closeAddProductModal.nativeElement.click();
+    this.closeAddSupplierModal.nativeElement.click();
+    this.closeAddCategoriaModal.nativeElement.click();
+    this.closeAddSubCategoriaModal.nativeElement.click();
     this.newUser = new User;
     this.repass = '';
     this.newUser.userTypeId = 2;
@@ -214,6 +223,7 @@ export class NavbarComponent implements OnInit {
     this.newCategoria = new CategoryPost;
     this.newSubcategoria = new Subcategory;
     this.searchText = '';
+    this.loading = false;
   }
 
   selectFile(event) {
@@ -254,45 +264,71 @@ export class NavbarComponent implements OnInit {
     this.suppfilemsg = '';
   }
 
-  addProd() {
-    if (this.filemsg == '' && this.prodImg) {
-      this.newProduct.image = this.prodImg;
-      this.newProduct.numSellOnWeek = 0;
-      this.newProduct.isTrent = false;
-      this.newProduct.subcategoryId = 1;
-      this.prodService.save(this.newProduct).subscribe((data: any) => {
-        this.listAll();
-        this.closeAddProductModal.nativeElement.click();
-        this.closeModal();
-        this.successEvent('Producto agregado correctamente')
-      }, (error) => {
-        console.log(error);
-        this.errorEvent('Error al agregar producto');
-      })
+  card_number_eval() {
+    if (this.newSupplier.account_number.length == 4 || this.newSupplier.account_number.length == 9 ||
+      this.newSupplier.account_number.length == 14) {
+      this.newSupplier.account_number += ' ';
     }
   }
 
-  addSupplier() {
-    if (this.suppfilemsg == '' && this.suppImg) {
-      this.newSupplier.image = this.suppImg;
+  telephone_eval(){
+    if(this.newSupplier.phone_contact.length == 3 || this.newSupplier.phone_contact.length == 7){
+      this.newSupplier.phone_contact += '-';
+    }
+  }
 
-      this.suppService.save(this.newSupplier).subscribe((data: any) => {
-        this.getSuppliers();
-        this.closeModal();
-        this.closeAddSupplierModal.nativeElement.click();
-        this.successEvent('Proveedor creado correctamente')
-      }, (error) => {
-        console.log(error);
-        this.errorEvent('Error al crear proveedor')
-      });
+  addProd(form: NgForm) {
+    if (form.valid) {
+      if (this.filemsg == '' && this.prodImg) {
+        this.loading = true;
+        this.newProduct.image = this.prodImg;
+        this.newProduct.numSellOnWeek = 0;
+        this.newProduct.isTrent = false;
+        this.newProduct.subcategoryId = 1;
+        this.prodService.save(this.newProduct).subscribe((data: any) => {
+          this.listAll();
+          this.closeModal();
+          this.successEvent('Producto agregado correctamente')
+        }, (error) => {
+          console.log(error);
+          this.errorEvent('Error al agregar producto');
+        })
+      } else {
+        this.errorEvent('Debes seleccionar una imagen para el producto');
+      }
+    }
+  }
+
+  addSupplier(form: NgForm) {
+    console.log("formulario",form);
+    
+    if (form.valid) {
+      if (this.suppfilemsg == '' && this.suppImg) {
+        this.loading = true;
+        this.newSupplier.image = this.suppImg;
+        this.newSupplier.account_number = this.newSupplier.account_number.replace(/\s+/g, "");
+        this.newSupplier.phone_contact = this.newSupplier.phone_contact.replace(/-+/g, "")
+  
+        this.suppService.save(this.newSupplier).subscribe((data: any) => {
+          this.getSuppliers();
+          this.closeModal();
+          this.addEvent.emit('suppliers');
+          this.successEvent('Proveedor creado correctamente')
+        }, (error) => {
+          console.log(error);
+          this.errorEvent('Error al crear proveedor')
+        });
+      } else {
+        this.errorEvent('Debes seleccionar una imagen para el logo del proveedor')
+      }
     }
   }
 
   addCategoria() {
+    this.loading = true;
     this.catService.save(this.newCategoria).subscribe((data: any) => {
       this.getCategorias();
       this.closeModal();
-      this.closeAddCategoriaModal.nativeElement.click();
       this.successEvent('Categoría agregada correctamente')
     }, (error) => {
       console.log(error);
@@ -301,10 +337,10 @@ export class NavbarComponent implements OnInit {
   }
 
   addSubcategoria() {
+    this.loading = true;
     this.sbcService.save(this.newSubcategoria).subscribe((data: any) => {
       this.getCategorias();
       this.closeModal();
-      this.closeAddSubCategoriaModal.nativeElement.click();
       this.successEvent('Subcategoria agregada correctamente')
     }, (error) => {
       this.errorEvent('Error al agregar subcategoria')
@@ -330,6 +366,7 @@ export class NavbarComponent implements OnInit {
   }
 
   signInWithGoogle(): void {
+    this.loading = true;
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then((data: SocialUser) => {
       this.userService.getByUsername(data.email).subscribe((userData) => {
         this.actionsOnLogin(userData);
@@ -338,6 +375,7 @@ export class NavbarComponent implements OnInit {
   }
 
   signInWithFB(): void {
+    this.loading = true;
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID).then((data: SocialUser) => {
       this.userService.getByUsername(data.email).subscribe((userData) => {
         this.actionsOnLogin(userData);
@@ -361,8 +399,8 @@ export class NavbarComponent implements OnInit {
     this.searchText = '';
     this.prodService.filterType = 0;
     this.prodService.filter = '';
-    this.prodEvent.emit();
-    this.routes.navigate(['/']);
+    this.addEvent.emit('products');
+    this.routes.navigate(['/home']);
   }
 
   goToOrders() {
@@ -392,27 +430,27 @@ export class NavbarComponent implements OnInit {
     this.prodService.filterType = 1;
     this.prodService.filter = String(categoriaId);
     this.routes.navigate(['/products'])
-    this.prodEvent.emit();;
+    this.addEvent.emit('products');
   }
 
   listProdSubCat(subcategoriaId: number) {
     this.prodService.filterType = 2;
     this.prodService.filter = String(subcategoriaId);
     this.routes.navigate(['/products'])
-    this.prodEvent.emit();
+    this.addEvent.emit('products');
   }
 
   listProdSearch() {
     this.prodService.filterType = 3;
     this.prodService.filter = this.searchText;
     this.routes.navigate(['/products'])
-    this.prodEvent.emit();
+    this.addEvent.emit('products');
   }
 
   listAll() {
     this.prodService.filterType = 0;
     this.prodService.filter = '';
     this.routes.navigate(['/products'])
-    this.prodEvent.emit();
+    this.addEvent.emit('products');
   }
 }

@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, Pipe, PipeTransform, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { blogItemGet } from '../classes/blogItemGet';
 import { CategoryGet } from '../classes/categoryGet';
@@ -9,8 +9,15 @@ import { CategoriaService } from '../services/categoria.service';
 import { ProductService } from '../services/product.service';
 import { SupplierService } from '../services/supplier.service';
 import * as moment from 'moment';
-declare function carouselFunc(e);
+import { DomSanitizer } from '@angular/platform-browser';
 
+@Pipe({ name: 'safeHtml'})
+export class SafeHtmlPipe implements PipeTransform  {
+  constructor(private sanitized: DomSanitizer) {}
+  transform(value) {
+    return this.sanitized.bypassSecurityTrustHtml(value);
+  }
+}
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -21,6 +28,9 @@ export class HomeComponent implements OnInit {
   categorias: CategoryGet[];
   suppliers: Supplier[];
   lastPost: any;
+  numList: number[] = [];
+  inHTMLSupp: string = '';
+  suppList: Supplier[]; //para los slide de proveedores
   @ViewChild('prodComp') prodComp: ProductsComponent;
 
   constructor(
@@ -50,6 +60,21 @@ export class HomeComponent implements OnInit {
   getSuppliers() {
     this.suppService.getAll().subscribe((data: Supplier[]) => {
       this.suppliers = data;
+      for (let index = 0; index < data.length; index++) {
+        this.numList.push(index);
+      }
+
+      this.numList.forEach(pageNum => {
+        if (pageNum == 0) {
+          this.inHTMLSupp += `<li data-target="#carouselSupps" data-slide-to="${pageNum}" class="active" style="background-color: var(--primary3);"></li>`;
+        } else {
+          this.inHTMLSupp += `<li data-target="#carouselSupps" data-slide-to="${pageNum}" style="background-color: var(--primary3);"></li>`;
+        }
+      });
+      
+      this.suppList = data;
+      this.suppList.push(data[0]);
+      this.suppList.push(data[1]);
     });
   }
 
