@@ -1,24 +1,34 @@
-import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, Inject, HostListener } from '@angular/core';
 import { User } from '../classes/user';
 import { ProductPost } from '../classes/productPost';
 import { ActivatedRoute, Router } from '@angular/router';
+
 import { CategoryPost } from '../classes/categoryPost';
 import { CategoryGet } from '../classes/categoryGet';
 import { Supplier } from '../classes/supplier';
 import { CartGet } from '../classes/cartGet';
-import { Subcategory } from '../classes/subCategory';
+// import { Subcategory } from '../classes/subCategory';
 
 import { UserService } from '../services/user.service';
 import { ProductService } from '../services/product.service';
 import { CategoriaService } from '../services/categoria.service';
 import { SupplierService } from '../services/supplier.service';
 import { CartService } from '../services/cart.service';
-import { SubcategoryService } from '../services/subcategory.service';
+// import { SubcategoryService } from '../services/subcategory.service';
 
 import { AuthService, SocialUser } from "angularx-social-login";
 import { FacebookLoginProvider, GoogleLoginProvider } from "angularx-social-login";
 import { CartPost } from '../classes/cartPost';
 import { NgForm } from '@angular/forms';
+import { SuccErrMesagesComponent } from '../succ-err-mesages/succ-err-mesages.component';
+import { hostViewClassName } from '@angular/compiler';
+import { Subscription } from '../classes/subscription';
+import { SubscriptionService } from '../services/subscription.service';
+import { ProdModelService } from '../services/prod-model.service';
+import { ProdMod } from '../classes/prodModel';
+const departamentosJSON = require('../../assets/js/departamentos.json');
+const provinciasJSON = require('../../assets/js/provincias.json');
+const distritosJSON = require('../../assets/js/distritos.json');
 
 
 @Component({
@@ -32,38 +42,68 @@ export class NavbarComponent implements OnInit {
   newUser = new User;   //for forms
   newProduct = new ProductPost;
   newCategoria = new CategoryPost;
-  newSubcategoria = new Subcategory;
+  // newSubcategoria = new Subcategory;
   newSupplier = new Supplier;
   imagen: File;
   usersTest: User[];
   repass: string;
+  re_email: string;
   prodImg: File;
   filemsg: string;
   suppImg: File;
   suppfilemsg: string;
+  suppImg2: File;
+  suppfilemsg2: string;
   searchText: string;
   categorias: CategoryGet[];
-  subcategorias: Subcategory[];
+  // subcategorias: Subcategory[];
   suppliers: Supplier[];
   loading: boolean;
   // cart: CartGet[];
   // cartPrice: number;
   // cartQuantity: number;
-  successAlert: boolean;
-  errorAlert: boolean;
-  successMessage: string;
-  errorMessage: string;
+  prodImgCant: number = 0;
+  prodImgArr: number[] = [];
+  prodImgFileArr = new Array<File>();
+
+  prodModelCant: number = 0;
+  prodModelArr: number[] = [];
+  prodModelNames: string[] = [];
+  prodModelImgs = new Array<File>();
+  prodModelPImg: number[] = [];
+  prodModelData = new Array<ProdMod>();
+  filemsg2: string = '';
+
+  departamentos: any = departamentosJSON;
+  provincias: any = provinciasJSON;
+  distritos: any = distritosJSON;
+  provByDep: any[];
+  disByProv: any[];
+  depSupp: string = '';
+  provSupp: string = '';
+
+  subInfo = new Subscription;
+  accessCheck: boolean = false;
+  depSub: string = '';
+  provSub: string = '';
+  rucOp: string = 'si';
+  cateOtros: string = '';
+  @ViewChild('closeModalInfo') closeModalInfo: ElementRef;
 
   private socialUser: SocialUser;
   private loggedIn: boolean;
 
   @ViewChild('closeLoginModal') closeLoginModal: ElementRef;
-  @ViewChild('closeRegModal') closeRegModal: ElementRef;
+  // @ViewChild('closeRegModal') closeRegModal: ElementRef;
   @ViewChild('closeAddUserModal') closeAddUserModal: ElementRef;
   @ViewChild('closeAddProductModal') closeAddProductModal: ElementRef;
   @ViewChild('closeAddSupplierModal') closeAddSupplierModal: ElementRef;
-  @ViewChild('closeAddCategoriaModal') closeAddCategoriaModal: ElementRef;
-  @ViewChild('closeAddSubCategoriaModal') closeAddSubCategoriaModal: ElementRef;
+  @ViewChild('closeStartModal') closeStartModal: ElementRef;
+  // @ViewChild('closeAddCategoriaModal') closeAddCategoriaModal: ElementRef;
+  // @ViewChild('closeAddSubCategoriaModal') closeAddSubCategoriaModal: ElementRef;
+  @ViewChild('modalStart') modalStart: ElementRef;
+  @ViewChild('loginButton') loginButton: ElementRef;
+  @ViewChild('alertComp') alertComp: SuccErrMesagesComponent;
 
   @Output() addEvent = new EventEmitter;
 
@@ -76,21 +116,28 @@ export class NavbarComponent implements OnInit {
     private catService: CategoriaService,
     private authService: AuthService,
     public cartService: CartService,
-    private sbcService: SubcategoryService
+    private subsService: SubscriptionService,
+    private prodModService: ProdModelService
+    // private sbcService: SubcategoryService
   ) {
     this.loading = false;
-    this.successAlert = false;
-    this.errorAlert = false;
-    this.successMessage = '';
-    this.errorMessage = '';
     this.filemsg = '';
     this.suppfilemsg = '';
     this.searchText = '';
+    this.re_email = '';
+    this.repass = '';
     this.newUser.userTypeId = 2;
     this.newProduct.isOffer = false;
     this.newProduct.priceOffer = 0;
     this.getCategorias();
     this.getSuppliers();
+    this.addProdImg();
+    this.addProdModel();
+    // var modAux = new ProdMod;
+    // this.prodModelData.push(modAux);
+    // this.prodModelCant = 1;
+    // this.prodModelArr.push(0);
+    
     if (localStorage.getItem('user')) {
       this.userService.userInfo = JSON.parse(localStorage.getItem('user'));
       this.updateCart();
@@ -107,17 +154,64 @@ export class NavbarComponent implements OnInit {
     }
   }
 
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    // console.log(document.documentElement.scrollHeight);
+    // console.log(document.documentElement.scrollTop);
+    
+    if (document.body.scrollTop > 50 ||
+      document.documentElement.scrollTop > 50) {
+      document.getElementById('nav-options').classList.add('fixed-top');
+    } else {
+      document.getElementById('nav-options').classList.remove('fixed-top');
+    }
+
+    if ((document.documentElement.scrollHeight - document.documentElement.scrollTop) < 970) {
+      document.getElementById('goUpButton').classList.add('d-none');
+    } else {
+      document.getElementById('goUpButton').classList.remove('d-none');
+    }
+  }
+
   ngOnInit() {
     this.authService.authState.subscribe((result) => {
-      console.log("socialuser", result);
+      // console.log("socialuser", result);
       this.socialUser = result;
       this.loggedIn = (result != null);
     });
+
+    setTimeout(() => {
+      this.modalStart.nativeElement.click();
+    }, 3000);
+  }
+
+  addProdImg() {
+    this.prodImgFileArr.push(null);
+    this.prodImgArr.push(this.prodImgCant);
+    this.prodImgCant++;
+  }
+
+  rmvProdImg() {
+    this.prodImgFileArr.pop();
+    this.prodImgArr.pop();
+    this.prodImgCant--;
+  }
+
+  addProdModel() {
+    var newMod = new ProdMod;
+    this.prodModelData.push(newMod);
+    this.prodModelArr.push(this.prodModelCant);
+    this.prodModelCant++;
+  }
+
+  rmvProdModel() {
+    this.prodModelData.pop();
+    this.prodModelArr.pop();
+    this.prodModelCant--;
   }
 
   updateCart() {
     this.cartService.getByUserId(this.userService.userInfo.id).subscribe((dataCart: CartGet[]) => {
-
       this.cartService.cartInfo = dataCart;
       this.cartService.cartQuantity = 0;
       this.cartService.cartTotalPrice = 0;
@@ -125,11 +219,14 @@ export class NavbarComponent implements OnInit {
         this.cartService.cartTotalPrice += item.totalPrice;
         this.cartService.cartQuantity += item.quantity;
       });
+      this.addEvent.emit('user');
+      this.closeModal();
     });
   }
 
   cartLocalToDB() {
     localStorage.removeItem('cartLocal');
+
     if (this.cartService.cartInfo && this.cartService.cartInfo.length > 0) {
       var cartLocalToSave = new Array<CartPost>();
       this.cartService.cartInfo.forEach(item => {
@@ -152,29 +249,29 @@ export class NavbarComponent implements OnInit {
   }
 
   login() {
-    this.loading = true;
-    this.userService.login(this.newUser.username, this.newUser.password)
+    // this.loading = true;
+    this.userService.login(this.newUser.email, this.newUser.password)
       .subscribe((data: any) => {
         this.actionsOnLogin(data.data);
       }, (error) => {
         // console.log(error);
-        this.errorEvent('El usuario es invalido');
+        this.alertComp.errorEvent('El usuario es invalido');
       });
   }
 
   actionsOnLogin(dataUser) {
-    localStorage.setItem('user', JSON.stringify(dataUser));
+    localStorage.setItem('user', JSON.stringify(dataUser.user));
+    localStorage.setItem('token', dataUser.token);
+    
     // localStorage.setItem('cartLocal', JSON.stringify(this.cartService.cartInfo));
-    this.userService.userInfo = dataUser;
+    this.userService.userInfo = dataUser.user;
+    this.alertComp.successEvent('Bienvenido ' + dataUser.user.name);
     this.cartLocalToDB();
-    this.newUser.username = '';
-    this.newUser.password = '';
-    this.closeModal();
-    this.successEvent('Bienvenido ' + dataUser.name);
   }
 
   logout() {
     localStorage.removeItem('user');
+    localStorage.removeItem('token');
     this.cartService.cartInfo = new Array<CartGet>();
     this.cartService.cartQuantity = 0;
     this.cartService.cartTotalPrice = 0;
@@ -186,63 +283,81 @@ export class NavbarComponent implements OnInit {
   }
 
   register(form: NgForm) {
-    if(form.valid){
+    if (form.valid) {
       if (this.newUser.password == this.repass) {
-        this.loading = true;
-        this.userService.save(this.newUser).subscribe((data: any) => {
-          if (!this.userService.userInfo) {
-            localStorage.setItem('user', JSON.stringify(data.data));
-            this.userService.userInfo = data.data;
-            this.cartLocalToDB();
-          }
-          this.successEvent('Nuevo usuario registrado.');
-          this.closeModal();
-        }, (error) => {
-          // console.log(error);
-          this.errorEvent('Error al registrar nuevo usuario.')
-        })
+        if (this.newUser.email == this.re_email) {
+          // this.loading = true;
+          this.userService.save(this.newUser).subscribe((data: any) => {
+            if (!this.userService.userInfo) {
+              this.login();
+            } else {
+              this.alertComp.successEvent('Nuevo usuario registrado.');
+            }
+            // this.closeModal();
+          }, (error) => {
+            // console.log(error);
+            this.alertComp.errorEvent('Error al registrar nuevo usuario.');
+          });
+        } else {
+          this.alertComp.errorEvent('El email repetido debe ser igual al original.');
+        }
       } else {
-        this.errorEvent('La contraseña repetida debe ser igual a la original.')
+        this.alertComp.errorEvent('La contraseña repetida debe ser igual a la original.');
       }
     }
   }
 
   closeModal() {
+    // this.loading = false;
     this.closeLoginModal.nativeElement.click();
-    this.closeRegModal.nativeElement.click();
+    // this.closeRegModal.nativeElement.click();
     this.closeAddUserModal.nativeElement.click();
     this.closeAddProductModal.nativeElement.click();
     this.closeAddSupplierModal.nativeElement.click();
-    this.closeAddCategoriaModal.nativeElement.click();
-    this.closeAddSubCategoriaModal.nativeElement.click();
+    // this.closeAddCategoriaModal.nativeElement.click();
+    // this.closeAddSubCategoriaModal.nativeElement.click();
     this.newUser = new User;
     this.repass = '';
+    this.re_email = '';
     this.newUser.userTypeId = 2;
     this.newProduct = new ProductPost;
     this.newSupplier = new Supplier;
     this.newCategoria = new CategoryPost;
-    this.newSubcategoria = new Subcategory;
+    // this.newSubcategoria = new Subcategory;
     this.searchText = '';
-    this.loading = false;
   }
 
-  selectFile(event) {
-    if (!event.target.files[0] || event.target.files[0].length == 0) {
-      this.filemsg = 'Debes seleccionar una imagen';
-      return;
-    }
-
-    var mimeType = event.target.files[0].type;
-
-    if (mimeType.match(/image\/*/) == null) {
-      this.filemsg = "Solo se aceptan imagenes";
-      return;
-    }
-
-    this.prodImg = <File>event.target.files[0];
-    // console.log(this.prodImg);
-
+  evaluateProdImgFileArr() {
     this.filemsg = '';
+    this.prodImgFileArr.forEach(element => {
+      if (element) {
+        if (element.type.match(/image\/*/) == null) {
+          this.filemsg = "Solo se aceptan imagenes";
+        }
+      }
+    });
+  }
+
+  selectFile(event, imgIndx: number) {
+    this.prodImgFileArr[imgIndx] = <File>event.target.files[0];
+    this.evaluateProdImgFileArr();
+  }
+
+  evaluateProdModelArrImg() {
+    this.filemsg2 = '';
+    this.prodModelData.forEach(element => {
+      if (element) {
+        if (element.image.type.match(/image\/*/) == null) {
+          this.filemsg2 = "Solo se aceptan imagenes";
+        }
+      }
+    });
+  }
+
+  selectFile2(event, imgIndx: number) {
+    this.prodModelData[imgIndx].image = <File>event.target.files[0];
+    
+    this.evaluateProdModelArrImg();
   }
 
   selectFileSupp(event) {
@@ -264,6 +379,24 @@ export class NavbarComponent implements OnInit {
     this.suppfilemsg = '';
   }
 
+  selectFileSupp2(event) {
+    if (!event.target.files[0] || event.target.files[0].length == 0) {
+      this.suppfilemsg2 = 'Debes seleccionar una imagen';
+      return;
+    }
+
+    var mimeType = event.target.files[0].type;
+
+    if (mimeType.match(/image\/*/) == null) {
+      this.suppfilemsg2 = "Solo se aceptan imagenes";
+      return;
+    }
+
+    this.suppImg2 = <File>event.target.files[0];
+
+    this.suppfilemsg2 = '';
+  }
+
   card_number_eval() {
     if (this.newSupplier.account_number.length == 4 || this.newSupplier.account_number.length == 9 ||
       this.newSupplier.account_number.length == 14) {
@@ -271,55 +404,101 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  telephone_eval(){
-    if(this.newSupplier.phone_contact.length == 3 || this.newSupplier.phone_contact.length == 7){
+  telephone_eval() {
+    if (this.newSupplier.phone_contact.length == 3 || this.newSupplier.phone_contact.length == 7) {
       this.newSupplier.phone_contact += '-';
     }
   }
 
+  saveProdModels(id_prod: number) {
+    var contDataSaved = 0;
+    this.prodModelData.forEach(element => {
+      element.productId = id_prod;
+
+      this.prodModService.save(element).subscribe(result => {
+        contDataSaved++;
+        
+        if (contDataSaved == this.prodModelData.length) {
+          console.log("info guardada");
+          this.loading = false;
+          this.closeModal();
+          this.listAll();
+          this.alertComp.successEvent('Producto agregado correctamente');
+        }
+        
+      }, err => {
+        console.log("error prodmod", err);
+        this.alertComp.errorEvent("error al guardar los modelos");
+        return;
+      });
+
+    });
+
+    // this.prodModelItems.forEach(element => {
+    //   var dataItem = new ProdMod;
+    //   dataItem.name = element;
+    //   dataItem.productId = id_prod;
+    //   this.prodModelData.push(dataItem);
+    // });
+
+    // this.prodModService.saveMany(this.prodModelData).subscribe(result => {
+    //   console.log("info guardada");
+      
+    // }, err => {
+    //   console.log("error prodmod", err);
+    //   this.alertComp.errorEvent("error al guardar los modelos")
+    // });
+  }
+
   addProd(form: NgForm) {
     if (form.valid) {
-      if (this.filemsg == '' && this.prodImg) {
+      if (this.filemsg == '') {
         this.loading = true;
-        this.newProduct.image = this.prodImg;
+        this.newProduct.image1 = this.prodImgFileArr[0];
+        this.newProduct.image2 = this.prodImgFileArr[1];
+        this.newProduct.image3 = this.prodImgFileArr[2];
+        this.newProduct.image4 = this.prodImgFileArr[3];
+        this.newProduct.image5 = this.prodImgFileArr[4];
+
         this.newProduct.numSellOnWeek = 0;
         this.newProduct.isTrent = false;
-        this.newProduct.subcategoryId = 1;
+        // this.newProduct.subcategoryId = 1;
         this.prodService.save(this.newProduct).subscribe((data: any) => {
-          this.listAll();
-          this.closeModal();
-          this.successEvent('Producto agregado correctamente')
+          this.saveProdModels(data.data.id);
         }, (error) => {
           console.log(error);
-          this.errorEvent('Error al agregar producto');
+          this.loading = false;
+          this.alertComp.errorEvent('Error al agregar producto');
         })
       } else {
-        this.errorEvent('Debes seleccionar una imagen para el producto');
+        this.alertComp.errorEvent('Debes seleccionar imagenes adecuada para el producto');
       }
     }
   }
 
   addSupplier(form: NgForm) {
-    console.log("formulario",form);
-    
     if (form.valid) {
       if (this.suppfilemsg == '' && this.suppImg) {
         this.loading = true;
         this.newSupplier.image = this.suppImg;
-        this.newSupplier.account_number = this.newSupplier.account_number.replace(/\s+/g, "");
-        this.newSupplier.phone_contact = this.newSupplier.phone_contact.replace(/-+/g, "")
-  
+        this.newSupplier.image_person = this.suppImg2;
+        this.newSupplier.available = true;
+        // this.newSupplier.account_number = this.newSupplier.account_number.replace(/\s+/g, "");
+        // this.newSupplier.phone_contact = this.newSupplier.phone_contact.replace(/-+/g, "");
+
         this.suppService.save(this.newSupplier).subscribe((data: any) => {
           this.getSuppliers();
           this.closeModal();
           this.addEvent.emit('suppliers');
-          this.successEvent('Proveedor creado correctamente')
+          this.loading = false;
+          this.alertComp.successEvent('Proveedor creado correctamente')
         }, (error) => {
           console.log(error);
-          this.errorEvent('Error al crear proveedor')
+          this.loading = false;
+          this.alertComp.errorEvent('Error al crear proveedor')
         });
       } else {
-        this.errorEvent('Debes seleccionar una imagen para el logo del proveedor')
+        this.alertComp.errorEvent('Debes seleccionar una imagen para el logo del proveedor')
       }
     }
   }
@@ -329,35 +508,38 @@ export class NavbarComponent implements OnInit {
     this.catService.save(this.newCategoria).subscribe((data: any) => {
       this.getCategorias();
       this.closeModal();
-      this.successEvent('Categoría agregada correctamente')
+      this.alertComp.successEvent('Categoría agregada correctamente')
     }, (error) => {
       console.log(error);
-      this.errorEvent('Error al agregar categoría');
+      this.alertComp.errorEvent('Error al agregar categoría');
     });
   }
 
-  addSubcategoria() {
-    this.loading = true;
-    this.sbcService.save(this.newSubcategoria).subscribe((data: any) => {
-      this.getCategorias();
-      this.closeModal();
-      this.successEvent('Subcategoria agregada correctamente')
-    }, (error) => {
-      this.errorEvent('Error al agregar subcategoria')
-    })
-  }
+  // addSubcategoria() {
+  //   this.loading = true;
+  //   this.sbcService.save(this.newSubcategoria).subscribe((data: any) => {
+  //     this.getCategorias();
+  //     this.closeModal();
+  //     this.alertComp.successEvent('Subcategoria agregada correctamente')
+  //   }, (error) => {
+  //     this.alertComp.errorEvent('Error al agregar subcategoria')
+  //   })
+  // }
 
   getCategorias() {
     this.catService.getAll().subscribe((data: CategoryGet[]) => {
+      data.splice(3,1);
+      data.splice(1,1);
+      
       this.categorias = data;
     });
   }
 
-  getSubcategoriasByCategoria(id: number) {
-    this.sbcService.getByCategoryId(id).subscribe((data: Subcategory[]) => {
-      this.subcategorias = data;
-    })
-  }
+  // getSubcategoriasByCategoria(id: number) {
+  //   this.sbcService.getByCategoryId(id).subscribe((data: Subcategory[]) => {
+  //     this.subcategorias = data;
+  //   })
+  // }
 
   getSuppliers() {
     this.suppService.getAll().subscribe((data: Supplier[]) => {
@@ -368,8 +550,8 @@ export class NavbarComponent implements OnInit {
   signInWithGoogle(): void {
     this.loading = true;
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then((data: SocialUser) => {
-      this.userService.getByUsername(data.email).subscribe((userData) => {
-        this.actionsOnLogin(userData);
+      this.userService.loginSocialMedia(data.email).subscribe((userData) => {
+        this.actionsOnLogin(userData.data);
       });
     });
   }
@@ -377,8 +559,8 @@ export class NavbarComponent implements OnInit {
   signInWithFB(): void {
     this.loading = true;
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID).then((data: SocialUser) => {
-      this.userService.getByUsername(data.email).subscribe((userData) => {
-        this.actionsOnLogin(userData);
+      this.userService.loginSocialMedia(data.email).subscribe((userData) => {
+        this.actionsOnLogin(userData.data);
       });
     });
   }
@@ -399,7 +581,7 @@ export class NavbarComponent implements OnInit {
     this.searchText = '';
     this.prodService.filterType = 0;
     this.prodService.filter = '';
-    this.addEvent.emit('products');
+    // this.addEvent.emit('products');
     this.routes.navigate(['/home']);
   }
 
@@ -407,50 +589,135 @@ export class NavbarComponent implements OnInit {
     this.routes.navigate(['/orders']);
   }
 
-  successEvent(msg: string) {
-    this.successAlert = true;
-    this.successMessage = msg;
-    setTimeout(() => {
-      this.successAlert = false;
-      this.successMessage = '';
-    }, 3000);
+  newUserF() {
+    this.newUser = new User;
+    this.newUser.userTypeId = 2;
   }
 
-  errorEvent(msg: string) {
-    this.errorAlert = true;
-    this.errorMessage = msg
-    setTimeout(() => {
-      this.errorAlert = false;
-      this.errorMessage = '';
-    }, 3000);
+  newSuppF() {
+    this.newSupplier = new Supplier;
+  }
+
+  newProdF() {
+    this.prodImgCant = 0;
+    this.prodImgArr = [];
+    this.prodImgFileArr = new Array<File>();
+    this.filemsg = '';
+    this.addProdImg();
+
+    this.prodModelCant = 0;
+    this.prodModelArr = [];
+    this.prodModelData = new Array<ProdMod>();
+    this.filemsg2 = '';
+    this.addProdModel();
+
+    this.newProduct = new ProductPost;
+  }
+
+  goUp() {
+    // document.documentElement.scrollTop = 0;
+    document.getElementById('first').scrollIntoView({behavior: 'smooth'});
+  }
+
+  getProvinciasByDepartamento(dep_id: string) {
+    this.provSupp = '';
+    this.newSupplier.distrito = '';
+    this.newSupplier.provincia = '';
+    this.provByDep = this.provincias[dep_id];
+    this.newSupplier.departamento = this.departamentos.find(x => x.id_ubigeo === dep_id).nombre_ubigeo;
+  }
+
+  getDistritosByProvincias(prov_id: string) {
+    this.newSupplier.distrito = '';
+    this.disByProv = this.distritos[prov_id];
+    this.newSupplier.provincia = this.provByDep.find(x => x.id_ubigeo === prov_id).nombre_ubigeo;
+  }
+
+  selectClientType(type: number) {
+    this.subInfo = new Subscription;
+    this.accessCheck = false;
+    this.rucOp = 'si';
+    this.depSub = '';
+    this.provSub = '';
+    switch (type) {
+      case 1:
+        this.subInfo.clientType = 'emprendedor';
+        break;
+
+      case 2:
+        this.subInfo.clientType = 'persona';
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  saveData(form: NgForm) {
+    if (form.valid) {
+      if (this.subInfo.categoria == 'Otros') {
+        this.subInfo.categoria = this.cateOtros;
+      }
+      // this.subInfo.phone = this.subInfo.phone.replace(/-+/g, "");
+      this.subsService.save(this.subInfo).subscribe((data) => {
+        this.closeModalInfo.nativeElement.click();
+        this.closeStartModal.nativeElement.click();
+        this.alertComp.successEvent('Se han guardado tus datos, muchas gracias.')
+      }, (err) => {
+        this.alertComp.errorEvent('Ha ocurrido un error al guardar tus datos.')
+      });
+    }
+  }
+
+  getProvinciasByDepartamentoSub(dep_id: string){
+    this.provSub = '';
+    this.subInfo.distrito = '';
+    this.subInfo.provincia = '';
+    this.provByDep = this.provincias[dep_id];
+    this.subInfo.departamento = this.departamentos.find(x => x.id_ubigeo === dep_id).nombre_ubigeo;
+  }
+
+  getDistritosByProvinciasSub(prov_id: string){
+    this.subInfo.distrito = '';
+    this.disByProv = this.distritos[prov_id];
+    this.subInfo.provincia = this.provByDep.find(x => x.id_ubigeo === prov_id).nombre_ubigeo;
   }
 
   //Event Emitters
   listProdCat(categoriaId: number) {
     this.prodService.filterType = 1;
     this.prodService.filter = String(categoriaId);
-    this.routes.navigate(['/products'])
-    this.addEvent.emit('products');
+    if (this.routes.url == '/products') {
+      this.addEvent.emit('products');
+    } else {
+      this.routes.navigate(['/products']);
+    }
   }
 
-  listProdSubCat(subcategoriaId: number) {
-    this.prodService.filterType = 2;
-    this.prodService.filter = String(subcategoriaId);
-    this.routes.navigate(['/products'])
-    this.addEvent.emit('products');
-  }
+  // listProdSubCat(subcategoriaId: number) {
+  //   this.prodService.filterType = 2;
+  //   this.prodService.filter = String(subcategoriaId);
+  //   this.routes.navigate(['/products'])
+  //   this.addEvent.emit('products');
+  // }
 
   listProdSearch() {
     this.prodService.filterType = 3;
     this.prodService.filter = this.searchText;
-    this.routes.navigate(['/products'])
-    this.addEvent.emit('products');
+    if (this.routes.url == '/products') {
+      this.addEvent.emit('products');
+    } else {
+      this.routes.navigate(['/products']);
+    }
   }
 
   listAll() {
     this.prodService.filterType = 0;
     this.prodService.filter = '';
-    this.routes.navigate(['/products'])
-    this.addEvent.emit('products');
+    if (this.routes.url == '/products') {
+      this.addEvent.emit('products');
+    } else {
+      this.routes.navigate(['/products']);
+    }
   }
 }

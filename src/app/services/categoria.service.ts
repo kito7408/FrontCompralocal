@@ -25,17 +25,26 @@ export class CategoriaService {
   }
 
   save(data: CategoryPost):Observable<CategoryPost>{
-    return this.http.post<CategoryPost>(this.url,data);
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-type', 'application/json');
+    headers = headers.set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    return this.http.post<CategoryPost>(this.url,data, { headers: headers });
   }
 
   update(data: CategoryPost): Observable<CategoryPost> {
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-type', 'application/json');
+    headers = headers.set('Authorization', 'Bearer ' + localStorage.getItem('token'));
     const newUrl = this.url + '/' + data.id;
-    return this.http.put<CategoryPost>(newUrl,data);
+    return this.http.put<CategoryPost>(newUrl,data, { headers: headers });
   }
 
   delete(id: number): Observable<CategoryPost> {
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-type', 'application/json');
+    headers = headers.set('Authorization', 'Bearer ' + localStorage.getItem('token'));
     const newUrl = this.url + '/' + id;
-    return this.http.delete<CategoryPost>(newUrl);
+    return this.http.delete<CategoryPost>(newUrl, { headers: headers });
   }
 
 }

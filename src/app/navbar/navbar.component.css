@@ -5,6 +5,7 @@
 .navbar-logo{
     max-height: 5rem !important;
     cursor: pointer;
+    max-width: 100%;
 }
 
 .nav-link{
@@ -141,12 +142,6 @@ td > p{
     margin: 0;
 }
 
-.success, .error{
-    width: 35%;
-    left: auto;
-    z-index: 1051;
-}
-
 ::placeholder{
     color: var(--primary3);
 }
@@ -159,6 +154,14 @@ td > p{
     color: var(--dark2);
 }
 
+.btn-link2{
+    color: #49ffe5;
+}
+
+.btn-link2:hover{
+    color: var(--primary3);
+}
+
 .dropdown-menu-right .dropdown-item{
     color: var(--primary2);
 }
@@ -167,8 +170,8 @@ td > p{
     height: 1.2rem;
     width: 1.2rem;
     padding-top: 0.05rem;
-    background-color: var(--primary1);
-    color: white;
+    background-color: white;
+    color: black;
     top: 0rem;
     left: 2.3rem;
     font-size: 0.7rem;
@@ -226,6 +229,7 @@ td > p{
 .login-signin{
     display: flex;
     align-items: center;
+    color: #49ffe5;
 }
 
 input.ng-invalid{
@@ -236,12 +240,80 @@ input.ng-untouched{
     border-color: #ced4da;
 }
 
+sup{
+    color: red;
+    font-size: 110% !important;
+    top: 0 !important;
+}
+
 #navbarSupportedContent>ul{
     display: grid;
     grid-template-areas: 'c1 c2 c3 c4 c5 c6 c7 c8';
     width: 100%;
 }
 
+.img-concepto{
+    width: 100%;
+    height: 100%;
+}
+
+.close-modal-custom{
+    position: absolute;
+    top: -1rem;
+    right: -0.75rem;
+    font-size: 2rem;
+    background-color: white;
+    border-radius: 20px;
+    padding: 0 5px;
+}
+
+.dropdown-menu{
+    margin: 0;
+}
+
+/* #ModalStart{
+    z-index: 1051;
+} */
+
+.fixed-goup-button{
+    position: fixed;
+    right: auto;
+    bottom: 1rem;
+    left: 1rem;
+    z-index: 1030;
+    font-size: 3rem;
+    color: var(--primary1);
+    cursor: pointer;
+}
+
+.fixed-goup-button:hover{
+    color: var(--dark1);
+}
+
+.buttons-fixed{
+    position: absolute;
+    top: 45%;
+    left: 10%;
+    right: 8%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.buttons-fixed>button{
+    position: relative;
+}
+
+.img-over-button{
+    position: absolute;
+    left: -17%;
+    bottom: 25%;
+    height: 150%;
+}
+
+label>button{
+    font-weight: 900;
+}
 
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
@@ -263,9 +335,16 @@ input[type=number] {
     .circle-count{
         left: 2.5em;
     }
+    .buttons-fixed>button{
+        font-size: .75rem;
+    }
 }
 
 @media(min-width: 576px){
+
+    .buttons-fixed>button{
+        font-size: .75rem;
+    }
 }
 
 @media(min-width: 768px){
@@ -275,6 +354,9 @@ input[type=number] {
 }
 
 @media(min-width: 992px){
+    .buttons-fixed>button{
+        font-size: 1rem;
+    }
 }
 
 @media(min-width: 1200px){

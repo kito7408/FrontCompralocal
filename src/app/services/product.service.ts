@@ -37,10 +37,10 @@ export class ProductService {
     return this.http.get<ProductGet[]>(newUrl);
   }
 
-  getBySubCategoriaId(id: number): Observable<ProductGet[]> {
-    const newUrl = this.url + '/subcategory/' + id;
-    return this.http.get<ProductGet[]>(newUrl);
-  }
+  // getBySubCategoriaId(id: number): Observable<ProductGet[]> {
+  //   const newUrl = this.url + '/subcategory/' + id;
+  //   return this.http.get<ProductGet[]>(newUrl);
+  // }
 
   getBySupplierId(id: number): Observable<ProductGet[]> {
     const newUrl = this.url + '/supplier/' + id;
@@ -53,12 +53,18 @@ export class ProductService {
   }
 
   save(producto: ProductPost):Observable<ProductPost>{
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', 'Bearer ' + localStorage.getItem('token'));
 
     const formData: FormData = new FormData();
-    formData.append('image', producto.image);
+    formData.append('image', producto.image1);
+    formData.append('image', producto.image2);
+    formData.append('image', producto.image3);
+    formData.append('image', producto.image4);
+    formData.append('image', producto.image5);
     formData.append('name', producto.name);
     formData.append('categoryId', String(producto.categoryId));
-    formData.append('subcategoryId', String(producto.subcategoryId));
+    // formData.append('subcategoryId', String(producto.subcategoryId));
     formData.append('price', String(producto.price));
     formData.append('description', String(producto.description));
     formData.append('isTrent', String(producto.isTrent));
@@ -68,21 +74,30 @@ export class ProductService {
     formData.append('priceOffer', String(producto.priceOffer));
     formData.append('unit', String(producto.unit));
 
-    return this.http.post<ProductPost>(this.url, formData);
+    return this.http.post<ProductPost>(this.url, formData, { headers: headers });
   }
 
   update(producto: ProductPost): Observable<ProductPost> {
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-type', 'application/json');
+    headers = headers.set('Authorization', 'Bearer ' + localStorage.getItem('token'));
     const newUrl = this.url + '/' + producto.id;
-    return this.http.put<ProductPost>(newUrl,producto);
+    return this.http.put<ProductPost>(newUrl,producto, { headers: headers });
   }
 
   delete(id: number): Observable<ProductPost> {
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-type', 'application/json');
+    headers = headers.set('Authorization', 'Bearer ' + localStorage.getItem('token'));
     const newUrl = this.url + '/' + id;
-    return this.http.delete<ProductPost>(newUrl);
+    return this.http.delete<ProductPost>(newUrl, { headers: headers });
   }
 
   updateSales(prodInfo: any): Observable<any> {
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-type', 'application/json');
+    headers = headers.set('Authorization', 'Bearer ' + localStorage.getItem('token'));
     const newUrl = this.url + '/sales';
-    return this.http.put<any>(newUrl, {data: prodInfo});
+    return this.http.put<any>(newUrl, {data: prodInfo}, { headers: headers });
   }
 }

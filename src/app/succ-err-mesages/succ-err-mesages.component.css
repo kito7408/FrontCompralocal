@@ -1,0 +1,6 @@
+
+.success, .error{
+    width: 35%;
+    left: auto;
+    z-index: 1051;
+}

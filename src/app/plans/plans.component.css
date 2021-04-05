@@ -1,0 +1,496 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.planImage{
+    width: 100%;
+    height: 100%;
+}
+
+.buttons-fixed{
+    position: absolute;
+    bottom: 5%;
+    left: 19%;
+    right: 8%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-plan{
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-radius: 20px;
+    color: var(--primary1);
+    font-weight: 700;
+    font-size: 1.25rem;
+    border: solid var(--primary2);
+}
+
+.btn-plan:hover{
+    color: white;
+    background-color: var(--primary3);
+    border: solid var(--primary3);
+}
+
+nav a, nav li{
+    cursor: pointer;
+    margin-right: 1rem;
+}
+
+nav ul>li>a{
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+nav ul>li>a:hover{
+    color: #49ffe5;
+    text-decoration: underline;
+}
+
+.navbar{
+    background-color: var(--primary2);
+}
+
+/* .plan-features ul {
+    list-style: none;
+    height: calc(100% - 5rem);
+    overflow: auto;
+    padding-right: 1rem;
+}
+  
+.plan-features ul li:before {
+    content: '✓';
+}
+
+.no-marker::before{
+    content: none !important;
+}
+
+.plans-content{
+    display: grid;
+    grid-template-areas: 'emprendiendo plus pro';
+    grid-template-columns: 33% 33% 33%;
+    grid-gap: 1rem;
+    height: 75%;
+    grid-template-rows: 100%;
+}
+
+.plan-name{
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: 800;
+    background-color: var(--primary2);
+    color: white;
+    padding: 0.5rem;
+    border-radius: 25px 25px 0px 0px;
+}
+
+.plan-section{
+    padding: 1rem;
+}
+
+.plan-cost{
+    color: var(--primary3);
+    font-weight: 800;
+    font-size: 1.5rem;
+    text-align: center;
+    border-right: 1px solid var(--primary2);
+    border-left: 1px solid var(--primary2);
+}
+
+.plan-features{
+    border: 1px solid var(--primary2);
+    border-top: none;
+    border-radius: 0px 0px 25px 25px;
+    height: calc(100% - 5rem);
+}
+
+.plan-action{
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.plans-section-title{
+    margin-bottom: 3%;
+    font-family: 'Shadows Into Light Two', cursive;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: xx-large;
+} */
+
+.color-verde{
+    color:#49ffe5;
+}
+
+.membresia-content{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.membresia-section-title .text-title{
+    font-family: 'Shadows Into Light Two', cursive;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    justify-content: center;
+}
+
+.membresia-section-title .title-message{
+    text-align: center;
+    background-color: #49ffe5;
+    font-family: 'Shadows Into Light Two', cursive;
+    font-size: x-large;
+}
+
+.membresia-cost{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: var(--primary2);
+    color: white;
+    padding: 0.5rem;
+    position: relative;
+    padding-right: 5rem;
+}
+
+.subcribe-button{
+    position: absolute;
+    right: -1.5rem;
+}
+
+.membresia-cost>div{
+    text-align: center;
+}
+
+.membresia-cost>div>h1{
+    margin: auto;
+}
+
+.info-item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+}
+
+.membresia-info-items>.row{
+    height: 50%;
+}
+
+.color-relleno{
+    height: 1rem;
+    background-color: var(--primary2);
+}
+
+.full-width{
+    width: 100% !important;
+}
+
+.flex-content-center{
+    display: flex;
+    align-items: center;
+}
+
+.flex-content-end{
+    display: flex;
+    align-items: flex-end;
+}
+
+.proposito-title{
+    text-align: center;
+    color: white;
+    font-family: 'Shadows Into Light Two', cursive;
+    font-size: xx-large;
+    margin-bottom: 3rem;
+}
+
+.proposito-section{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    font-weight: 500;
+    height: calc(50% - 1rem);
+    margin-bottom: 1rem;
+}
+
+/* .proposito-content{
+    height: 60%;
+}
+
+.proposito-content .row{
+    height: 100%;
+} */
+
+.proposito-section img{
+    width: 20%;
+    margin-right: 1rem;
+}
+
+.nuestro-proposito{
+    background-color: var(--primary2);
+}
+
+.pasos-title{
+    text-align: center;
+    font-family: 'Shadows Into Light Two', cursive;
+    font-size: xx-large;
+    /* margin-bottom: 2%; */
+}
+
+.pasosImg{
+    height: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pasosImg img{
+    max-width: 70%;
+    /* height: fit-content; */
+    max-height: 100%;
+}
+
+.pasos-content{
+    height: 85%;
+}
+
+.pasos-content .row{
+    height: 90%;
+}
+
+.pasos-text{
+    text-align: center;
+    font-weight: 600;
+    /* font-size: large; */
+}
+
+.pasos-final-message{
+    text-align: center;
+    font-family: 'Shadows Into Light Two', cursive;
+    font-size: xx-large;
+}
+
+#plans1{
+    background-color: var(--primary2);
+}
+
+.info-first-img{
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.info-first-img>img{
+    width: 100%;
+}
+
+.info-second-img{
+    width: 100%;
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.info-second-img>img{
+    width: 85%;
+}
+
+.init-info-text{
+    color: white;
+    font-family: 'Shadows Into Light Two', cursive;
+    font-size: 2.5rem;
+    text-align: center;
+}
+
+#plans1>.container{
+    height: 100%;
+}
+
+.half-height{
+    height: 50%;
+}
+
+.info-item>.half-height>img{
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.info-text{
+    font-weight: 600;
+}
+
+.first-membresia-img{
+    margin-bottom: 1rem;
+}
+
+.navbar-brand{
+    max-width: calc(100% - 5rem);
+}
+
+.subcribe-button>button{
+    font-weight: 600;
+}
+
+/* @media(max-width: 575px){
+    .big-screen{
+        display: none;
+    }
+}
+
+@media(min-width: 576px) and (max-width: 767px){
+    .big-screen{
+        display: none;
+    }
+}
+
+@media(min-width: 768px) and (max-width: 992px){
+    .big-screen{
+        display: none;
+    }
+}
+
+@media(min-width: 992px) and (max-width: 1199px){
+    .big-screen{
+        display: none;
+    }
+}
+
+@media(min-width: 1200px){
+    .small-screen{
+        display: none;
+    }
+} */
+
+#plans5{
+    background-color: var(--primary2);
+}
+
+.contactanos-title{
+    color: white;
+    font-size: xxx-large;
+    font-family: 'Shadows Into Light Two', cursive;
+    margin-bottom: 1rem;
+}
+
+#plans5>.container>.row{
+    height: 85%;
+}
+
+.contactanos-img{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.contactanos-img>img{
+    width: 85%;
+}
+
+.form-contactanos{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.form-contactanos>form{
+    width: 90%;
+    background-color: #eee;
+    padding: 2rem;
+    border-radius: 25px;
+}
+/* 
+input.ng-invalid{
+    border-color: red;
+}
+
+input.ng-untouched{
+    border-color: #ced4da;
+} */
+
+sup{
+    color: red;
+    font-size: 110% !important;
+    top: 0 !important;
+}
+
+
+@media(max-width: 1200px){
+    #plans3>.container{
+        height: auto !important;
+        padding-bottom: 3rem !important;
+    }
+}
+
+@media(max-width: 992px){
+    .planImage, #plans1, #plans2, .plans-section-title, #plans3, #plans4, #plans5, #plans6{
+        height: auto !important;
+    }
+    .plans-content{
+        grid-template-areas: 
+        'emprendiendo plus'
+        'pro pro';
+        grid-template-columns: 50% 50%;
+    }
+    .imgLogo{
+        height: 4rem !important;
+        max-width: 100%;
+    }
+    #plans1>.container{
+        height: auto !important;
+        padding-top: 7rem !important;
+        padding-bottom: 3rem !important;
+    }
+    #plans5>.container{
+        height: auto !important;
+        padding-top: 7rem !important;
+        padding-bottom: 3rem !important;
+    }
+    .no-small-screen{
+        display: none;
+    }
+    .info-text{
+        font-size: 0.75rem;
+    }
+    .proposito-section{
+        font-size: .85rem;
+    }
+    .proposito-title{
+        font-size: x-large;
+    }
+    .subcribe-button>button{
+        font-size: 0.75rem;
+    }
+}
+
+@media(max-width: 768px){
+
+    .contactanos-img{
+        justify-content: center;
+    }
+
+    .form-contactanos{
+        justify-content: center;
+    }
+}
+
+@media(max-width: 575px){
+    .init-info-text{
+        font-size: 2rem;
+    }
+    .info-second-img{
+        width: 100%;
+    }
+}

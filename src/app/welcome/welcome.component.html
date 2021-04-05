@@ -1,0 +1,216 @@
+<div class="position-relative">
+  <div class="small-screen">
+    <img src="../../assets/imgs/part1.png" alt="welcomeImage1" class="welcomeImage" id="welcomeImage1">
+    <img src="../../assets/imgs/part2.png" alt="welcomeImage2" class="welcomeImage" id="welcomeImage2">
+  </div>
+  <div class="big-screen">
+    <img src="../../assets/imgs/welcome.png" alt="welcomeImage" class="welcomeImage" id="welcomeImage"
+      [style.height.px]="imgHeigh">
+  </div>
+  <!-- <img src="../../assets/imgs/logo_before.png" class="logo"> -->
+  <!-- <div class="welcomeOptions">
+    <div class="option-section">
+      <button class="btn btn-cl3" data-toggle="modal" data-target="#ModalInfo" (click)="selectClientType(2)">
+        <img src="../../assets/imgs/toClick.png" alt="" class="img-over-button">
+        Para personas
+      </button>
+    </div>
+    <div class="option-section">
+      <button class="btn btn-cl3" data-toggle="modal" data-target="#ModalInfo" (click)="selectClientType(1)">
+
+        <img src="../../assets/imgs/toClick.png" alt="" class="img-over-button">
+        Para emprendedores
+      </button>
+    </div>
+  </div> -->
+</div>
+<!-- <div class="welcomeOptions">
+    <div class="container">
+        <div class="row">
+            <div class="col-6 text-center">
+                <button class="btn btn-info" data-toggle="modal" data-target="#ModalInfo">
+                    Quiero ser cliente
+                </button>
+            </div>
+            <div class="col-6 text-center">
+                <button class="btn btn-info" data-toggle="modal" data-target="#ModalInfo">
+                    Quiero ser socio
+                </button>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="modal fade" id="ModalInfo" tabindex="-1" role="dialog" aria-labelledby="ModalInfo" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalInfoLongTitle">CompraLocal</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeModalInfo>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form #promoForm="ngForm" (ngSubmit)="saveData(promoForm)">
+        <div class="modal-body">
+          <h5>Comparte tu información con nosotros</h5>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="nameSub">Nombre <sup>*</sup></label>
+              <input type="text" class="form-control" id="nameSub" name="nameSub" [(ngModel)]="subInfo.name"
+                [disabled]="loading" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="lastNameSub">Apellido <sup>*</sup></label>
+              <input type="text" class="form-control" id="lastNameSub" name="lastNameSub"
+                [(ngModel)]="subInfo.last_name" [disabled]="loading" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="emailSub">Email <sup>*</sup></label>
+              <input type="email" class="form-control" id="emailSub" name="emailSub" [(ngModel)]="subInfo.email"
+                [disabled]="loading" required email>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="phoneSub">WhatsApp <sup>*</sup></label>
+              <input type="tel" class="form-control" id="phoneSub" name="phoneSub" [(ngModel)]="subInfo.phone"
+                [disabled]="loading" required>
+            </div>
+          </div>
+          <div class="form-row" *ngIf="subInfo.clientType == 'persona'">
+            <div class="form-group col-md-12">
+              <label for="dniSub">DNI <sup>*</sup></label>
+              <input type="text" class="form-control" id="dniSub" name="dniSub" [(ngModel)]="subInfo.dni"
+                [disabled]="loading" required>
+            </div>
+          </div>
+          <div class="form-row" *ngIf="subInfo.clientType == 'emprendedor'">
+            <div class="form-group col-md-6">
+              <label for="marcaSub">Tu marca <sup>*</sup></label>
+              <input type="text" class="form-control" id="marcaSub" name="marcaSub" [(ngModel)]="subInfo.marca"
+                [disabled]="loading" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="rucSub">RUC <sup>*</sup></label>
+              <input type="text" class="form-control" id="rucSub" name="rucSub" [(ngModel)]="subInfo.ruc"
+                [disabled]="loading" required>
+            </div>
+          </div>
+          <div class="form-row" *ngIf="subInfo.clientType == 'emprendedor'">
+            <div [className]="subInfo.categoria == 'Otros'? 'form-group col-md-6' : 'form-group col-md-12'">
+              <label for="cateSub">Selecciona tu Categoria <sup>*</sup></label>
+              <select class="form-control" id="cateSub" name="cateSub" [(ngModel)]="subInfo.categoria"
+                [disabled]="loading" required>
+                <option value="{{cat.name}}" *ngFor="let cat of categorias">{{cat.name}}</option>
+                <option value="Otros">Otros</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6" *ngIf="subInfo.categoria == 'Otros'">
+              <label for="cateOtrosSub">Especifique Categoría <sup>*</sup></label>
+              <input type="text" class="form-control" id="cateOtrosSub" name="cateOtrosSub" [(ngModel)]="cateOtros"
+                [disabled]="loading" required>
+            </div>
+          </div>
+          <div class="form-row" *ngIf="subInfo.clientType == 'persona'">
+            <div class="form-group col-md-12">
+              <label for="cateSub">¿Qué categoría te interesa más? <sup>*</sup></label>
+              <select class="form-control" id="cateSub" name="cateSub" [(ngModel)]="subInfo.categoria"
+                [disabled]="loading" required>
+                <option value="{{cat.name}}" *ngFor="let cat of categorias">{{cat.name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="depSub">Departamento <sup>*</sup></label>
+            <select class="form-control" id="depSub" name="depSub" [(ngModel)]="depSub"
+              (ngModelChange)="getProvinciasByDepartamento(depSub)" [disabled]="loading" required>
+              <option value="{{dep.id_ubigeo}}" *ngFor="let dep of departamentos">{{dep.nombre_ubigeo}}</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="provinciaSub">Provincia <sup>*</sup></label>
+              <select class="form-control" id="provinciaSub" name="provinciaSub" [(ngModel)]="provSub"
+                [disabled]="loading || depSub == ''" (ngModelChange)="getDistritosByProvincias(provSub)" required>
+                <option value="{{prov.id_ubigeo}}" *ngFor="let prov of provByDep">{{prov.nombre_ubigeo}}</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="distritoSub">Distrito <sup>*</sup></label>
+              <select class="form-control" id="distritoSub" name="distritoSub" [(ngModel)]="subInfo.distrito"
+                [disabled]="loading || subInfo.provincia == null || subInfo.provincia == ''" required>
+                <option value="{{dis.nombre_ubigeo}}" *ngFor="let dis of disByProv">{{dis.nombre_ubigeo}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="accessCheck" name="accessCheck"
+              [(ngModel)]="accessCheck" required>
+            <label class="form-check-label" for="gridCheck1">
+              Acepto las condiciones de CompraLocal en relacion a su <a data-toggle="modal" data-target="#ModalPolitica"
+                class="btn btn-link">política de uso de datos.</a> <sup>*</sup>
+            </label>
+          </div>
+          <p>* Campos Obligatorios</p>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary btn-block" [disabled]="loading || promoForm.invalid">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="loading"></span>
+            Enviar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="ModalPolitica" tabindex="-1" role="dialog" aria-labelledby="ModalPolitica"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalPoliticaLongTitle">CompraLocal</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        La marca COMPRA LOCAL , el sitio COMPRALOCAL.PE son propiedad de MAMI REGRESÓ S.A.C. (en adelante MR), con ruc
+        20604612439 y domicilio legal en Jr. Loreto 105 dpto 508, de la Lima, Perú.
+        <br><br>
+        La presente Política de Privacidad de Datos, tiene por objeto poner en conocimiento de los Usuarios los alcances
+        de la protección integral de sus datos personales asentados en los archivos; registros; bancos o bases de datos;
+        u otros medios técnicos de tratamiento de datos implementados por COMPRA LOCAL, asegurando el respeto al derecho
+        a la intimidad de las personas.
+        <br><br>
+        Compra Local tiene la calidad de “Encargado del Tratamiento”, conforme lo establecido en la Ley de Protección de
+        Datos Personales – Ley No. 29733. En ese sentido, MR tendrá acceso a datos de los usuarios por lo que se obliga
+        a protegerlos aplicando las exigencias y requerimientos previstos en la Ley de Protección de Datos Personales
+        (Ley No. 29733), su reglamento aprobado por Decreto Supremo No. 003-2013-JUS y demás normas relacionadas que
+        regulan la materia.
+        <br><br>
+        Por medio de la aceptación de estos términos y condiciones, el Usuario tiene conocimiento que sus datos
+        personales y en general, la información que brinde al Sitio Web serán utilizados para los fines comerciales de
+        MR y todas sus lineas de negocio, en relación a la comercialización de sus productos y/o a la prestación de sus
+        servicios ya sean éstos contratados por el Usuario, productos y/o servicios existentes o nuevos; y por
+        consiguiente, autoriza y da su consentimiento previo, informado, expreso e inequívoco para que MR pueda
+        contactarlo a través de llamadas, mensajes de texto, mensajes de correo electrónico, telemarketing y/o
+        cualquiera similar que incluya la venta y/o promoción de los productos y/o servicios de MR ya sean éstos
+        contratados por el Usuario, productos y/o servicios existentes o nuevos. La presente autorización de ninguna
+        manera significará que MR esté utilizando métodos comerciales agresivos o engañosos según lo especificado en el
+        artículo 58 inciso e de la Ley N° 29751 – Código de Defensa y Protección al Consumidor; por ende, el Usuario
+        libera a MR de cualquier reclamo, queja, denuncia, indemnización y/o similar en relación al uso no autorizado de
+        sus datos. Cabe señalar que, el consentimiento del Usuario podrá ser revocado, en cualquier momento y conforme a
+        la normativa que rige la protección de datos personales.
+        <br><br>
+        Para cualquier información pueden escribir sus dudas, consultas a admin@compralocal.pe
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Alerts-->
+<app-succ-err-mesages #alertComp></app-succ-err-mesages>

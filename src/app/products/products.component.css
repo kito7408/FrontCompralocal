@@ -3,6 +3,7 @@ ul{
     display: grid;
     grid-template-areas: 'p1 p2 p3 p4 p5';
     grid-gap: 1rem;
+    grid-template-columns: 20% 20% 20% 20% 20%;
 }
 
 .prod-img{
@@ -14,7 +15,7 @@ ul{
     cursor: pointer;
 }
 
-.prod-item{
+.prod-item, .prod-item-nohover{
     /* width: 18%; */
     height: 100%;
     margin-right: 2.5%;
@@ -22,8 +23,12 @@ ul{
     border-radius: 10px 10px 10px 10px !important; */
 }
 
+.prod-item-nohover .prod-img{
+    cursor: auto;
+}
+
 .prod-item:hover{
-    background-color: var(--degradado1);
+    background-color: #81d9ff;
     border-radius: 0 0 10px 10px;
     color: white;
 }
@@ -43,6 +48,8 @@ ul{
 .img-prod-section{
     /* height: 10rem; */
     position: relative;
+    border: 1px solid rgba(0,0,0,.125);
+    border-bottom: none;
 }
 
 .fast-view{
@@ -90,7 +97,7 @@ li{
     color: white;
 }
 
-.prod-item p{
+.prod-item p, .prod-item-nohover p{
     margin: 0;
 }
 
@@ -98,7 +105,7 @@ li{
     width: 20%;
 }
 
-.prod-item button{
+.prod-item button, .prod-item-nohover button{
     padding: 0;
 }
 
@@ -117,11 +124,6 @@ li{
 .prod-cart-section button:hover{
     color:white;
     background-color: var(--dark2);
-}
-
-.success, .error{
-    width: 35%;
-    left: auto;
 }
 
 .list-group-item{
@@ -169,25 +171,29 @@ input[type=number] {
 
 @media(max-width: 575px){
     ul{
-        grid-template-areas: 'p1 p2';
+        grid-template-areas: 'p1';
+        grid-template-columns: 100%;
     }
 }
 
 @media(min-width: 576px) and (max-width: 767px){
     ul{
         grid-template-areas: 'p1 p2';
+        grid-template-columns: 50% 50%;
     }
 }
 
 @media(min-width: 768px) and (max-width: 992px){
     ul{
         grid-template-areas: 'p1 p2 p3';
+        grid-template-columns: 33% 33% 33%;
     }
 }
 
 @media(min-width: 992px) and (max-width: 1199px){
     ul{
         grid-template-areas: 'p1 p2 p3 p4';
+        grid-template-columns: 25% 25% 25% 25%;
     }
 }
 

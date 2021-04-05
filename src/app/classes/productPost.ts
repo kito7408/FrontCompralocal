@@ -3,11 +3,15 @@ export class ProductPost{
     name: string;
     description: Text;
     price: number;
-    image: any;
+    image1: any;
+    image2: any;
+    image3: any;
+    image4: any;
+    image5: any;
     numSellOnWeek: number;
     isTrent: boolean;
     categoryId: number;
-    subcategoryId: number;
+    // subcategoryId: number;
     supplierId: number;
     isOffer: boolean;
     priceOffer: number;

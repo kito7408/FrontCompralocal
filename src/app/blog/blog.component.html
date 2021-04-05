@@ -1,22 +1,24 @@
 <div class="container mt-5 mb-5">
     <div class="post-list">
-        <div class="container d-block text-right mb-3" *ngIf="userService.userInfo && userService.userInfo.userTypeId == 1">
+        <div class="container d-block text-right mb-3"
+            *ngIf="userService.userInfo && userService.userInfo.userTypeId == 1">
             <button class="btn btn-cl2" data-toggle="modal" data-target="#ModalNewPost">
                 Nuevo Post
             </button>
         </div>
 
         <ul class="list-group list-group-horizontal">
-            <li [className]="p.last? 'list-group-item last-item' : 'list-group-item'" routerLink="/post/{{p.id}}" routerLinkActive="active"
-                *ngFor="let p of posts.slice(0, listRows * itemsPerRow); let i = index">
+            <li [className]="p.last? 'list-group-item last-item' : 'list-group-item'" routerLink="/post/{{p.id}}"
+                routerLinkActive="active"
+                *ngFor="let p of posts.slice(0, ((listRows - 1 ) * itemsPerRow) + 6); let i = index">
                 <div class="img-section">
                     <img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/blog-posts/' + p.image" alt=""
                         class="img-post">
                 </div>
                 <div class="post-text">
-                    <div class="info-post">
-                        {{p.user.name}} - {{p.date}}
-                    </div>
+                    <!-- <div class="info-post">
+                        {{p.date}}
+                    </div> -->
                     <div class="post-title">
                         {{p.title}}
                     </div>
@@ -58,6 +60,11 @@
                         <input type="file" class="form-control-file" id="imagePost" name="imagePost"
                             (change)="selectFile($event)">
                     </div>
+                    <div class="form-group">
+                        <label for="authorPost">Autor</label>
+                        <textarea class="form-control" id="authorPost" name="authorPost" cols="30" rows="4"
+                            [(ngModel)]="newPost.author"></textarea>
+                    </div>
                     <div [innerHtml]='filemsg' *ngIf="filemsg" style="color: red;"></div>
                     <div class="form-group">
                         <label for="contentPost">Contenido</label>
@@ -70,7 +77,8 @@
                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                         Publicando...
                     </button>
-                    <button type="submit" class="btn btn-primary btn-block" (click)="addPost();" *ngIf="!posting">Publicar</button>
+                    <button type="submit" class="btn btn-primary btn-block" (click)="addPost();"
+                        *ngIf="!posting">Publicar</button>
                 </div>
             </form>
         </div>
@@ -79,9 +87,4 @@
 
 
 <!--Alerts section-->
-<div class="alert alert-success success fixed-bottom" role="alert" *ngIf="successAlert">
-    {{successMessage}}
-</div>
-<div class="alert alert-danger error fixed-bottom" role="alert" *ngIf="errorAlert">
-    {{errorMessage}}
-</div>
+<app-succ-err-mesages #alertComp></app-succ-err-mesages>

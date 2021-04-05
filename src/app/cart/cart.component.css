@@ -1,6 +1,17 @@
+.container{
+    max-width: 1170px;
+}
+
 .prod-img{
-    max-width: 80%;
-    max-height: 50px;
+    /* max-width: 80%;
+    max-height: 50px; */
+    max-width: 100%;
+    max-height: 3.75rem;
+    border: 1px solid #d6d4d4;
+}
+
+.col-1{
+    padding: 0;
 }
 
 .cantText{
@@ -29,20 +40,131 @@
     text-align: center;
     width: 50%;
     cursor: pointer;
+    display: flex;
 }
 
 .list-group-item:hover{
     background-color: var(--degradado3);
 }
 
-.check-img{
-    margin-top: 20%;
+.form-check{
+    display: flex;
+    align-items: center;
 }
 
-.success, .error{
-    width: 35%;
-    left: auto;
-    z-index: 1050;
+s{
+    font-weight: 300;
+    color: gray;
+}
+
+sup{
+    color: red;
+    font-size: 110% !important;
+    top: 0 !important;
+}
+
+label{
+    font-size: 0.75rem;
+    margin-bottom: 0;
+}
+
+textarea{
+    width: 100%;
+}
+
+.info-titles{
+    font-size: 14px;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+[class*="col-"]{
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+}
+
+.sec-title{
+    background-color: rgb(241, 241, 241);
+    border-radius: 10px;
+    border: 1px solid rgb(213, 213, 213);
+    padding: 8px 15px 8px;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    margin-bottom: 0.75rem;
+}
+
+.sec-title i{
+    font-size: 2rem;
+    margin-right: 5px;
+}
+
+.sub-title{
+    border-bottom: 1px solid rgb(213, 213, 213);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+input.ng-invalid{
+    border-color: red;
+}
+
+input.ng-untouched{
+    border-color: #ced4da;
+}
+
+.card-checks,.send-checks{
+    margin-bottom: 1rem;
+}
+
+.number-items{
+    width: 20%;
+}
+
+.prod-cart-section button{
+    padding: 0;
+}
+
+.cupon-input{
+    align-self: center;
+}
+
+.cupon-input>input{
+    width: 100%;
+}
+
+.far.fa-star, .fas.fa-star{
+    color: orange;
+}
+
+.user-title{
+    display: flex;
+    align-items: center;
+}
+
+.two-options{
+    display: flex;
+    justify-content: space-between;
+}
+
+.haveUser{
+    background-color: red;
+    padding: 4px;
+    border-radius: 10px;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.haveUser:hover{
+    background-color: rgb(185, 0, 0);
+}
+
+.buy-content-section{
+    padding: 20px 10px;
+    background-color: #1aa9e812;
+    border-radius: 25px;
 }
 
 /* Chrome, Safari, Edge, Opera */

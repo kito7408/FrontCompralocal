@@ -1,15 +1,27 @@
 <div class="container mt-5 mb-5" *ngIf="order">
   <div *ngIf="!fromBuy">
-      <i class="far fa-arrow-alt-circle-left back" routerLink="/orders" routerLinkActive="active"></i>
+    <i class="far fa-arrow-alt-circle-left back" routerLink="/orders" routerLinkActive="active"></i>
   </div>
   <h2>Orden #{{order.num}}</h2>
-  <!-- <p>Estado: Su orden ha sido entregada</p> -->
-  <p>Fecha de la orden: {{order.date}}</p>
-  <p>Precio total de la orden: {{order.totalPrice}}</p>
-  <p *ngIf="userService.userInfo.userTypeId == 1">Usuario: <b>{{order.user.name}}</b></p>
+  <p *ngIf="userService.userInfo.userTypeId == 1">Usuario: <b>{{order.user.name}} {{order.user.last_name}}</b></p>
+  <p>Fecha de la orden: <b>{{order.date}}</b></p>
+  <p>Precio total de la orden: <b>{{order.totalPrice}}</b></p>
+  <p>Método de pago: <b>{{order.paymentMethod}}</b></p>
+  <p>Método de envío: <b>{{order.deliveryMethod}}</b></p>
+  <p>El proyecto al que apoya esta compra es <b>{{order.helpproyect.name}}</b></p>
+  <p>Cupón: <b>{{order.cupon}}</b></p>
+  <p>Comentario: {{order.coment}}</p>
+  <button class="btn btn-danger" (click)="sendMailRecordatorio()"
+    *ngIf="order.paymentState == 'Pendiente de Pago'">Enviar recordatorio de pago.</button>
+  <p>Estado de la orden: 
+    <b id="orderState" [className]="(order.paymentState == 'Pagado')? 'text-info' : (order.paymentState == 'Entregado')? 'text-success' : 'text-danger'">{{order.paymentState}}</b>
+    <button class="btn btn-danger ml-3" *ngIf="userService.userInfo.userTypeId == 1 && order.paymentState != 'Pendiente de Pago'" (click)="changeState('Pendiente de Pago')">Pendiente de Pago</button>
+    <button class="btn btn-info ml-3" *ngIf="userService.userInfo.userTypeId == 1 && order.paymentState != 'Pagado'" (click)="changeState('Pagado')">Pagado</button>
+    <button class="btn btn-success ml-3" *ngIf="userService.userInfo.userTypeId == 1 && order.paymentState != 'Entregado'" (click)="changeState('Entregado')">Entregado</button>
+  </p>
   <hr>
   <h5>Detalle de la orden.</h5>
-  <table class="table table-hover table-bordered">
+  <table class="table table-bordered">
     <thead class="thead-light">
       <tr>
         <th scope="col">Producto</th>
@@ -21,7 +33,8 @@
     <tbody>
       <tr *ngFor="let cart of order.carts">
         <td class="align-middle">
-          <img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/products/' + cart.product.image" alt="" class="order-product-img">
+          <img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/products/' + cart.product.image1" alt=""
+            class="order-product-img">
           {{cart.product.name}}
         </td>
         <td class="align-middle">{{cart.product.price}}</td>
@@ -29,10 +42,20 @@
         <td class="align-middle">{{cart.totalPrice}}</td>
       </tr>
       <tr>
-        <th scope="row" colspan="3">Subtotal</th>
+        <th scope="row" colspan="3">Total Productos</th>
+        <th>{{order.productsPrice}}</th>
+      </tr>
+      <tr>
+        <th scope="row" colspan="3">Total Envío</th>
+        <th>{{order.deliveryPrice}}</th>
+      </tr>
+      <tr>
+        <th scope="row" colspan="3">Importe total de la compra</th>
         <th>{{order.totalPrice}}</th>
       </tr>
     </tbody>
   </table>
-  <button class="btn btn-block btn-primary" (click)="sendM()">mail</button>
+  <!-- <button class="btn btn-block btn-primary" (click)="sendM()">mail</button> -->
 </div>
+
+<app-succ-err-mesages #alertComp></app-succ-err-mesages>

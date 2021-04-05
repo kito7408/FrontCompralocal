@@ -41,16 +41,17 @@
       </li> -->
       <li class="nav-item">
         <a class="nav-link" data-toggle="modal" data-target="#ModalContactanos">Contáctanos</a>
+        <a class="nav-link d-none" data-toggle="modal" data-target="#ModalStart" #modalStart>Start</a>
       </li>
     </ul>
   </div>
 </nav>
 
 <!--navbar logo, buscador, usuario y carrito-->
-<nav class="navbar navbar-light bg-light navbar-expand-lg nav-middle">
+<nav class="navbar cl-bg2 navbar-expand-lg nav-middle" id="nav-options">
   <div class="text-left logo-section">
     <!-- <a (click)="goToHome()"><img src="../../assets/imgs/logoCL-Morado.png" class="navbar-logo navbar-brand"></a> -->
-    <a (click)="goToHome()"><img src="../../assets/imgs/logo_before.png" class="navbar-logo navbar-brand ml-4"></a>
+    <a (click)="goToHome()"><img src="../../assets/imgs/logo_new_blanco.png" class="navbar-logo navbar-brand"></a>
   </div>
 
   <!-- <div class="col-xl-4 search-between">
@@ -72,7 +73,7 @@
   <div class="text-right navbar-nav nav-user-options">
     <div *ngIf="userService.userInfo">
       <div class="dropdown mr-2">
-        <button class="btn btn-link dropdown-toggle">
+        <button class="btn btn-link2 dropdown-toggle">
           <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentColor"
             xmlns="http://www.w3.org/2000/svg">
             <path
@@ -83,42 +84,36 @@
           {{userService.userInfo.name}}
         </button>
         <div class="dropdown-menu dropdown-menu-right">
-          <button type="button" *ngIf="userService.userInfo.userTypeId == 2" class="dropdown-item" (click)="goToOrders()">Mis ordenes</button>
-          <button type="button" *ngIf="userService.userInfo.userTypeId == 1" class="dropdown-item" (click)="goToOrders()">Lista de ordenes</button>
+          <button type="button" *ngIf="userService.userInfo.userTypeId == 2" class="dropdown-item"
+            (click)="goToOrders()">Mis ordenes</button>
+          <button type="button" *ngIf="userService.userInfo.userTypeId == 1" class="dropdown-item"
+            (click)="goToOrders()">Lista de ordenes</button>
           <button *ngIf="userService.userInfo.userTypeId == 1" type="button" class="dropdown-item" data-toggle="modal"
-            data-target="#ModalNewUser">Agregar Usuario</button>
+            data-target="#ModalNewUser" (click)="newUserF()">Agregar Usuario</button>
           <button *ngIf="userService.userInfo.userTypeId == 1" type="button" class="dropdown-item" data-toggle="modal"
-            data-target="#ModalNewSupplier">Agregar Proveedor</button>
+            data-target="#ModalNewSupplier" (click)="newSuppF()">Agregar Proveedor</button>
           <button *ngIf="userService.userInfo.userTypeId == 1" type="button" class="dropdown-item" data-toggle="modal"
-            data-target="#ModalNewProduct">Agregar Producto</button>
-          <!-- <button *ngIf="userService.userInfo.userTypeId == 1" type="button" class="dropdown-item" data-toggle="modal"
-            data-target="#ModalNewCategoria">Agregar Categoria</button> -->
-          <!-- <button *ngIf="userService.userInfo.userTypeId == 1" type="button" class="dropdown-item" data-toggle="modal"
-            data-target="#ModalNewSubCategoria">Agregar Subcategoria</button> -->
+            data-target="#ModalNewProduct" (click)="newProdF()">Agregar Producto</button>
           <button type="button" class="dropdown-item" (click)="logout();" routerLink="/">Salir</button>
         </div>
+
+        <!-- <button *ngIf="userService.userInfo.userTypeId == 1" type="button" class="dropdown-item" data-toggle="modal"
+            data-target="#ModalNewCategoria">Agregar Categoria</button> -->
+        <!-- <button *ngIf="userService.userInfo.userTypeId == 1" type="button" class="dropdown-item" data-toggle="modal"
+            data-target="#ModalNewSubCategoria">Agregar Subcategoria</button> -->
+
       </div>
     </div>
     <div *ngIf="!userService.userInfo" class="login-signin">
-      <button type="button" class="btn btn-link" data-toggle="modal" data-target="#ModalIngreso">Ingresar</button>
+      <button type="button" class="btn btn-link2" data-toggle="modal" data-target="#ModalIngreso" (click)="newUserF()"
+        #loginButton>Ingresar</button>
       /
-      <button type="button" class="btn btn-link" data-toggle="modal" data-target="#ModalRegistro">Registrarse</button>
+      <button type="button" class="btn btn-link2" data-toggle="modal" data-target="#ModalNewUser"
+        (click)="newUserF()">Registrarse</button>
     </div>
 
-    <div class="dropdown">
-      <!-- <button type="button" class="btn btn-outline-secondary mr-3" [routerLink]="['/cart']">
-        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart-fill" fill="currentColor"
-          xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd"
-            d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
-        </svg>
-      </button> -->
-      <button type="button" class="btn btn-link dropdown-toggle position-relative">
-        <!-- <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart-fill" fill="currentColor"
-          xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd"
-            d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
-        </svg> -->
+    <!-- <div class="dropdown">
+      <button type="button" class="btn btn-link2 dropdown-toggle position-relative">
         <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-bag-fill mr-2" fill="currentColor"
           xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd"
@@ -139,22 +134,24 @@
             </div>
             <div class="text-right mr-2">
               <p>Subtotal</p>
-              <p>{{cartService.cartTotalPrice}}</p>
+              <p>{{cartService.cartTotalPrice | number:'1.2-2'}}</p>
             </div>
           </div>
 
           <div class="table-wrapper-scroll-y my-custom-scrollbar overflow-auto mini-cart-products">
-            <table class="table text-center table-bordered table-striped">
+            <table class="table text-center table-bordered table-hover">
               <tbody>
                 <tr *ngFor="let c of cartService.cartInfo; index as i;" (click)="goToProducto(c.product.id)"
                   class="cart-item">
-                  <td><img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/products/' + c.product.image"
-                      class="cart-img"></td>
                   <td>
-                    <p>{{c.product.name}} ({{c.product.price}})</p>
+                    <img src="../../assets/imgs/producto-prueba.png" class="cart-img">
+                  </td>
+                  <td>
+                    <p *ngIf="c.product.isOffer">{{c.product.name}} ({{c.product.priceOffer | number:'1.2-2'}})</p>
+                    <p *ngIf="!c.product.isOffer">{{c.product.name}} ({{c.product.price | number:'1.2-2'}})</p>
                     <p>{{c.quantity}}</p>
                   </td>
-                  <td>{{c.totalPrice}}</td>
+                  <td>{{c.totalPrice | number:'1.2-2'}}</td>
                 </tr>
               </tbody>
             </table>
@@ -168,14 +165,19 @@
         </div>
 
       </div>
-    </div>
+    </div> -->
+
+
+    <!-- <img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/products/' + c.product.image1"
+                      class="cart-img"> -->
+
   </div>
 
   <div class="search-section">
     <form class="form-inline text-center search">
       <input class="form-control" type="search" placeholder="Busca tu producto" aria-label="Search" id="search"
         name="search" [(ngModel)]="searchText">
-      <button class="btn btn-link" type="submit" (click)="listProdSearch()">
+      <button class="btn btn-link2" type="submit" (click)="listProdSearch()">
         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor"
           xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd"
@@ -189,9 +191,9 @@
 </nav>
 
 <!--Navbar relleno de color-->
-<nav class="navbar navbar-light cl-bg2 navbar-expand-lg nav-relleno">
+<!-- <nav class="navbar navbar-light cl-bg2 navbar-expand-lg nav-relleno">
   <hr>
-</nav>
+</nav> -->
 
 <!--navbar categorias-->
 <nav class="navbar navbar-light cl-bg3 justify-content-between navbar-expand-lg nav-categoria">
@@ -223,8 +225,8 @@
       <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
         <div class="modal-body">
           <div class="form-group">
-            <label for="usernameLog">Usuario</label>
-            <input type="email" class="form-control" id="usernameLog" name="usernameLog" [(ngModel)]="newUser.username"
+            <label for="usernameLog">Usuario (email)</label>
+            <input type="email" class="form-control" id="usernameLog" name="usernameLog" [(ngModel)]="newUser.email"
               [disabled]="loading" required email>
           </div>
           <div class="form-group">
@@ -253,7 +255,7 @@
   </div>
 </div>
 
-<div class="modal fade" id="ModalRegistro" tabindex="-1" role="dialog" aria-labelledby="ModalRegistro"
+<!-- <div class="modal fade" id="ModalRegistro" tabindex="-1" role="dialog" aria-labelledby="ModalRegistro"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -265,29 +267,103 @@
       </div>
       <form #registerForm="ngForm" (ngSubmit)="register(registerForm)">
         <div class="modal-body">
-          <div class="form-group">
-            <label for="nombreReg">Nombre</label>
-            <input type="text" class="form-control" id="nombreReg" name="nombreReg" [(ngModel)]="newUser.name"
-              [disabled]="loading" required>
+
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="reg_userName">Nombre: <sup>*</sup></label>
+              <input type="text" class="form-control" id="reg_userName" name="reg_userName" [(ngModel)]="newUser.name"
+                required>
+            </div>
+            <div class="form-group col-6">
+              <label for="reg_userLastName">Apellido: <sup>*</sup></label>
+              <input type="text" class="form-control" id="reg_userLastName" name="reg_userLastName" required
+                [(ngModel)]="newUser.last_name">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="userEmail">Email: <sup>*</sup></label>
+              <input type="email" class="form-control" id="userEmail" name="userEmail" required email
+                [(ngModel)]="newUser.email">
+            </div>
+            <div class="form-group col-6">
+              <label for="re_userEmail">Confirmar Email: <sup>*</sup></label>
+              <input type="email" class="form-control" id="re_userEmail" required email [(ngModel)]="re_email">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="userPass">Contraseña: <sup>*</sup></label>
+              <input type="password" class="form-control" id="userPass" name="userPass" [(ngModel)]="newUser.password"
+                [disabled]="loading" required>
+            </div>
+            <div class="form-group col-6">
+              <label for="re_userPass">Confirmar Contraseña: <sup>*</sup></label>
+              <input type="password" class="form-control" id="re_userPass" name="re_userPass" [(ngModel)]="repass"
+                [disabled]="loading" required>
+            </div>
           </div>
           <div class="form-group">
-            <label for="usernameReg">Usuario</label>
-            <input type="email" class="form-control" id="usernameReg" name="usernameReg" [(ngModel)]="newUser.username"
-              [disabled]="loading" required email>
+            <label for="userDocType">Tipo de Documento: <sup>*</sup></label>
+            <select class="form-control" id="userDocType" name="userDocType" [(ngModel)]="newUser.docType" required>
+              <option value="1">DNI</option>
+              <option value="2">C. Extr.</option>
+              <option value="3">Pasaporte</option>
+              <option value="4">RUC</option>
+            </select>
           </div>
           <div class="form-group">
-            <label for="contraseñaReg">Contraseña</label>
-            <input type="password" class="form-control" id="contraseñaReg" name="contraseñaReg"
-              [(ngModel)]="newUser.password" [disabled]="loading" required>
+            <label for="userDocNum">Número de Documento: <sup>*</sup></label>
+            <input type="text" class="form-control" id="userDocNum" name="userDocNum" [(ngModel)]="newUser.docNum"
+              required>
+          </div>
+          <div class="sub-title">
+            Dirección de envío
           </div>
           <div class="form-group">
-            <label for="re-contraseñaReg">Repetir Contraseña</label>
-            <input type="password" class="form-control" id="re-contraseñaReg" name="re-contraseñaReg"
-              [(ngModel)]="repass" [disabled]="loading" required>
+            <label for="userAddress">Dirección: <sup>*</sup></label>
+            <input type="text" class="form-control" id="userAddress" name="userAddress" [(ngModel)]="newUser.direccion"
+              required>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="userProvincia">Provincia: <sup>*</sup></label>
+              <select class="form-control" id="userProvincia" name="userProvincia" [(ngModel)]="newUser.provincia"
+                required>
+                <option value="1">Lima</option>
+                <option value="2">Trujillo</option>
+                <option value="3">Cajamarca</option>
+                <option value="4">Otros</option>
+              </select>
+            </div>
+            <div class="form-group col-6">
+              <label for="userDist">Distrito: <sup>*</sup></label>
+              <select class="form-control" id="userDist" name="userDist" [(ngModel)]="newUser.distrito" required>
+                <option value="1">San Isidro</option>
+                <option value="2">La Molina</option>
+                <option value="3">Ate</option>
+                <option value="4">Santiago de Surco</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="userCity">Ciudad: <sup>*</sup></label>
+            <input type="text" class="form-control" id="userCity" name="userCity" [(ngModel)]="newUser.ciudad" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="userTelFijo">Teléfono fijo:</label>
+              <input type="text" class="form-control" id="userTelFijo" name="userTelFijo"
+                [(ngModel)]="newUser.phoneFijo">
+            </div>
+            <div class="form-group col-6">
+              <label for="userTelMovil">Teléfono móvil: <sup>*</sup></label>
+              <input type="text" class="form-control" id="userTelMovil" name="userTelMovil"
+                [(ngModel)]="newUser.phoneMovil" required>
+            </div>
           </div>
         </div>
         <div class="modal-footer">
-          <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal();">Cerrar</button> -->
           <button type="submit" class="btn btn-primary btn-block" [disabled]="loading || registerForm.invalid">
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="loading"></span>
             Registrar
@@ -296,7 +372,27 @@
       </form>
     </div>
   </div>
+</div> -->
+<!-- <div class="form-group">
+  <label for="nombreReg">Nombre</label>
+  <input type="text" class="form-control" id="nombreReg" name="nombreReg" [(ngModel)]="newUser.name"
+    [disabled]="loading" required>
 </div>
+<div class="form-group">
+  <label for="usernameReg">Usuario (email)</label>
+  <input type="email" class="form-control" id="usernameReg" name="usernameReg" [(ngModel)]="newUser.username"
+    [disabled]="loading" required email>
+</div>
+<div class="form-group">
+  <label for="contraseñaReg">Contraseña</label>
+  <input type="password" class="form-control" id="contraseñaReg" name="contraseñaReg"
+    [(ngModel)]="newUser.password" [disabled]="loading" required>
+</div>
+<div class="form-group">
+  <label for="re-contraseñaReg">Repetir Contraseña</label>
+  <input type="password" class="form-control" id="re-contraseñaReg" name="re-contraseñaReg"
+    [(ngModel)]="repass" [disabled]="loading" required>
+</div> -->
 
 <div class="modal fade" id="ModalNewUser" tabindex="-1" role="dialog" aria-labelledby="ModalNewUser" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -309,14 +405,86 @@
       </div>
       <form #newUserForm="ngForm" (ngSubmit)="register(newUserForm)">
         <div class="modal-body">
+
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="userName">Nombre: <sup>*</sup></label>
+              <input type="text" class="form-control" id="userName" name="userName" [(ngModel)]="newUser.name" required>
+            </div>
+            <div class="form-group col-6">
+              <label for="userLastName">Apellido: <sup>*</sup></label>
+              <input type="text" class="form-control" id="userLastName" name="userLastName" required
+                [(ngModel)]="newUser.last_name">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="userEmail">Email: <sup>*</sup></label>
+              <input type="email" class="form-control" id="userEmail" name="userEmail" required email
+                [(ngModel)]="newUser.email">
+            </div>
+            <div class="form-group col-6">
+              <label for="re_userEmail">Confirmar Email: <sup>*</sup></label>
+              <input type="email" class="form-control" id="reuserEmail" name="reuserEmail" required email
+                [(ngModel)]="re_email">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="userPass">Contraseña: <sup>*</sup></label>
+              <input type="password" class="form-control" id="userPass" name="userPass" [(ngModel)]="newUser.password"
+                required>
+            </div>
+            <div class="form-group col-6">
+              <label for="re_userPass">Confirmar Contraseña: <sup>*</sup></label>
+              <input type="password" class="form-control" id="reuserPass" name="reuserPass" [(ngModel)]="repass"
+                required>
+            </div>
+          </div>
           <div class="form-group">
+            <label for="userDocType">Tipo de Documento: <sup>*</sup></label>
+            <select class="form-control" id="userDocType" name="userDocType" [(ngModel)]="newUser.docType" required>
+              <option value="DNI">DNI</option>
+              <option value="C. Extr.">C. Extr.</option>
+              <option value="Pasaporte">Pasaporte</option>
+              <option value="RUC">RUC</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="userDocNum">Número de Documento: <sup>*</sup></label>
+            <input type="text" class="form-control" id="userDocNum" name="userDocNum" [(ngModel)]="newUser.docNum"
+              required>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="userTelFijo">Teléfono fijo:</label>
+              <input type="text" class="form-control" id="userTelFijo" name="userTelFijo"
+                [(ngModel)]="newUser.phoneFijo">
+            </div>
+            <div class="form-group col-6">
+              <label for="userTelMovil">Teléfono móvil: <sup>*</sup></label>
+              <input type="text" class="form-control" id="userTelMovil" name="userTelMovil"
+                [(ngModel)]="newUser.phoneMovil" required>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="userService.userInfo && userService.userInfo.userTypeId == 1">
+            <label for="userType">Tipo de Usuario</label>
+            <select class="form-control" id="userType" name="userType" [(ngModel)]="newUser.userTypeId"
+              [disabled]="loading">
+              <option value="1">Admin</option>
+              <option value="2">Comprador</option>
+            </select>
+          </div>
+          <p>* Campos Obligatorios</p>
+
+          <!-- <div class="form-group">
             <label for="nombreAU">Nombre</label>
             <input type="text" class="form-control" id="nombreAU" name="nombreAU" [(ngModel)]="newUser.name"
               [disabled]="loading" required>
           </div>
           <div class="form-group">
-            <label for="usernameAU">Usuario</label>
-            <input type="email" class="form-control" id="usernameAU" name="usernameAU" [(ngModel)]="newUser.username"
+            <label for="usernameAU">Usuario (email)</label>
+            <input type="email" class="form-control" id="usernameAU" name="usernameAU" [(ngModel)]="newUser.email"
               [disabled]="loading" required email>
           </div>
           <div class="form-group">
@@ -335,10 +503,9 @@
               <option value="1">Admin</option>
               <option value="2">Comprador</option>
             </select>
-          </div>
+          </div> -->
         </div>
         <div class="modal-footer">
-          <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal();">Cerrar</button> -->
           <button type="submit" class="btn btn-primary btn-block" [disabled]="loading || newUserForm.invalid">
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="loading"></span>
             Registrar
@@ -362,14 +529,14 @@
       <form #newProductForm="ngForm" (ngSubmit)="addProd(newProductForm)">
         <div class="modal-body">
           <div class="form-group">
-            <label for="nombreProd">Nombre</label>
+            <label for="nombreProd">Nombre <sup>*</sup></label>
             <input type="text" class="form-control" id="nombreProd" name="nombreProd" [(ngModel)]="newProduct.name"
               [disabled]="loading" required>
           </div>
           <div class="form-group">
-            <label for="categoriaProd">Categoria</label>
+            <label for="categoriaProd">Categoria <sup>*</sup></label>
             <select class="form-control" id="categoriaProd" name="categoriaProd" [(ngModel)]="newProduct.categoryId"
-              (ngModelChange)="getSubcategoriasByCategoria(newProduct.categoryId)" [disabled]="loading" required>
+              [disabled]="loading" required>
               <option value="{{cat.id}}" *ngFor="let cat of categorias">{{cat.name}}</option>
             </select>
           </div>
@@ -381,35 +548,74 @@
             </select>
           </div> -->
           <div class="form-group">
-            <label for="proveedorProd">Proveedor</label>
+            <label for="proveedorProd">Proveedor <sup>*</sup></label>
             <select class="form-control" id="proveedorProd" name="proveedorProd" [(ngModel)]="newProduct.supplierId"
               [disabled]="loading" required>
               <option value="{{supp.id}}" *ngFor="let supp of suppliers">{{supp.name}}</option>
             </select>
           </div>
-          <div class="form-group">
-            <label for="imagenProd">Imagen</label>
-            <input type="file" class="form-control-file" id="imagenProd" name="imagenProd" (change)="selectFile($event)"
-              [disabled]="loading" required>
+          <div class="form-group justify-content-between">
+            <label for="imagenProd">Imagen <sup>*</sup> <button class="btn btn-success ml-3 rounded-circle"
+                (click)="addProdImg()" *ngIf="prodImgCant < 5">+</button><button
+                class="btn btn-danger ml-3 rounded-circle" (click)="rmvProdImg()"
+                *ngIf="prodImgCant > 1">-</button></label>
+            <div *ngFor="let img of prodImgArr" class="text-center">
+              <b>{{img+1}}.</b> <input type="file" class="form-control-file d-inline-block ml-3 mb-3 w-75"
+                [disabled]="loading" (change)="selectFile($event, img)">
+            </div>
           </div>
           <div [innerHtml]='filemsg' *ngIf="filemsg" style="color: red;"></div>
+
+          <label for="modelProd"><b>Modelo(s)</b> <sup>*</sup> <button class="btn btn-success ml-3 rounded-circle"
+              (click)="addProdModel()" *ngIf="prodModelCant < 5">+</button><button
+              class="btn btn-danger ml-3 rounded-circle" (click)="rmvProdModel()"
+              *ngIf="prodModelCant > 1">-</button></label>
+
+          <div class="p-4">
+            <div *ngFor="let mod of prodModelArr" class="mb-3 p-3 border border-info">
+
+              <div class="form-group mb-2">
+                <label>Imagen</label>
+                <input type="file" class="form-control-file mx-auto w-auto" [disabled]="loading"
+                  (change)="selectFile2($event, mod)">
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-6">
+                  <label [for]="'prodModel' + mod">Nombre</label>
+                  <input type="text" class="form-control" [name]="'prodModel' + mod" [id]="'prodModel' + mod"
+                    [(ngModel)]="prodModelData[mod].name" [disabled]="loading" required>
+                </div>
+                <div class="form-group col-6">
+                  <label [for]="'prodModelImg' + mod">Produc. Img</label>
+                  <select class="form-control" [name]="'prodModelImg' + mod" [id]="'prodModelImg' + mod"
+                    [(ngModel)]="prodModelData[mod].prodImgNum" [disabled]="loading" required>
+                    <option value="{{imgNum}}" *ngFor="let imgNum of prodImgArr">{{imgNum + 1}}</option>
+                  </select>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div [innerHtml]='filemsg2' *ngIf="filemsg2" style="color: red;"></div>
+
           <div class="form-group">
-            <label for="precioProd">Precio</label>
+            <label for="precioProd">Precio <sup>*</sup></label>
             <input type="number" class="form-control" id="precioProd" name="precioProd" [(ngModel)]="newProduct.price"
               [disabled]="loading" required>
           </div>
           <div class="form-check">
             <input type="checkbox" class="form-check-input" id="isOffer" name="isOffer" [(ngModel)]="newProduct.isOffer"
-              [disabled]="loading" required>
+              [disabled]="loading">
             <label class="form-check-label" for="isOffer">¿Está en oferta?</label>
           </div>
           <div class="form-group" *ngIf="newProduct.isOffer">
-            <label for="precioOfertaProd">Precio en oferta</label>
+            <label for="precioOfertaProd">Precio en oferta <sup>*</sup></label>
             <input type="number" class="form-control" id="precioOfertaProd" name="precioOfertaProd"
-              [(ngModel)]="newProduct.priceOffer" [disabled]="loading" required>
+              [(ngModel)]="newProduct.priceOffer" [disabled]="loading">
           </div>
           <div class="form-group">
-            <label for="unitProd">Unidad de medida</label>
+            <label for="unitProd">Unidad de medida <sup>*</sup></label>
             <select class="form-control" id="unitProd" name="unitProd" [(ngModel)]="newProduct.unit"
               [disabled]="loading" required>
               <option value="und">Unidad</option>
@@ -422,8 +628,9 @@
           <div class="form-group">
             <label for="descripcionProd">Descripción</label>
             <textarea class="form-control" id="descripcionProd" name="descripcionProd" cols="30" rows="4"
-              [(ngModel)]="newProduct.description" [disabled]="loading" required></textarea>
+              [(ngModel)]="newProduct.description" [disabled]="loading"></textarea>
           </div>
+          <p>* Campos Obligatorios</p>
         </div>
         <div class="modal-footer">
           <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal();">Cerrar</button> -->
@@ -461,7 +668,7 @@
           </div>
           <div class="form-group">
             <label for="suppRUC">RUC</label>
-            <input type="text" pattern="\d*" class="form-control" id="suppRUC" name="suppRUC" [(ngModel)]="newSupplier.ruc"
+            <input type="text" class="form-control" id="suppRUC" name="suppRUC" [(ngModel)]="newSupplier.ruc"
               [disabled]="loading" required>
           </div>
           <div class="form-group">
@@ -481,24 +688,58 @@
               [(ngModel)]="newSupplier.contact_person" [disabled]="loading" required>
           </div>
           <div class="form-group">
+            <label for="suppImgPerson">Foto del representante</label>
+            <input type="file" class="form-control-file" id="suppImgPerson" name="suppImgPerson"
+              (change)="selectFileSupp2($event)" [disabled]="loading" required>
+          </div>
+          <div [innerHtml]='suppfilemsg2' *ngIf="suppfilemsg2" style="color: red;"></div>
+          <div class="form-group">
             <label for="suppDNI">DNI</label>
-            <input type="text" pattern="\d*" class="form-control" id="suppDNI" name="suppDNI" [(ngModel)]="newSupplier.dni_contact"
-              [disabled]="loading" minlength="8" maxlength="8" required>
+            <input type="text" class="form-control" id="suppDNI" name="suppDNI" [(ngModel)]="newSupplier.dni_contact"
+              [disabled]="loading" required>
           </div>
           <div class="form-group">
             <label for="suppTelf">Teléfono de contacto</label>
-            <input type="tel" pattern="\d{3}[-]\d{3}[-]\d{3}" class="form-control" id="suppTelf" name="suppTelf" [(ngModel)]="newSupplier.phone_contact"
-              minlength="11" maxlength="11" (ngModelChange)="telephone_eval()" [disabled]="loading" required>
+            <input type="tel" class="form-control" id="suppTelf" name="suppTelf" [(ngModel)]="newSupplier.phone_contact"
+              [disabled]="loading" required>
           </div>
           <div class="form-group">
             <label for="suppEmail">Correo de contacto</label>
             <input type="email" class="form-control" id="suppEmail" name="suppEmail" [(ngModel)]="newSupplier.email"
               [disabled]="loading" required email>
           </div>
-          <div class="form-group">
-            <label for="suppDir">Dirección fiscal</label>
-            <input type="text" class="form-control" id="suppDir" name="suppDir" [(ngModel)]="newSupplier.fiscal_address"
-              [disabled]="loading" required>
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="factDepartamento">Departamento: <sup>*</sup></label>
+              <select class="form-control" id="factDepartamento" name="factDepartamento" [(ngModel)]="depSupp"
+                (ngModelChange)="getProvinciasByDepartamento(depSupp)" required>
+                <option value="{{dep.id_ubigeo}}" *ngFor="let dep of departamentos">
+                  {{dep.nombre_ubigeo}}</option>
+              </select>
+            </div>
+            <div class="form-group col-6">
+              <label for="factProvincia">Provincia: <sup>*</sup></label>
+              <select class="form-control" id="factProvincia" name="factProvincia" [(ngModel)]="provSupp"
+                (ngModelChange)="getDistritosByProvincias(provSupp)" [disabled]="depSupp == ''" required>
+                <option value="{{prov.id_ubigeo}}" *ngFor="let prov of provByDep">
+                  {{prov.nombre_ubigeo}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="factDistrito">Distrito: <sup>*</sup></label>
+              <select class="form-control" id="factDistrito" name="factDistrito" [(ngModel)]="newSupplier.distrito"
+                [disabled]="newSupplier.provincia == null || newSupplier.provincia == ''" required>
+                <option value="{{dis.nombre_ubigeo}}" *ngFor="let dis of disByProv">
+                  {{dis.nombre_ubigeo}}</option>
+              </select>
+            </div>
+            <div class="form-group col-6">
+              <label for="factDir">Dirección: <sup>*</sup></label>
+              <input type="text" class="form-control" id="factDir" name="factDir" [(ngModel)]="newSupplier.direccion"
+                required>
+            </div>
           </div>
           <div class="form-group">
             <label for="suppBanco">Banco</label>
@@ -512,9 +753,13 @@
           </div>
           <div class="form-group">
             <label for="suppAccNum">Número de cuenta</label>
-            <input type="text" pattern="\d{4} \d{4} \d{4} \d{4}" class="form-control" id="suppAccNum" name="suppAccNum"
-              [(ngModel)]="newSupplier.account_number" minlength="19" maxlength="19" (ngModelChange)="card_number_eval()"
-              [disabled]="loading" required>
+            <input type="text" class="form-control" id="suppAccNum" name="suppAccNum"
+              [(ngModel)]="newSupplier.account_number" [disabled]="loading" required>
+          </div>
+          <div class="form-group">
+            <label for="suppCCI">Número de cuenta interbancario (CCI)</label>
+            <input type="text" class="form-control" id="suppCCI" name="suppCCI"
+              [(ngModel)]="newSupplier.cci_account_number" [disabled]="loading" required>
           </div>
         </div>
         <div class="modal-footer">
@@ -627,10 +872,150 @@
   </div>
 </div>
 
+<div class="modal fade" id="ModalStart" tabindex="-1" role="dialog" aria-labelledby="ModalStart" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <button type="button" class="close close-modal-custom" data-dismiss="modal" aria-label="Close" #closeStartModal>
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <img src="../../assets/imgs/start-img.png" alt="CompraLocal concepto" class="img-concepto">
+      <div class="buttons-fixed">
+        <button class="btn btn-cl3" data-toggle="modal" data-target="#ModalInfo" (click)="selectClientType(2)">
+          <!-- <img src="../../assets/imgs/toClick.png" alt="parapersonas" class="img-over-button"> -->
+          Para personas
+        </button>
+        <button class="btn btn-cl3" data-toggle="modal" data-target="#ModalInfo" (click)="selectClientType(1)">
+          <!-- <img src="../../assets/imgs/toClick.png" alt="paraemprendedores" class="img-over-button"> -->
+          Para emprendedores
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="ModalInfo" tabindex="-1" role="dialog" aria-labelledby="ModalInfo" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalInfoLongTitle">CompraLocal</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeModalInfo>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form #promoForm="ngForm" (ngSubmit)="saveData(promoForm)">
+        <div class="modal-body">
+          <h5>Comparte tu información con nosotros</h5>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="nameSub">Nombre <sup>*</sup></label>
+              <input type="text" class="form-control" id="nameSub" name="nameSub" [(ngModel)]="subInfo.name"
+                [disabled]="loading" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="lastNameSub">Apellido <sup>*</sup></label>
+              <input type="text" class="form-control" id="lastNameSub" name="lastNameSub"
+                [(ngModel)]="subInfo.last_name" [disabled]="loading" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="emailSub">Email <sup>*</sup></label>
+              <input type="email" class="form-control" id="emailSub" name="emailSub" [(ngModel)]="subInfo.email"
+                [disabled]="loading" required email>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="phoneSub">WhatsApp <sup>*</sup></label>
+              <input type="tel" class="form-control" id="phoneSub" name="phoneSub" [(ngModel)]="subInfo.phone"
+                [disabled]="loading" required>
+            </div>
+          </div>
+          <div class="form-row" *ngIf="subInfo.clientType == 'persona'">
+            <div class="form-group col-md-12">
+              <label for="dniSub">DNI <sup>*</sup></label>
+              <input type="text" class="form-control" id="dniSub" name="dniSub" [(ngModel)]="subInfo.dni"
+                [disabled]="loading" required>
+            </div>
+          </div>
+          <div class="form-row" *ngIf="subInfo.clientType == 'emprendedor'">
+            <div class="form-group col-md-6">
+              <label for="marcaSub">Tu marca <sup>*</sup></label>
+              <input type="text" class="form-control" id="marcaSub" name="marcaSub" [(ngModel)]="subInfo.marca"
+                [disabled]="loading" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="rucSub">RUC <sup>*</sup></label>
+              <input type="text" class="form-control" id="rucSub" name="rucSub" [(ngModel)]="subInfo.ruc"
+                [disabled]="loading" required>
+            </div>
+          </div>
+          <div class="form-row" *ngIf="subInfo.clientType == 'emprendedor'">
+            <div [className]="subInfo.categoria == 'Otros'? 'form-group col-md-6' : 'form-group col-md-12'">
+              <label for="cateSub">Selecciona tu Categoria <sup>*</sup></label>
+              <select class="form-control" id="cateSub" name="cateSub" [(ngModel)]="subInfo.categoria"
+                [disabled]="loading" required>
+                <option value="{{cat.name}}" *ngFor="let cat of categorias">{{cat.name}}</option>
+                <option value="Otros">Otros</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6" *ngIf="subInfo.categoria == 'Otros'">
+              <label for="cateOtrosSub">Especifique Categoría <sup>*</sup></label>
+              <input type="text" class="form-control" id="cateOtrosSub" name="cateOtrosSub" [(ngModel)]="cateOtros"
+                [disabled]="loading" required>
+            </div>
+          </div>
+          <div class="form-row" *ngIf="subInfo.clientType == 'persona'">
+            <div class="form-group col-md-12">
+              <label for="cateSub">¿Qué categoría te interesa más? <sup>*</sup></label>
+              <select class="form-control" id="cateSub" name="cateSub" [(ngModel)]="subInfo.categoria"
+                [disabled]="loading" required>
+                <option value="{{cat.name}}" *ngFor="let cat of categorias">{{cat.name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="depSub">Departamento <sup>*</sup></label>
+            <select class="form-control" id="depSub" name="depSub" [(ngModel)]="depSub"
+              (ngModelChange)="getProvinciasByDepartamentoSub(depSub)" [disabled]="loading" required>
+              <option value="{{dep.id_ubigeo}}" *ngFor="let dep of departamentos">{{dep.nombre_ubigeo}}</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="provinciaSub">Provincia <sup>*</sup></label>
+              <select class="form-control" id="provinciaSub" name="provinciaSub" [(ngModel)]="provSub"
+                [disabled]="loading || depSub == ''" (ngModelChange)="getDistritosByProvinciasSub(provSub)" required>
+                <option value="{{prov.id_ubigeo}}" *ngFor="let prov of provByDep">{{prov.nombre_ubigeo}}</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="distritoSub">Distrito <sup>*</sup></label>
+              <select class="form-control" id="distritoSub" name="distritoSub" [(ngModel)]="subInfo.distrito"
+                [disabled]="loading || subInfo.provincia == null || subInfo.provincia == ''" required>
+                <option value="{{dis.nombre_ubigeo}}" *ngFor="let dis of disByProv">{{dis.nombre_ubigeo}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="accessCheck" name="accessCheck"
+              [(ngModel)]="accessCheck" required>
+            <label class="form-check-label" for="gridCheck1">
+              Acepto las condiciones de CompraLocal en relacion a su política de uso de datos. <sup>*</sup>
+            </label>
+          </div>
+          <p>* Campos Obligatorios</p>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary btn-block" [disabled]="loading || promoForm.invalid">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="loading"></span>
+            Enviar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<i class="fas fa-arrow-alt-circle-up fixed-goup-button" id="goUpButton" (click)="goUp()"></i>
+
 <!--Alerts section-->
-<div class="alert alert-success success fixed-bottom" role="alert" *ngIf="successAlert">
-  {{successMessage}}
-</div>
-<div class="alert alert-danger error fixed-bottom" role="alert" *ngIf="errorAlert">
-  {{errorMessage}}
-</div>
+<app-succ-err-mesages #alertComp></app-succ-err-mesages>

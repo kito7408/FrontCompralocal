@@ -2,8 +2,10 @@
 @import "~@fortawesome/fontawesome-free/css/all.css";
 
 :root {
-    --primary1: #ba1cb3;
-    --primary2: #5e17eb; 
+    /* --primary1: #ba1cb3; */
+    --primary1: #fc52ff;
+    /* --primary2: #5e17eb; */
+    --primary2: #7530ff; 
     --primary3: #1aa9e8;
 
     --dark1: #b46caa;
@@ -117,6 +119,13 @@ body{
     font-weight: 900;
 }
 
+.lh-normal{
+    line-height: normal;
+}
+
+.form-check>input, .form-check>label{
+    cursor: pointer;
+}
 
 @media(max-width: 575px){
     

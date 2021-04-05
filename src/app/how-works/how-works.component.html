@@ -5,16 +5,31 @@
         <div class="info-block">
             <h4 class="info-title">
                 <u>
-                    Cómo comprar en compralocal
+                    Cómo comprar en compralocal.pe
                 </u>
             </h4>
             <div class="info-content">
-                <ul class="list-group">
-                    <li class="list-group-item">
+                <ul class="list-group" *ngIf="systemSteps">
+
+                    <li class="list-group-item" *ngFor="let step of systemSteps; index as i;">
+                        <div [className]="(i + 1) == systemSteps.length? 'section-title last' : 'section-title'"
+                            (click)="show_hideContent(i)">
+                            {{i + 1}}. {{step.title}}
+                            <div *ngIf="(i + 1) < systemSteps.length">
+                                <i class="fas fa-caret-down" *ngIf="!step.showing"></i>
+                                <i class="fas fa-caret-up" *ngIf="step.showing"></i>
+                            </div>
+                        </div>
+                        <div class="section-content" *ngIf="step.showing">
+                            <small [innerHTML]="step.content"></small>
+                        </div>
+                    </li>
+
+                    <!-- <li class="list-group-item">
                         <div class="section-title">
                             1. Registrate
                         </div>
-                        <div class="section-content">
+                        <div class="section-content" *ngIf="false">
                             <small>
                                 Vamos a crear una relación de confianza, por ello necesitamos conocernos. Regístrate
                                 aquí de una manera segura y confiable. De acá en adelante, cada paso que des contarás
@@ -43,7 +58,7 @@
                         </div>
                         <div class="section-content">
                             <small>
-                                La plataforma está programada para que una vez realizado el pago, se emita una 
+                                La plataforma está programada para que una vez realizado el pago, se emita una
                                 alerta con tu pedido al productor, quien se encargará de preparar tus productos.
                             </small>
                         </div>
@@ -55,13 +70,13 @@
                         <div class="section-content">
                             <small>
                                 Una vez recibida la orden de compra, tu entrega se programará en un plazo de entre
-                                5 y 7 días, tiempo en el cuál recibiremos tus productos y procederemos a entregarlos
+                                24 a 48 horas, tiempo en el cuál recibiremos tus productos y procederemos a entregarlos
                                 con toda la seguridad del caso.
                             </small>
                         </div>
                     </li>
                     <li class="list-group-item">
-                        <div class="section-title">
+                        <div class="section-title last">
                             5. No olvides
                         </div>
                         <div class="section-content">
@@ -81,86 +96,9 @@
                                 No te alejes que lo que está por venir cambiará nuestro país.
                             </small>
                         </div>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </div>
-
-        <!-- <div class="info-block">
-            <h4 class="info-title">
-                <u>
-                    Cómo comprar en compralocal
-                </u>
-            </h4>
-            <div class="info-content">
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <div class="section-title">
-                            1. Registrate
-                        </div>
-                        <div class="section-content">
-                            <small>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vel auctor ipsum, sit amet
-                                elementum orci. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec
-                                pharetra
-                                ante,
-                                sed gravida lectus. Maecenas sed ante eget nisi semper dapibus sed quis leo. Suspendisse
-                                finibus
-                                enim augue, ac faucibus nulla porta sit amet.
-                            </small>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="section-title">
-                            1. Registrate
-                        </div>
-                        <div class="section-content">
-                            <small>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vel auctor ipsum, sit amet
-                                elementum orci. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec
-                                pharetra
-                                ante,
-                                sed gravida lectus. Maecenas sed ante eget nisi semper dapibus sed quis leo. Suspendisse
-                                finibus
-                                enim augue, ac faucibus nulla porta sit amet.
-                            </small>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="section-title">
-                            1. Registrate
-                        </div>
-                        <div class="section-content">
-                            <small>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vel auctor ipsum, sit amet
-                                elementum orci. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec
-                                pharetra
-                                ante,
-                                sed gravida lectus. Maecenas sed ante eget nisi semper dapibus sed quis leo. Suspendisse
-                                finibus
-                                enim augue, ac faucibus nulla porta sit amet.
-                            </small>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="section-title">
-                            1. Registrate
-                        </div>
-                        <div class="section-content">
-                            <small>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vel auctor ipsum, sit amet
-                                elementum orci. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec
-                                pharetra
-                                ante,
-                                sed gravida lectus. Maecenas sed ante eget nisi semper dapibus sed quis leo. Suspendisse
-                                finibus
-                                enim augue, ac faucibus nulla porta sit amet.
-                            </small>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div> -->
-
     </div>
 </div>

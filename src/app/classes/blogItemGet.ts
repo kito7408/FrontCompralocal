@@ -5,6 +5,7 @@ export class blogItemGet{
     title: string;
     content: string;
     image: any;
+    author: string;
     user: User;
     userId: number;
 }

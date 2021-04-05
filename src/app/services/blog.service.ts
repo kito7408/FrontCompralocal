@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Constants } from '../constants';
 import { Observable } from 'rxjs';
@@ -15,10 +15,10 @@ export class BlogService {
 
   constructor(private http: HttpClient) { }
 
-  getAll(): Observable<blogItemGet[]>{
+  getAll(): Observable<blogItemGet[]> {
     return this.http.get<blogItemGet[]>(this.url);
   }
-  
+
   getById(id: number): Observable<blogItemGet> {
     const newUrl = this.url + '/' + id;
     return this.http.get<blogItemGet>(newUrl);
@@ -34,7 +34,15 @@ export class BlogService {
     return this.http.get<blogItemGet>(newUrl);
   }
 
-  save(post: blogItemPost):Observable<blogItemPost>{
+  getExcept(id: number): Observable<blogItemGet[]> {
+    const newUrl = this.url + '/except/' + id;
+    return this.http.get<blogItemGet[]>(newUrl);
+  }
+
+  save(post: blogItemPost): Observable<blogItemPost> {
+
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', 'Bearer ' + localStorage.getItem('token'));
 
     const formData: FormData = new FormData();
     formData.append('image', post.image);
@@ -42,17 +50,23 @@ export class BlogService {
     formData.append('content', String(post.content));
     formData.append('userId', String(post.userId));
 
-    return this.http.post<blogItemPost>(this.url, formData);
+    return this.http.post<blogItemPost>(this.url, formData, { headers: headers });
   }
 
   update(producto: blogItemPost): Observable<blogItemPost> {
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-type', 'application/json');
+    headers = headers.set('Authorization', 'Bearer ' + localStorage.getItem('token'));
     const newUrl = this.url + '/' + producto.id;
-    return this.http.put<blogItemPost>(newUrl,producto);
+    return this.http.put<blogItemPost>(newUrl, producto, { headers: headers });
   }
 
   delete(id: number): Observable<blogItemPost> {
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-type', 'application/json');
+    headers = headers.set('Authorization', 'Bearer ' + localStorage.getItem('token'));
     const newUrl = this.url + '/' + id;
-    return this.http.delete<blogItemPost>(newUrl);
+    return this.http.delete<blogItemPost>(newUrl, { headers: headers });
   }
 
 }

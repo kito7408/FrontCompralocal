@@ -1,0 +1,121 @@
+.welcomeImage{
+    width: 100%;
+    /* object-fit: cover; */
+}
+
+.welcomeOptions{
+    position: absolute;
+    top: 57%;
+    left: 8.5%;
+    right: 61%;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.welcomeOptions>button{
+    /* display: block; */
+    margin: auto;
+    /* margin-bottom: 5rem; */
+    margin-right: 3rem;
+}
+
+.logo{
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    width: 15%;
+}
+
+label>a{
+    padding: 0%;
+}
+
+.option-section{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    /* margin-right: 8rem; */
+}
+
+.option-section>button{
+    position: relative;
+}
+
+.img-over-button{
+    position: absolute;
+    left: -17%;
+    bottom: 25%;
+    height: 150%;
+}
+
+sup{
+    color: red;
+    font-size: 110% !important;
+    top: 0 !important;
+}
+
+input::-webkit-input-placeholder {
+    color: #aaa;
+    font-style: italic;
+}
+
+input.ng-invalid{
+    border-color: red;
+}
+
+input.ng-untouched{
+    border-color: #ced4da;
+}
+
+@media(max-width: 575px){
+    .big-screen{
+        display: none;
+    }
+    .welcomeOptions{
+        top: 28%;
+        left: 10%;
+        right: 10%;
+    }
+    .option-section>button{
+        font-size: 12px;
+    }
+}
+
+@media(min-width: 576px) and (max-width: 767px){
+    .big-screen{
+        display: none;
+    }
+    .welcomeOptions{
+        top: 28%;
+        left: 17%;
+        right: 20%;
+    }
+}
+
+@media(min-width: 768px) and (max-width: 992px){
+    .small-screen{
+        display: none;
+    }
+    .welcomeOptions{
+        right: 51%;
+        left: 3.5%;
+    }
+}
+
+@media(min-width: 992px) and (max-width: 1199px){
+    .small-screen{
+        display: none;
+    }
+    .welcomeOptions{
+        left: 5.5%;
+        right: 57%;
+    }
+}
+
+@media(min-width: 1200px){
+    .small-screen{
+        display: none;
+    }
+}

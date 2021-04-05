@@ -4,6 +4,7 @@ import { blogItemPost } from '../classes/blogItemPost';
 import { BlogService } from '../services/blog.service';
 import { UserService } from '../services/user.service';
 import * as moment from 'moment';
+import { SuccErrMesagesComponent } from '../succ-err-mesages/succ-err-mesages.component';
 
 @Component({
   selector: 'app-blog',
@@ -21,12 +22,9 @@ export class BlogComponent implements OnInit {
   postImg: File;
   newPost = new blogItemPost;
   posting: boolean;
-  successAlert: boolean;
-  successMessage: string;
-  errorAlert: boolean;
-  errorMessage: string;
 
   @ViewChild('closeAddPostModal') closeAddPostModal: ElementRef;
+  @ViewChild('alertComp') alertComp: SuccErrMesagesComponent;
 
   constructor(
     public userService: UserService,
@@ -34,7 +32,7 @@ export class BlogComponent implements OnInit {
   ) { 
     // this.list = [0];
     this.listRows = 1;
-    this.itemsPerRow = 3;
+    this.itemsPerRow = 4;
     this.thereMore = false;
     this.posting = false;
     this.listAll();
@@ -46,7 +44,7 @@ export class BlogComponent implements OnInit {
   showMore(){
     // this.list.push(this.listRows);
     this.listRows++;
-    if ((this.listRows * this.itemsPerRow) < this.posts.length) {
+    if (((this.listRows * (this.itemsPerRow - 1)) + 6) < this.posts.length) {
       this.thereMore = true;
     } else {
       this.thereMore = false;
@@ -86,10 +84,10 @@ export class BlogComponent implements OnInit {
         this.closeAddPostModal.nativeElement.click();
         this.closeModal();
         this.posting = false;
-        this.successEvent('Post publicado correctamente');
+        this.alertComp.successEvent('Post publicado correctamente');
       }, (error) => {
         console.log(error);
-        this.errorEvent('Error al publicar el post');
+        this.alertComp.errorEvent('Error al publicar el post');
       });
     }
   }
@@ -101,30 +99,12 @@ export class BlogComponent implements OnInit {
         element.date = moment.utc(element.createdAt).format('DD/MM/YYYY').toString();
       });
       this.posts[0].last = true;
-      if ((this.listRows * 3) < this.posts.length) {
+      if (((this.listRows * (this.itemsPerRow - 1)) + 6) < this.posts.length) {
         this.thereMore = true;
       } else {
         this.thereMore = false;
       }
     });
-  }
-
-  successEvent(msg: string) {
-    this.successAlert = true;
-    this.successMessage = msg;
-    setTimeout(() => {
-      this.successAlert = false;
-      this.successMessage = '';
-    }, 3000);
-  }
-
-  errorEvent(msg: string) {
-    this.errorAlert = true;
-    this.errorMessage = msg
-    setTimeout(() => {
-      this.errorAlert = false;
-      this.errorMessage = '';
-    }, 3000);
   }
 
 }

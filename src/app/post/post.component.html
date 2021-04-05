@@ -1,4 +1,4 @@
-<div class="container mb-5 position-relative">
+<div class="container position-relative">
     <div class="position-absolute back-section">
         <i class="far fa-arrow-alt-circle-left back" routerLink="/blog" routerLinkActive="active"></i>
     </div>
@@ -10,6 +10,56 @@
         <div class="post-title">
             <h3>{{post.title}}</h3>
         </div>
+        <div class="post-author">
+            Por: <b [innerHtml]='post.author'></b>
+        </div>
         <div class="post-content" [innerHtml]='post.content'></div>
+    </div>
+</div>
+
+<div class="frase-section mt-5 mb-5">
+    <div class="container">
+        <div class="row justify-content-end">
+            <div class="col-md-6 text-frase">
+                Nuestro propósito es proveer un espacio de oportunidades para el desarrollo de los productores y
+                productoras locales y acercar a nuestros socios y sus clientes la posibilidad de impactar positivamente
+                en el planeta y la sociedad.
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mb-5">
+    <div class="all-posts">
+        <div class="all-posts-title">
+            Últimas noticias
+        </div>
+        <div class="all-posts-content">
+            <ul class="list-group list-group-horizontal">
+                <li class="list-group-item" routerLink="/post/{{p.id}}" routerLinkActive="active"
+                    *ngFor="let p of posts.slice(0, listRows * itemsPerRow); let i = index">
+                    <div class="img-section">
+                        <img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/blog-posts/' + p.image"
+                            alt="" class="img-post">
+                    </div>
+                    <div class="post-text">
+                        <!-- <div class="info-post">
+                            {{p.date}}
+                        </div> -->
+                        <div class="one-post-title">
+                            {{p.title}}
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="container d-block text-right" *ngIf="thereMore">
+                <!-- <button class="btn btn-cl2" (click)="showMore()">
+                    Ver más
+                </button> -->
+                <button class="btn btn-cl2"  routerLink="/blog" routerLinkActive="active">
+                    Ver más
+                </button>
+            </div>
+        </div>
     </div>
 </div>

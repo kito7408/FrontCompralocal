@@ -1,13 +1,80 @@
 <div class="container mt-5 mb-5">
-  <div class="row">
-    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 title">
-      <h1 class="fw-700" *ngIf="supplier">{{supplier.name}}</h1>
+  <div *ngIf="userService.userInfo && userService.userInfo.userTypeId == 1 && supplier && !suppOnEdit"
+    class="text-right">
+    <button class="btn btn-info" (click)="goToEditSupp()">
+      Editar
+    </button>
+  </div>
+  <div *ngIf="suppOnEdit" class="text-right">
+    <button class="btn btn-danger mr-3" (click)="cancelEditSupp()" [disabled]="loading">
+      Cancelar
+    </button>
+    <button class="btn btn-success" (click)="saveSuppChanges()" [disabled]="loading">
+      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="loading"></span>
+      Guardar Cambios
+    </button>
+  </div>
+  <div class="row mt-4">
+    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 title text-center">
+
+      <h1 class="fw-700 suppTitle" *ngIf="supplier && !suppOnEdit">{{supplier.name}}</h1>
+
+      <div *ngIf="supplier && !suppOnEdit" class="logo-img-section-1">
+        <img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/suppliers/' + supplier.image" alt="No Image"
+          class="supp-img">
+      </div>
+
+      <div *ngIf="supplier && suppOnEdit">
+
+        <div class="form-group">
+          <label for="suppName">Nombre Comercial</label>
+          <input type="text" class="form-control" id="suppName" name="suppName" [(ngModel)]="supplier.name"
+            [disabled]="loading" required>
+        </div>
+
+        <img [src]="suppImgURL1" alt="No Image" class="supp-img">
+
+        <div class="form-group">
+          <label for="suppImg1">Logo Empresa</label>
+          <input type="file" name="suppImg1" id="suppImg1" class="form-control-file" [disabled]="loading"
+            (change)="selectFileSupp1($event)" required>
+        </div>
+        <div [innerHtml]='suppfilemsg1' *ngIf="suppfilemsg1" style="color: red;"></div>
+
+
+      </div>
+
       <h1 class="fw-700" *ngIf="educacion">Educa Impacta Crece</h1>
       <h1 class="fw-700" *ngIf="reforestacion">Andoforestando</h1>
     </div>
     <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 text-center">
-      <img *ngIf="supplier" [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/suppliers/' + supplier.image"
-        alt="" class="supp-img">
+
+      <div *ngIf="supplier && !suppOnEdit" class="logo-img-section-2">
+        <img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/suppliers/' + supplier.image_person"
+          alt="No Image" class="supp-contact-img">
+      </div>
+
+      <h3 class="fw-700" *ngIf="supplier && !suppOnEdit">{{supplier.contact_person}}</h3>
+
+      <div *ngIf="supplier && suppOnEdit">
+
+        <div class="form-group">
+          <label for="suppContactPerson">Persona de contacto</label>
+          <input type="text" class="form-control" id="suppContactPerson" name="suppContactPerson"
+            [(ngModel)]="supplier.contact_person" [disabled]="loading" required>
+        </div>
+
+        <img [src]="suppImgURL2" alt="No Image" class="supp-contact-img">
+
+        <div class="form-group">
+          <label for="suppImg2">Foto de Representante</label>
+          <input type="file" name="suppImg2" id="suppImg2" class="form-control-file" [disabled]="loading"
+            (change)="selectFileSupp2($event)" required>
+        </div>
+        <div [innerHtml]='suppfilemsg2' *ngIf="suppfilemsg2" style="color: red;"></div>
+
+      </div>
+
       <img *ngIf="educacion" src="../../assets/imgs/educa-imacta-crece.jpg" alt="" class="supp-img">
       <img *ngIf="reforestacion" src="../../assets/imgs/andoforestando.png" alt="" class="supp-img">
     </div>
@@ -65,34 +132,72 @@
       </div>
     </div>
 
-    <div *ngIf="reforestacion">
-      <h5>Descripción</h5>
-      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Blanditiis voluptatem, eos repellat quam dicta
-        beatae
-        ullam deserunt, consectetur cum eum esse possimus, praesentium nostrum dolorum alias necessitatibus quidem
-        dolore
-        qui!</p>
+    <div class="row mt-5" *ngIf="reforestacion">
+
+      <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 title-ref-section">
+        <h2>
+          NUESTROS OBJETIVOS SON:<br>
+          DEJAR UN MUNDO MÁS VERDE PARA TODO.<br>
+          MEJORAR EL MEDIO AMBIENTE, BRINDANDO DESARROLLO SOSTENIBLE A LAS COMUNIDADES DEL PAÍS.<br>
+          CREAR UN ESPACIO PARA QUE LAS EMPRESAS Y LAS PERSONAS PUEDAN APOYAR EN ESTE DESARROLLO.<br><br>
+          ¿CÓMO LO HACEMOS?
+        </h2>
+      </div>
+      <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+        <div class="info-eic-section">
+          <img src="../../assets/imgs/ref-img-1.png" alt="ref-img-1"
+            style="width: 68px; height: 68px; object-fit: cover; object-position: 50% 50%; align-self: center;">
+          <p>
+            Identificamos comunidades del interior del país que tengan las ganas de trabajar y salir adelante por
+            intermedio de la reforestación.
+          </p>
+        </div>
+        <div class="info-eic-section">
+          <img src="../../assets/imgs/ref-img-2.png" alt="ref-img-2"
+            style="width: 68px; height: 68px; object-fit: cover; object-position: 50% 50%; align-self: center;">
+          <p>
+            De manera conjunta con las comunidades, identificamos y determinamos espacios destinados para la
+            implementación del proyecto.
+          </p>
+        </div>
+        <div class="info-eic-section">
+          <img src="../../assets/imgs/ref-img-3.png" alt="ref-img-3"
+            style="width: 68px; object-position: 50% 50%; align-self: center;">
+          <p>
+            Compra Local destina un porcentaje de los ingresos para la ejecución de estos proyectos.
+          </p>
+        </div>
+        <div class="info-eic-section">
+          <img src="../../assets/imgs/ref-img-4.png" alt="ref-img-4"
+            style="width: 68px; height: 68px; object-fit: cover; object-position: 50% 50%; align-self: center;">
+          <p>
+            Cada cliente puede elegir que iniciativa apoyar. Compralocal.pe generará los espacios para una participación
+            activa de empresas y clientes.
+          </p>
+        </div>
+      </div>
     </div>
 
     <div *ngIf="supplier">
-      <h5>Descripción</h5>
-      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Blanditiis voluptatem, eos repellat quam dicta
-        beatae
-        ullam deserunt, consectetur cum eum esse possimus, praesentium nostrum dolorum alias necessitatibus quidem
-        dolore
-        qui!</p>
+      <h5>Mi historia</h5>
+      <div *ngIf="!suppOnEdit">
+        <p *ngIf="supplier.description">{{supplier.description}}</p>
+        <p *ngIf="!supplier.description">No hay información.</p>
+      </div>
+      <div *ngIf="suppOnEdit">
+
+        <div class="form-group">
+          <textarea class="form-control" id="suppDesc" name="suppDesc" cols="30" rows="6"
+            [(ngModel)]="supplier.description" [disabled]="loading"></textarea>
+        </div>
+
+      </div>
     </div>
   </div>
 
   <hr>
   <div *ngIf="reforestacion" class="text-center">
-    <img src="../../assets/imgs/reforest-photo.jpg" alt="" class="img-content">
-    <p>
-      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Blanditiis voluptatem, eos repellat quam dicta beatae
-      ullam deserunt, consectetur cum eum esse possimus, praesentium nostrum dolorum alias necessitatibus quidem
-      dolore
-      qui!
-    </p>
+    <img src="../../assets/imgs/ref-img-final.png" alt="ref-final-img" class="img-content">
   </div>
 
   <div *ngIf="educacion">
@@ -104,13 +209,107 @@
 
   </div>
 
-  <h5 *ngIf="supplier">Productos</h5>
+  <div class="prod-title" *ngIf="supplier">
+    <h5>Mis Productos</h5>
+    <button class="btn btn-info"
+      *ngIf="userService.userInfo && userService.userInfo.userTypeId == 1 && supplier && !suppOnEdit"
+      data-toggle="modal" data-target="#ModalNewProduct" (click)="newProdF()">Agregar Producto</button>
+  </div>
 
   <!--Sección de productos-->
-  <app-products #prodComp *ngIf="supplier"></app-products>
+  <app-products #prodComp *ngIf="supplier" [onlyRead]="onlyReadProds"></app-products>
 
   <!-- <hr>
   <h5>Ubicación</h5>
   <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [mapTypeId]="mapTypeId"></agm-map> -->
 
+  <div *ngIf="suppOnEdit" class="text-center">
+    <button class="btn btn-danger unable mr-3" (click)="unableSupp()" [disabled]="loading || unabling">
+      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="unabling"></span>
+      Desabilitar
+    </button>
+  </div>
+
 </div>
+
+
+<!-- 
+<div class="modal fade" id="ModalNewProduct" tabindex="-1" role="dialog" aria-labelledby="ModalNewProduct"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalNewProductLongTitle">Nuevo Producto</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeAddProductModal>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form #newProductForm="ngForm" (ngSubmit)="addProd(newProductForm)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="nombreProd">Nombre</label>
+            <input type="text" class="form-control" id="nombreProd" name="nombreProd" [(ngModel)]="newProduct.name"
+              [disabled]="loading" required>
+          </div>
+          <div class="form-group">
+            <label for="categoriaProd">Categoria</label>
+            <select class="form-control" id="categoriaProd" name="categoriaProd" [(ngModel)]="newProduct.categoryId"
+              [disabled]="loading" required>
+              <option value="{{cat.id}}" *ngFor="let cat of categorias">{{cat.name}}</option>
+            </select>
+          </div>
+          <div class="form-group justify-content-between">
+            <label for="imagenProd">Imagen <button class="btn btn-success ml-3 rounded-circle" (click)="addProdImg()"
+                *ngIf="prodImgCant < 5">+</button><button class="btn btn-danger ml-3 rounded-circle"
+                (click)="rmvProdImg()" *ngIf="prodImgCant > 1">-</button></label>
+            <input type="file" class="form-control-file ml-3 mb-3" [disabled]="loading" *ngFor="let img of prodImgArr"
+              (change)="selectFile($event, img)">
+          </div>
+          <div [innerHtml]='filemsg' *ngIf="filemsg" style="color: red;"></div>
+          <div class="form-group">
+            <label for="precioProd">Precio</label>
+            <input type="number" class="form-control" id="precioProd" name="precioProd" [(ngModel)]="newProduct.price"
+              [disabled]="loading" required>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="isOffer" name="isOffer" [(ngModel)]="newProduct.isOffer"
+              [disabled]="loading">
+            <label class="form-check-label" for="isOffer">¿Está en oferta?</label>
+          </div>
+          <div class="form-group" *ngIf="newProduct.isOffer">
+            <label for="precioOfertaProd">Precio en oferta</label>
+            <input type="number" class="form-control" id="precioOfertaProd" name="precioOfertaProd"
+              [(ngModel)]="newProduct.priceOffer" [disabled]="loading">
+          </div>
+          <div class="form-group">
+            <label for="unitProd">Unidad de medida</label>
+            <select class="form-control" id="unitProd" name="unitProd" [(ngModel)]="newProduct.unit"
+              [disabled]="loading" required>
+              <option value="und">Unidad</option>
+              <option value="kg">Kilogramos</option>
+              <option value="g">Gramos</option>
+              <option value="L">Litros</option>
+              <option value="ml">Mililitros</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="descripcionProd">Descripción</label>
+            <textarea class="form-control" id="descripcionProd" name="descripcionProd" cols="30" rows="4"
+              [(ngModel)]="newProduct.description" [disabled]="loading"></textarea>
+          </div>
+          <p>* Campos Obligatorios</p>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary btn-block" [disabled]="loading || newProductForm.invalid">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="loading"></span>
+            Agregar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div> -->
+
+
+<!--Alerts section-->
+<app-succ-err-mesages #alertComp></app-succ-err-mesages>

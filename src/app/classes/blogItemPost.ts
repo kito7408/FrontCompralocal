@@ -3,5 +3,6 @@ export class blogItemPost{
     title: string;
     content: string;
     image: any;
+    author: string;
     userId: number;
 }

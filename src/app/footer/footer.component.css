@@ -1,12 +1,16 @@
 .footer-logo{
     max-height: 100px !important;
-    position: absolute;
-    right: 10%;
     cursor: pointer;
+    width: 90%;
 }
 
 a{
     cursor: pointer;
+}
+
+.sec-tarjetas img{
+    height: 1.25rem;
+    margin-right: 10px;
 }
 
 @media(max-width: 575px){

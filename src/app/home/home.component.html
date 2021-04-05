@@ -1,48 +1,51 @@
-<!--Sección de imagen de presentación-->
-<!-- <img src="../../assets/imgs/alpacas.jpg" class="img-fluid" alt="Responsive image"> -->
-<!-- <div class="jumbotron hero-home">
-  <h1 class="display-4">Hello, world!</h1>
-  <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-  <hr class="my-4">
-  <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-  <p class="lead">
-    <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-  </p>
-</div> -->
-
 <!--Seccion slider carrusel-->
 <div id="carouselExampleIndicators" class="carousel slide carousel-fade position-relative" data-ride="carousel"
   data-interval="2000" #carousel>
   <div class="carousel-inner">
-    <div class="carousel-item active">
+    <!-- <div class="carousel-item active">
       <img class="d-block w-100" src="../../assets/imgs/0.jpg" alt="First slide">
+    </div> -->
+    <div class="carousel-item active">
+      <img class="d-block w-100" src="../../assets/imgs/1-2.png" alt="1 slide">
     </div>
     <div class="carousel-item">
-      <img class="d-block w-100" src="../../assets/imgs/1.png" alt="Second slide">
+      <img class="d-block w-100" src="../../assets/imgs/2-2.png" alt="2 slide">
     </div>
     <div class="carousel-item">
-      <img class="d-block w-100" src="../../assets/imgs/2.png" alt="Third slide">
+      <img class="d-block w-100" src="../../assets/imgs/3-2.png" alt="3 slide">
     </div>
     <div class="carousel-item">
-      <img class="d-block w-100" src="../../assets/imgs/3.png" alt="Fourth slide">
+      <img class="d-block w-100" src="../../assets/imgs/4-2.png" alt="4 slide">
     </div>
     <div class="carousel-item">
-      <img class="d-block w-100" src="../../assets/imgs/4.png" alt="Fifth slide">
+      <img class="d-block w-100" src="../../assets/imgs/5-2.png" alt="5 slide">
     </div>
     <div class="carousel-item">
-      <img class="d-block w-100" src="../../assets/imgs/5.png" alt="Sixth slide">
+      <img class="d-block w-100" src="../../assets/imgs/6-2.png" alt="6 slide">
     </div>
     <div class="carousel-item">
-      <img class="d-block w-100" src="../../assets/imgs/6.png" alt="Seventh slide">
+      <img class="d-block w-100" src="../../assets/imgs/7-2.png" alt="7 slide">
     </div>
     <div class="carousel-item">
-      <img class="d-block w-100" src="../../assets/imgs/7.png" alt="Eigth slide">
+      <img class="d-block w-100" src="../../assets/imgs/8-2.png" alt="8 slide">
     </div>
     <div class="carousel-item">
-      <img class="d-block w-100" src="../../assets/imgs/8.png" alt="Nine slide">
+      <img class="d-block w-100" src="../../assets/imgs/9-2.png" alt="9 slide">
     </div>
     <div class="carousel-item">
-      <img class="d-block w-100" src="../../assets/imgs/9.png" alt="Nine slide">
+      <img class="d-block w-100" src="../../assets/imgs/10.png" alt="10 slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="../../assets/imgs/11.png" alt="11 slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="../../assets/imgs/12.png" alt="12 slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="../../assets/imgs/13.png" alt="13 slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="../../assets/imgs/14.png" alt="14 slide">
     </div>
   </div>
   <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -205,14 +208,14 @@
       </div>
       <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
         <img src="../../assets/imgs/envio.png" class="info-img">
-        <p class="guide-subtitle2">2. Tu pedido se envía directo al productor</p>
+        <p class="guide-subtitle2">2. Tu pedido se envía directo al productor/a</p>
         <!-- <p class="guide-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed porta in ex at commodo.
           Donec a porta ex. In vel ante dapibus, convallis massa et, viverra augue. Curabitur eu cursus elit, id tristique
           mi.</p> -->
       </div>
       <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
         <img src="../../assets/imgs/entrega.png" class="info-img">
-        <p class="guide-subtitle3">3. Recibimos y entregamos tu compra de manera programada</p>
+        <p class="guide-subtitle3">3. Tu compra será entregada de manera programada</p>
         <!-- <p class="guide-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed porta in ex at commodo.
           Donec a porta ex. In vel ante dapibus, convallis massa et, viverra augue. Curabitur eu cursus elit, id tristique
           mi.</p> -->
@@ -238,6 +241,7 @@
   </div>
 </div> -->
 
+<!-- Separador -->
 <div class="container mt-5">
   <hr>
 </div>
@@ -277,10 +281,10 @@
   </thead>
 </table>
 
-
 <!--Sección de productos-->
 <app-products #prodComp></app-products>
 
+<!-- Separador -->
 <div class="container">
   <hr>
 </div>
@@ -307,15 +311,15 @@
         </svg>
         <h6 class="fw-600">Frutas y Verduras</h6>
       </li>
-      <li class="list-group-item text-center rounded" id="category2" (click)="goToCategory(1)">
+      <!-- <li class="list-group-item text-center rounded" id="category2" (click)="goToCategory(2)">
         <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" class="img-category" fill="currentColor">
           <path
             d="m481.854 290.398c-3.161-2.681-7.892-2.29-10.571.868-2.679 3.159-2.291 7.893.869 10.571 16.233 13.768 24.826 29.177 24.848 44.562.015 10.328-3.688 19.059-11.321 26.691-12.763 12.764-36.512 22.271-70.587 28.26-30.589 5.375-68.898 7.984-117.152 7.888-74.499-.101-127.053-6.548-159.935-19.656 12.666-9.012 26.217-19.829 40.749-32.523 4.399 5.263 10.706 8.741 17.776 9.455 14.684 1.483 27.898-9.388 29.315-24.158.947-9.877.968-19.823.075-29.623 13.165-13.134 25.04-25.532 35.714-37.292 6.012 10.29 10.152 21.135 12.322 32.354 1.853 9.561 2.31 19.459 1.357 29.421-1.408 14.76 9.373 27.974 24.091 29.461 14.648 1.48 27.757-9.308 29.19-24.179 1.456-15.099.752-30.21-2.092-44.915-3-15.488-8.397-30.441-16.066-44.617 14.402.45 28.489 1.621 42.087 3.485 12.521 15.866 20.243 33.143 22.938 51.398 1.422 9.635 1.434 19.541.033 29.444-2.075 14.683 8.104 28.369 22.698 30.511 14.48 2.125 28.211-8.03 30.301-22.815 2.127-15.05 2.1-30.176-.082-44.957-1.313-8.892-3.425-17.69-6.303-26.304 7.46 2.864 14.571 5.999 21.265 9.405 3.635 1.85 8.183.455 10.085-3.283 1.879-3.691.409-8.207-3.283-10.086-41.217-20.976-98.196-32.537-156.761-31.991 4.036-5.23 7.795-10.327 11.28-15.298 21.967-31.336 32.646-57.016 32.646-78.506 0-14.776-5.14-27.395-15.276-37.503-21.208-21.151-57.113-24.484-101.098-9.387-42.189 14.48-87.391 44.362-127.278 84.14-57.788 57.632-93.688 125.303-93.688 176.605 0 21.275 6.477 38.98 18.732 51.201 10.165 10.137 22.665 15.204 37.403 15.203 15.602 0 33.712-5.678 54.213-17.031 4.202-2.327 8.517-4.899 12.944-7.704 34.203 16.529 91.414 24.633 174.627 24.745 47.564.064 89.006-2.708 119.769-8.114 37.693-6.624 63.402-17.231 78.597-32.427 10.448-10.448 15.735-23.004 15.714-37.319-.028-19.921-10.452-39.278-30.145-55.98zm-78.204-22.984c4.824 11.251 8.172 22.941 9.924 34.808 1.972 13.358 1.995 27.041.068 40.667-.922 6.522-6.852 11.015-13.278 10.072-6.447-.945-10.94-7.033-10.017-13.568 1.602-11.327 1.586-22.677-.047-33.735-2.369-16.049-8.09-31.372-17.032-45.754 10.533 2.074 20.692 4.581 30.382 7.51zm-192.736 73.51c-.585 6.121-5.589 10.733-11.651 10.733-3.712 0-7.078-1.702-9.302-4.584 6.981-6.338 14.18-13.088 21.606-20.255.009 4.7-.202 9.411-.653 14.106zm100.862-40.492c2.57 13.291 3.206 26.959 1.888 40.632-.63 6.54-6.354 11.335-12.81 10.683-6.477-.654-11.235-6.534-10.608-13.104 1.089-11.392.563-22.729-1.562-33.699-2.79-14.423-8.38-28.262-16.628-41.222 3.143-3.611 6.172-7.163 9.079-10.653 3.929-.149 7.894-.258 11.88-.297 9.224 14.978 15.533 30.993 18.761 47.66zm-122.128-173.174c11.358 4.544 21.982 10.439 31.602 17.584 10.839 8.052 20.53 17.71 28.804 28.708 3.698 4.916 3.111 11.695-1.365 15.769-5.142 4.679-13.363 3.835-17.579-1.77-6.877-9.142-14.914-17.156-23.887-23.82-13.017-9.668-27.889-16.457-44.37-20.304 8.913-5.977 17.87-11.383 26.795-16.167zm-147.158 144.567c11.707 4.045 22.705 9.508 32.757 16.296 11.189 7.558 21.305 16.773 30.066 27.391 3.918 4.749 3.641 11.555-.648 15.831-4.917 4.903-13.162 4.427-17.623-.979-7.282-8.825-15.671-16.473-24.934-22.729-9.27-6.261-19.51-11.132-30.507-14.582 3.209-7 6.845-14.093 10.889-21.228zm60.592 122.25c-33.789 18.712-57.915 20.129-73.758 4.329-9.505-9.479-14.324-23.132-14.324-40.58 0-15.324 3.789-32.634 10.763-50.876 10.128 3.036 19.513 7.421 27.949 13.118 8.071 5.451 15.392 12.128 21.759 19.845 10.057 12.189 28.654 13.152 39.786 2.052 9.798-9.77 10.497-25.246 1.625-35.998-9.676-11.726-20.859-21.911-33.24-30.273-10.282-6.944-21.453-12.617-33.289-16.97 6.147-9.734 12.995-19.48 20.487-29.104 15.321.864 36.291 4.83 55.63 17.892 8.072 5.45 15.392 12.127 21.758 19.843 9.454 11.458 26.427 13.143 37.824 3.826 11.48-9.384 13.015-26.348 3.588-37.771-5.958-7.221-12.555-13.923-19.607-19.92-3.154-2.682-7.889-2.301-10.572.855-2.684 3.155-2.301 7.889.855 10.572 6.382 5.427 12.355 11.496 17.753 18.039 4.191 5.08 3.514 12.501-1.513 16.611-5.041 4.122-12.559 3.332-16.759-1.76-7.282-8.825-15.67-16.472-24.933-22.727-15.192-10.261-33.162-16.864-52.61-19.438 5.949-6.959 12.219-13.812 18.786-20.51 11.12 2.646 21.744 6.484 31.626 11.45 3.641 1.83 8.186.413 10.069-3.333 1.86-3.701.368-8.209-3.333-10.069-8.224-4.133-16.907-7.543-25.921-10.23 10.497-9.857 21.298-18.994 32.252-27.301 20.066 2.368 37.735 9.124 52.545 20.123 7.819 5.808 14.832 12.805 20.845 20.797 9.501 12.629 28.064 14.4 39.66 3.847 10.237-9.316 11.637-24.741 3.257-35.881-9.138-12.147-19.853-22.823-31.847-31.732-7.215-5.358-14.929-10.085-23.054-14.141 6.287-2.803 12.53-5.275 18.699-7.393 16.632-5.709 31.774-8.547 44.976-8.547 17.186 0 31.08 4.812 40.661 14.367 7.313 7.293 10.868 16.086 10.868 26.882 0 18.05-10.069 41.566-29.929 69.896-9.926 14.159-22.393 30.697-35.218 44.044-44.688 46.505-98.817 105.542-154.114 136.166z" />
         </svg>
         <h6 class="fw-600">Panadería y Repostería</h6>
-      </li>
-      <li class="list-group-item text-center rounded" id="category3" (click)="goToCategory(1)">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="img-category ml-3" fill="currentColor">
+      </li> -->
+      <li class="list-group-item text-center rounded" id="category3" (click)="goToCategory(3)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="img-category ml-2" fill="currentColor">
           <path
             d="M449.2 304v16c8.8 0 16 7.2 16 16 0 17.7-14.3 32-32 32h-48c-17.7 0-32-14.3-32-32 0-8.8 7.2-16 16-16v-16c-17.7 0-32 14.3-32 32 0 26.5 21.5 48 48 48h48c26.5 0 48-21.5 48-48C481.2 318.3 466.9 304 449.2 304z" />
           <rect x="385.2" y="312" width="48" height="16" />
@@ -335,9 +339,9 @@
           <path
             d="M116.2 176.6c-3-1.3-6.4-0.6-8.7 1.7l-18.3 18.4 -18.3-18.4c-2.3-2.3-5.7-2.9-8.7-1.7 -3 1.2-4.9 4.1-5 7.4v48h16v-28.7l10.3 10.4c3.1 3.1 8.2 3.2 11.3 0 0 0 0 0 0 0l10.3-10.4V232h16v-48C121.2 180.8 119.2 177.9 116.2 176.6z" />
         </svg>
-        <h6 class="fw-600">Despensa</h6>
+        <h6 class="fw-600">Despensa y Bebidas</h6>
       </li>
-      <li class="list-group-item text-center rounded" id="category4" (click)="goToCategory(1)">
+      <!-- <li class="list-group-item text-center rounded" id="category4" (click)="goToCategory(4)">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="img-category" fill="currentColor">
           <path
             d="M367.9 339.7c0-11.4-5.3-21.5-13.7-28.1 8.4-6.5 13.8-16.7 13.8-28.1 0-12-6.2-22.6-15.3-29.1 9.2-7.3 14.9-18.5 14.9-31.1V148.7l-71.9-93.6h15.8V0H200.2v55.1h16.8l-72.9 93.6v74.7c0 12.6 6.2 23.8 15.3 31.1 -9.1 6.4-15 17.1-15 29.1 0 11.4 5.5 21.5 13.8 28.1 -8.4 6.5-13.7 16.7-13.7 28.1 0 12 5.7 22.6 14.9 29.1 -9.2 7.3-15.3 18.5-15.3 31.1v64.1c0 21.8 18.3 40.1 40.1 40.1h40.1v-0.7c6.7 5.1 15 8.7 24 8.7h16c9 0 17.4-3.6 24-8.7v0.7h40.1c21.8 0 39.1-18.3 39.1-40.1v-64.1c0-12.6-5.7-23.8-14.8-31.1C361.8 362.3 367.9 351.7 367.9 339.7zM215.2 40.1V15h81.2v25H215.2zM235.9 55.1h40.7l68.6 89.2H167.3L235.9 55.1zM332.4 319.6c11.3 0 20.5 9.2 20.5 20.5s-9.2 20.5-20.5 20.5h-20v15h16c13.5 0 24 10.5 24 24v64.1c0 13.5-10.5 25-24 25h-28.2c2.3-6 3.6-11.1 3.6-17H288.8c0 13.5-11 25-24.5 25H248.3c-13.5 0-24.5-11.5-24.5-25h-15c0 5.9 1.3 11 3.6 17h-28.2c-13.5 0-25-11.5-25-25v-64.1c0-13.5 11.5-24 25-24h80.2v-15h-84.2c-11.3 0-20.5-9.2-20.5-20.5s9.2-20.5 20.5-20.5h84.2v-15h-84.2c-11.3 0-20.5-9.2-20.5-20.5s9.2-20.5 20.5-20.5h84.2v-15h-80.2c-13.5 0-25-11.5-25-25v-64.1h193.4v64.1c0 13.5-10.5 25-24 25h-16v15h20c11.3 0 20.5 9.2 20.5 20.5s-9.2 20.5-20.5 20.5h-20v15H332.4z" />
@@ -348,8 +352,8 @@
           <rect x="280.3" y="360.7" width="16" height="15" />
         </svg>
         <h6 class="fw-600">Bebidas</h6>
-      </li>
-      <li class="list-group-item text-center rounded" id="category5" (click)="goToCategory(1)">
+      </li> -->
+      <li class="list-group-item text-center rounded" id="category5" (click)="goToCategory(5)">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="img-category" fill="currentColor">
           <path
             d="M252.4 293.9c-5-2.4-10.9-0.3-13.3 4.7l-1.7 3.5c-2.4 5-0.3 11 4.7 13.3 1.4 0.7 2.9 1 4.3 1 3.7 0 7.3-2.1 9-5.7l1.7-3.5C259.5 302.2 257.4 296.3 252.4 293.9z" />
@@ -368,7 +372,7 @@
         </svg>
         <h6 class="fw-600">Belleza y Salud</h6>
       </li>
-      <li class="list-group-item text-center rounded" id="category6" (click)="goToCategory(1)">
+      <li class="list-group-item text-center rounded" id="category6" (click)="goToCategory(6)">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="img-category" fill="currentColor">
           <path
             d="M512 224.1c0-11-9-20-20-20h-226c-11 0-20 9-20 20v34c0 0.1 0 0.2 0 0.3 0 0.1 0 0.2 0 0.3V377c0 5.5 4.5 10 10 10s10-4.5 10-10v-37.6l44.3-21.3c3.5-1.7 5.7-5.2 5.7-9v-40.9h53v45 39.1L341.1 492h-75.1v-32.3c0-5.5-4.5-10-10-10s-10 4.5-10 10V502c0 5.5 4.5 10 10 10h93.3c4.8 0 8.9-3.4 9.8-8l19.9-99.6 19.9 99.6c0.9 4.7 5 8 9.8 8h93.3c5.5 0 10-4.5 10-10V258.7c0-0.1 0-0.2 0-0.3 0-0.1 0-0.2 0-0.3V224.1zM296 302.7l-30 14.4v-49.1h30V302.7zM492 492h-75.1l-27.9-139.8v-39.1 -45h53V309c0 3.8 2.2 7.3 5.7 9l44.3 21.3V492zM492 317.2l-30-14.4v-34.7h30V317.2zM492 248.1h-226v-24h226V248.1z" />
@@ -379,10 +383,10 @@
           <path
             d="M263.1 410.6c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1.1-7.1 2.9c-1.9 1.9-2.9 4.4-2.9 7.1 0 2.6 1.1 5.2 2.9 7.1s4.4 2.9 7.1 2.9 5.2-1.1 7.1-2.9c1.9-1.9 2.9-4.4 2.9-7.1C266 415 264.9 412.5 263.1 410.6z" />
         </svg>
-        <h6 class="fw-600">Moda</h6>
+        <h6 class="fw-600">Moda y Joyería</h6>
       </li>
-      <li class="list-group-item text-center rounded" id="category7" (click)="goToCategory(1)">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="img-category ml-4" fill="currentColor">
+      <li class="list-group-item text-center rounded" id="category7" (click)="goToCategory(7)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="img-category ml-3" fill="currentColor">
           <path
             d="m36.5 69.410156c4.144531 0 7.5-3.359375 7.5-7.5v-46.410156c0-.273438.226562-.5.5-.5h215.3125c.273438 0 .5.226562.5.5v151.847656c0 4.144532 3.355469 7.5 7.5 7.5 4.140625 0 7.5-3.355468 7.5-7.5v-151.847656c0-8.546875-6.953125-15.5-15.5-15.5h-215.3125c-8.546875 0-15.5 6.953125-15.5 15.5v46.410156c0 4.140625 3.355469 7.5 7.5 7.5zm0 0" />
           <path
@@ -394,8 +398,8 @@
         </svg>
         <h6 class="fw-600">Hogar y Decoración</h6>
       </li>
-      <li class="list-group-item text-center rounded" id="category8" (click)="goToCategory(1)">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 504 884" class="img-category ml-4" fill="currentColor">
+      <li class="list-group-item text-center rounded" id="category8" (click)="goToCategory(8)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 504 884" class="img-category" fill="currentColor">
           <image data-name="Capa 1" x="19" y="18" width="466" height="844"
             xlink:href="data:img/png;base64,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" />
         </svg>
@@ -406,9 +410,11 @@
   </div>
 </div>
 
+<!-- Separador -->
 <div class="container mt-5">
   <hr>
 </div>
+
 <!--Sección motivo-->
 <div class="container text-center mt-5">
   <div class="mb-5">
@@ -438,83 +444,48 @@
   </div>
 </div>
 
-<!--Sección de guía-->
-<!-- <div class="container mt-5 text-center">
-  <div class="guide-title">
-    <h1 class="fw-600">¿Cómo funciona?</h1>
-  </div>
-  <div class="row">
-    <div class="col-md-4">
-      <img src="../../assets/imgs/celular.png" class="info-img">
-      <p class="guide-subtitle">1. Haz tu pedido online</p>
-    </div>
-    <div class="col-md-4">
-      <img src="../../assets/imgs/envio.png" class="info-img">
-      <p class="guide-subtitle">2. Tu pedido se envía directo al productor</p>
-    </div>
-    <div class="col-md-4">
-      <img src="../../assets/imgs/entrega.png" class="info-img">
-      <p class="guide-subtitle">3. Recibimos y entregamos tu compra de manera programada</p>
-    </div>
-  </div>
-</div> -->
-
-<!--Sección de proveedores-->
-<!-- <div class="container text-center supplier" *ngIf="suppliers">
-  <h1>Nuestros Proveedores</h1>
-  <div class="row">
-    <div class="col-md-4">
-      <div class="border border-dark">
-        <img src="../../assets/imgs/proveedor.jpg" class="img-supplier">
-        <h3>{{suppliers[0].name}}</h3>
-        <a routerLink="/supplier/{{suppliers[0].id}}" routerLinkActive="active">Saber más</a>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="border border-dark">
-        <img src="../../assets/imgs/proveedor.jpg" class="img-supplier">
-        <h3>{{suppliers[1].name}}</h3>
-        <a routerLink="/supplier/{{suppliers[1].id}}" routerLinkActive="active">Saber más</a>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="border border-dark">
-        <img src="../../assets/imgs/proveedor.jpg" class="img-supplier">
-        <h3>{{suppliers[2].name}}</h3>
-        <a routerLink="/supplier/{{suppliers[2].id}}" routerLinkActive="active">Saber más</a>
-      </div>
-    </div>
-  </div>
-</div> -->
-
+<!-- Separador -->
 <div class="container mt-5">
   <hr>
 </div>
 
+<!-- Sección Proveedores/Productores -->
 <div class="container supp text-center">
-  <h1>Nuestros Proveedores</h1>
-  <div id="carouselSupps" class="carousel slide carousel-fade mt-5" data-ride="carousel" data-interval="2000" *ngIf="suppliers">
-    <ol class="carousel-indicators" [innerHtml]='inHTMLSupp | safeHtml'>
-      <!-- <li data-target="#carouselSupps" data-slide-to="0" [className]="(pageNum == 0)? 'active' : ''"
-        *ngFor="let pageNum of numList"></li> -->
+  <h1>Emprendimientos</h1>
+  <div id="carouselSupps" class="carousel carousel-fade mt-5" data-ride="carousel" data-interval="2000"
+    *ngIf="suppliers">
+    <ol *ngIf="suppList.length > 3" class="carousel-indicators" [innerHtml]='inHTMLSupp | safeHtml'>
     </ol>
     <div class="carousel-inner">
-      <div [className]="(pageNum == 0)? 'carousel-item supp-carousel active' : 'carousel-item supp-carousel'" *ngFor="let pageNum of numList">
-        <img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/suppliers/' + supp.image" alt="Supplier Image"
-          *ngFor="let supp of suppList.slice(pageNum, pageNum + 3)" routerLink="/supplier/{{supp.id}}" routerLinkActive="active">
+      <div
+        [className]="(suppList.length <= 3)? 'd-none' : (pageNum == 0)? 'carousel-item supp-carousel active' : 'carousel-item supp-carousel'"
+        *ngFor="let pageNum of numList">
+
+        <div class="full-height" *ngFor="let supp of suppList.slice(pageNum, pageNum + 3)">
+          <img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/suppliers/' + supp.image_person"
+            alt="No Image" (click)="goToSupplier(supp.name)">
+          <b class="suppName">{{supp.name}}</b>
+        </div>
+
+      </div>
+      <div *ngIf="suppList.length <= 3" class="carousel-item supp-carousel active">
+        <div *ngFor="let supp of suppList">
+          <img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/suppliers/' + supp.image_person"
+            alt="Supplier Image" (click)="goToSupplier(supp.name)">
+          <b class="suppName">{{supp.name}}</b>
+        </div>
       </div>
     </div>
-    <a class="carousel-control-prev" href="#carouselSupps" role="button" data-slide="prev">
-      <!-- <span class="carousel-control-prev-icon" aria-hidden="true"></span> -->
+    <a *ngIf="suppList.length > 3" class="carousel-control-prev" href="#carouselSupps" role="button" data-slide="prev">
       <i class="fas fa-arrow-alt-circle-left carousel-icon-custom"></i>
       <span class="sr-only">Previous</span>
     </a>
-    <a class="carousel-control-next" href="#carouselSupps" role="button" data-slide="next">
-      <!-- <span class="carousel-control-next-icon" aria-hidden="true"></span> -->
+    <a *ngIf="suppList.length > 3" class="carousel-control-next" href="#carouselSupps" role="button" data-slide="next">
       <i class="fas fa-arrow-alt-circle-right carousel-icon-custom"></i>
       <span class="sr-only">Next</span>
     </a>
   </div>
+  <!-- <h2 class="mb-5">Pronto tu marca ocupará este lugar</h2> -->
 </div>
 
 <!--Seccion youtube-->
@@ -523,11 +494,65 @@
   </youtube-player>
 </div> -->
 
-<!--Seccion contacto-->
+<!--Seccion noticias-->
 <div class="cl-bg3 pt-5 pb-5">
-  <div class="container">
-    <div class="row">
-      <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 text-center contact-info">
+  <div class="container text-center">
+    <h1 class="cl-c2 fw-700">Últimas Noticias</h1>
+    <div class="row" *ngIf="lastPosts && lastPosts.length > 0">
+      <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+        <div class="post-content" routerLink="/post/{{lastPosts[0].id}}" routerLinkActive="active">
+          <img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/blog-posts/' + lastPosts[0].image" alt=""
+            class="img-post">
+          <div>
+            <!-- <div class="info-post">
+              {{lastPosts[0].date}}
+            </div> -->
+            <div class="post-title">
+              {{lastPosts[0].title}}
+            </div>
+          </div>
+        </div>
+        <div class="post-content" routerLink="/post/{{lastPosts[2].id}}" routerLinkActive="active">
+          <img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/blog-posts/' + lastPosts[2].image" alt=""
+            class="img-post">
+          <div>
+            <!-- <div class="info-post">
+              {{lastPosts[2].date}}
+            </div> -->
+            <div class="post-title">
+              {{lastPosts[2].title}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+        <div class="post-content" routerLink="/post/{{lastPosts[1].id}}" routerLinkActive="active">
+          <img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/blog-posts/' + lastPosts[1].image" alt=""
+            class="img-post">
+          <div>
+            <!-- <div class="info-post">
+              {{lastPosts[1].date}}
+            </div> -->
+            <div class="post-title">
+              {{lastPosts[1].title}}
+            </div>
+          </div>
+        </div>
+        <div class="post-content" routerLink="/post/{{lastPosts[3].id}}" routerLinkActive="active">
+          <img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/blog-posts/' + lastPosts[3].image" alt=""
+            class="img-post">
+          <div>
+            <!-- <div class="info-post">
+              {{lastPosts[3].date}}
+            </div> -->
+            <div class="post-title">
+              {{lastPosts[3].title}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 text-center contact-info">
         <h1>
           ¿Quieres formar parte de nuestra familia?
         </h1>
@@ -548,24 +573,31 @@
             </div>
           </div>
         </div>
-        <!-- <img src="../../assets/imgs/agricultor.jpg" alt="Agricultor" class="contac-img rounded-circle"> -->
-      </div>
+      </div> -->
+    </div>
+    <div class="text-center">
+      <button class="btn btn-cl2" routerLink="/blog" routerLinkActive="active">
+        Ver más
+        <i class="fas fa-chevron-right"></i>
+      </button>
     </div>
   </div>
 </div>
 
 <!--Seccion subscribe-->
-<div class="cl-bg2 pt-5 pb-5 text-center text-light">
+<!-- <div class="cl-bg2 pt-5 pb-5 text-center text-light">
   <div class="container info-section">
-    <h1>MANTENTE INFORMADO</h1>
-    <div class="input-group subscribe-input">
-      <input type="text" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="Email">
-      <div class="input-group-append">
-        <button class="btn btn-cl1" type="button">Enviar</button>
-      </div>
+    <h1>QUIERO RECIBIR INFORMACIÓN</h1>
+    <div class="option-section">
+      <button class="btn btn-cl1" data-toggle="modal" data-target="#ModalInfo" (click)="selectClientType(2)">
+        Persona
+      </button>
+      <button class="btn btn-cl1" data-toggle="modal" data-target="#ModalInfo" (click)="selectClientType(1)">
+        Emprendedor
+      </button>
     </div>
   </div>
-</div>
+</div> -->
 
 
 <!--Modal-->
@@ -599,3 +631,185 @@
     </div>
   </div>
 </div>
+<!-- 
+<div class="modal fade" id="ModalPromociones" tabindex="-1" role="dialog" aria-labelledby="ModalPromociones"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalPromocionesLongTitle">Suscríbete</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeModalPromociones>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form #promoForm="ngForm" (ngSubmit)="subscribeUser(promoForm)">
+        <div class="modal-body">
+          <h5>Comparte tu información con nosotros</h5>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="nameSub">Nombre</label>
+              <input type="text" class="form-control" id="nameSub" name="nameSub" [(ngModel)]="subInfo.name"
+                [disabled]="loading" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="lastNameSub">Apellido</label>
+              <input type="text" class="form-control" id="lastNameSub" name="lastNameSub"
+                [(ngModel)]="subInfo.last_name" [disabled]="loading" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="emailSub">Email</label>
+              <input type="email" class="form-control" id="emailSub" name="emailSub" [(ngModel)]="subInfo.email"
+                [disabled]="loading" required email>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="phoneSub">Teléfono</label>
+              <input type="tel" pattern="\d{3}[-]\d{3}[-]\d{3}" class="form-control" id="phoneSub" name="phoneSub"
+                [(ngModel)]="subInfo.phone" minlength="11" maxlength="11" (ngModelChange)="telephone_eval()"
+                [disabled]="loading" required>
+            </div>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="accessCheck" name="accessCheck"
+              [(ngModel)]="accessCheck" required>
+            <label class="form-check-label" for="gridCheck1">
+              Acepto el manejo de mi información para obtener ofertas
+            </label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary btn-block" [disabled]="loading || promoForm.invalid">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="loading"></span>
+            Enviar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div> -->
+
+<!-- <div class="modal fade" id="ModalInfo" tabindex="-1" role="dialog" aria-labelledby="ModalInfo" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalInfoLongTitle">CompraLocal</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeModalInfo>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form #promoForm="ngForm" (ngSubmit)="saveData(promoForm)">
+        <div class="modal-body">
+          <h5>Comparte tu información con nosotros</h5>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="nameSub">Nombre <sup>*</sup></label>
+              <input type="text" class="form-control" id="nameSub" name="nameSub" [(ngModel)]="subInfo.name"
+                [disabled]="loading" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="lastNameSub">Apellido <sup>*</sup></label>
+              <input type="text" class="form-control" id="lastNameSub" name="lastNameSub"
+                [(ngModel)]="subInfo.last_name" [disabled]="loading" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="emailSub">Email <sup>*</sup></label>
+              <input type="email" class="form-control" id="emailSub" name="emailSub" [(ngModel)]="subInfo.email"
+                [disabled]="loading" required email>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="phoneSub">WhatsApp <sup>*</sup></label>
+              <input type="tel" pattern="\d*" class="form-control" id="phoneSub" name="phoneSub"
+                [(ngModel)]="subInfo.phone" [disabled]="loading" required>
+            </div>
+          </div>
+          <div class="form-row" *ngIf="subInfo.clientType == 'persona'">
+            <div class="form-group col-md-12">
+              <label for="dniSub">DNI <sup>*</sup></label>
+              <input type="text" pattern="\d*" class="form-control" id="dniSub" name="dniSub" [(ngModel)]="subInfo.dni"
+                minlength="8" maxlength="8" [disabled]="loading" required>
+            </div>
+          </div>
+          <div class="form-row" *ngIf="subInfo.clientType == 'emprendedor'">
+            <div class="form-group col-md-6">
+              <label for="marcaSub">Tu marca <sup>*</sup></label>
+              <input type="text" class="form-control" id="marcaSub" name="marcaSub" [(ngModel)]="subInfo.marca"
+                [disabled]="loading" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="rucSub">RUC <sup>*</sup></label>
+              <input type="text" pattern="\d*" class="form-control" id="rucSub" name="rucSub" [(ngModel)]="subInfo.ruc"
+                minlength="11" maxlength="11" [disabled]="loading" required>
+            </div>
+          </div>
+          <div class="form-row" *ngIf="subInfo.clientType == 'emprendedor'">
+            <div [className]="subInfo.categoria == 'Otros'? 'form-group col-md-6' : 'form-group col-md-12'">
+              <label for="cateSub">Selecciona tu Categoria <sup>*</sup></label>
+              <select class="form-control" id="cateSub" name="cateSub" [(ngModel)]="subInfo.categoria"
+                [disabled]="loading" required>
+                <option value="{{cat.name}}" *ngFor="let cat of categorias">{{cat.name}}</option>
+                <option value="Otros">Otros</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6" *ngIf="subInfo.categoria == 'Otros'">
+              <label for="cateOtrosSub">Especifique Categoría <sup>*</sup></label>
+              <input type="text" class="form-control" id="cateOtrosSub" name="cateOtrosSub" [(ngModel)]="cateOtros"
+                [disabled]="loading" required>
+            </div>
+          </div>
+          <div class="form-row" *ngIf="subInfo.clientType == 'persona'">
+            <div class="form-group col-md-12">
+              <label for="cateSub">¿Qué categoría te interesa más? <sup>*</sup></label>
+              <select class="form-control" id="cateSub" name="cateSub" [(ngModel)]="subInfo.categoria"
+                [disabled]="loading" required>
+                <option value="{{cat.name}}" *ngFor="let cat of categorias">{{cat.name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="depSub">Departamento <sup>*</sup></label>
+            <select class="form-control" id="depSub" name="depSub" [(ngModel)]="depSub"
+              (ngModelChange)="getProvinciasByDepartamento(depSub)" [disabled]="loading" required>
+              <option value="{{dep.id_ubigeo}}" *ngFor="let dep of departamentos">{{dep.nombre_ubigeo}}</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="provinciaSub">Provincia <sup>*</sup></label>
+              <select class="form-control" id="provinciaSub" name="provinciaSub" [(ngModel)]="provSub"
+                [disabled]="loading || depSub == ''" (ngModelChange)="getDistritosByProvincias(provSub)" required>
+                <option value="{{prov.id_ubigeo}}" *ngFor="let prov of provByDep">{{prov.nombre_ubigeo}}</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="distritoSub">Distrito <sup>*</sup></label>
+              <select class="form-control" id="distritoSub" name="distritoSub" [(ngModel)]="subInfo.distrito"
+                [disabled]="loading || subInfo.provincia == null || subInfo.provincia == ''" required>
+                <option value="{{dis.nombre_ubigeo}}" *ngFor="let dis of disByProv">{{dis.nombre_ubigeo}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="accessCheck" name="accessCheck"
+              [(ngModel)]="accessCheck" required>
+            <label class="form-check-label" for="gridCheck1">
+              Acepto las condiciones de CompraLocal en relacion a su política de uso de datos. <sup>*</sup>
+            </label>
+          </div>
+          <p>* Campos Obligatorios</p>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary btn-block" [disabled]="loading || promoForm.invalid">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="loading"></span>
+            Enviar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div> -->
+
+<!--Alerts-->
+<app-succ-err-mesages #alertComp></app-succ-err-mesages>

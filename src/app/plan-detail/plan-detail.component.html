@@ -1,0 +1,331 @@
+<div class="container flex-content" [style.height.px]="imgHeigh">
+    <div class="content">
+        <div class="title">
+            Datos de facturación
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <form #factForm="ngForm" (ngSubmit)="saveData(factForm)">
+                    <div class="form-body">
+                        <h5>Detalles de facturación</h5>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="nameFact">Nombre <sup>*</sup></label>
+                                <input type="text" class="form-control" id="nameFact" name="nameFact"
+                                    [(ngModel)]="fact_name" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="lastNameFact">Apellido <sup>*</sup></label>
+                                <input type="text" class="form-control" id="lastNameFact" name="lastNameFact"
+                                    [(ngModel)]="fact_last_name" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="nameMarcaFact">Nombre de la marca <sup>*</sup></label>
+                            <input type="text" class="form-control" id="nameMarcaFact" name="nameMarcaFact"
+                                [(ngModel)]="factInfo.name" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="emailFact">Email <sup>*</sup></label>
+                                <input type="email" class="form-control" id="emailFact" name="emailFact"
+                                    [(ngModel)]="factInfo.email" required email>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="phoneFact">WhatsApp <sup>*</sup></label>
+                                <input type="tel" class="form-control" id="phoneFact" name="phoneFact"
+                                    [(ngModel)]="factInfo.phone_contact" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-6">
+                                <label for="factDepartamento">Departamento: <sup>*</sup></label>
+                                <select class="form-control" id="factDepartamento" name="factDepartamento"
+                                    [(ngModel)]="depFact" (ngModelChange)="getProvinciasByDepartamento(depFact)"
+                                    required>
+                                    <option value="{{dep.id_ubigeo}}" *ngFor="let dep of departamentos">
+                                        {{dep.nombre_ubigeo}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="factProvincia">Provincia: <sup>*</sup></label>
+                                <select class="form-control" id="factProvincia" name="factProvincia"
+                                    [(ngModel)]="provFact" (ngModelChange)="getDistritosByProvincias(provFact)"
+                                    [disabled]="depFact == ''" required>
+                                    <option value="{{prov.id_ubigeo}}" *ngFor="let prov of provByDep">
+                                        {{prov.nombre_ubigeo}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-6">
+                                <label for="factDistrito">Distrito: <sup>*</sup></label>
+                                <select class="form-control" id="factDistrito" name="factDistrito"
+                                    [(ngModel)]="factInfo.distrito"
+                                    [disabled]="factInfo.provincia == null || factInfo.provincia == ''" required>
+                                    <option value="{{dis.nombre_ubigeo}}" *ngFor="let dis of disByProv">
+                                        {{dis.nombre_ubigeo}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="factDir">Dirección: <sup>*</sup></label>
+                                <input type="text" class="form-control" id="factDir" name="factDir"
+                                    [(ngModel)]="factInfo.direccion" required>
+                            </div>
+                        </div>
+
+                        <!-- <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="accessCheck" name="accessCheck"
+                                [(ngModel)]="accessCheck" required>
+                            <label class="form-check-label" for="accessCheck">
+                                Acepto las condiciones de CompraLocal en relacion a su política de uso de datos.
+                                <sup>*</sup>
+                            </label>
+                        </div>
+                        <p>* Campos Obligatorios</p> -->
+                    </div>
+                    <!-- <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary btn-block"
+                            [disabled]="loading || factForm.invalid">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                                *ngIf="loading"></span>
+                            Enviar
+                        </button>
+                    </div> -->
+                </form>
+            </div>
+            <div class="col-lg-6 align-self-center">
+                <div class="pay-section">
+                    <h5>Tu pedido</h5>
+                    <div class="pedido-info">
+                        <!-- <div class="row-info">
+                            <p>Subcripción</p>
+                            <p>Total</p>
+                        </div>
+                        <div class="row-info">
+                            
+                            <select name="subscription" id="subscription" [(ngModel)]="subTime" (ngModelChange)="changeCost()">
+                                <option value="Mensual" selected>Mensual</option>
+                                <option value="Semestral">Semestral</option>
+                                <option value="Anual">Anual</option>
+                            </select>
+                            
+                            <p class="text-right">
+                                S/. {{planCost | number:'1.2-2'}} <br>
+                                (impuesto incluido)
+                            </p>
+                        </div> -->
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-check" (click)="setSub('mensual')">
+                                    <input class="form-check-input" type="radio" name="subRadios" id="subRadio1"
+                                        value="mensual" [(ngModel)]="subTime">
+                                    <div class="text-center">
+                                        <b>Mensual</b><br>
+                                        S/. 59 + <br>
+                                        <small>15% (ventas)</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check" (click)="setSub('semestral')">
+                                    <input class="form-check-input" type="radio" name="subRadios" id="subRadio2"
+                                        value="semestral" [(ngModel)]="subTime">
+                                    <div class="text-center">
+                                        <b>Semestral</b><br>
+                                        S/. 354 + <br>
+                                        <small>13% (ventas)</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check" (click)="setSub('anual')">
+                                    <input class="form-check-input" type="radio" name="subRadios" id="subRadio3"
+                                        value="anual" [(ngModel)]="subTime">
+                                    <div class="text-center">
+                                        <b>Anual</b><br>
+                                        S/. 708 + <br>
+                                        <small>11% (ventas)</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <!-- <div class="checks">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="metPagos" id="pago1" value="culqi"
+                                    [(ngModel)]="paymentMethod">
+                                <label class="form-check-label" for="pago1">
+                                    Pago online con tarjeta de Débito o Crédito
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="metPagos" id="pago2"
+                                    value="transferencia" [(ngModel)]="paymentMethod">
+                                <label class="form-check-label" for="pago2">
+                                    Transferencia Bancaria
+                                </label>
+                            </div>
+                        </div> -->
+                        <div class="alert-data-info">
+                            <small>
+                                Sus datos personales se utilizarán para procesar su pedido, respaldar su experiencia en
+                                este sitio web y para otros fines descritos en nuestra <a data-toggle="modal"
+                                    data-target="#ModalPolitica" class="btn btn-link">política de privacidad.</a>
+                                El cobro de las membresias será realizado por débito automático de acuerdo a la opción
+                                elegida. Cada marca puede determinar su tiempo de permanencia en la página, avisando 15
+                                días antes de la fecha de débito.
+                            </small>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-success" [disabled]="loading || factForm.invalid || subTime == ''"
+                                (click)="pagar()">Realizar el
+                                pago</button>
+                            <a class="d-none" data-toggle="modal" data-target="#ModalPayment" #modalCulqi>Culqi</a>
+                            <a class="d-none" data-toggle="modal" data-target="#ModalFinal" #modalFinal>End</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalPayment" tabindex="-1" role="dialog" aria-labelledby="ModalPayment" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalPaymentLongTitle">CompraLocal</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeModalPayment>
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form #payForm="ngForm" (ngSubmit)="enviarInfoTarjeta(payForm)">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="tarjetaNum" name="tarjetaNum"
+                            [(ngModel)]="tarjeta.card_number" placeholder="Número de Tarjeta" minlength="19" maxlength="19"
+                            [disabled]="paying" (ngModelChange)="card_number_eval()" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <input type="text" class="form-control" id="tarjetaMes" name="tarjetaMes"
+                                [(ngModel)]="tarjeta.expiration_month" placeholder="Mes" maxlength="2"
+                                [disabled]="paying" required>
+                        </div>
+                        <div class="form-group col-md-1 flex-content">
+                            /
+                        </div>
+                        <div class="form-group col-md-3">
+                            <input type="text" class="form-control" id="tarjetaAño" name="tarjetaAño"
+                                [(ngModel)]="short_year" placeholder="Año" maxlength="2" [disabled]="paying" required>
+                        </div>
+                        <div class="form-group col-md-5">
+                            <input type="text" class="form-control" id="tarjetaCVV" name="tarjetaCVV"
+                                [(ngModel)]="tarjeta.cvv" placeholder="CVV" maxlength="3" [disabled]="paying" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control" id="tarjetaEmail" name="tarjetaEmail"
+                            [(ngModel)]="tarjeta.email" placeholder="Email" disabled required email>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-cl1 btn-block" [disabled]="paying || payForm.invalid">
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                            *ngIf="paying"></span>
+                        Pagar <b>S/. {{planCost | number:'1.2-2'}}</b> PEN
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalFinal" tabindex="-1" role="dialog" aria-labelledby="ModalFinal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalFinalLongTitle">CompraLocal</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Muchas gracias por unirte a nuestra familia, en breve momento te estará llegando un correo con los pasos
+                a seguir a continuación.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="ModalPolitica" tabindex="-1" role="dialog" aria-labelledby="ModalPolitica"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalPoliticaLongTitle">CompraLocal</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                La marca COMPRA LOCAL , el sitio COMPRALOCAL.PE son propiedad de MAMI REGRESÓ S.A.C. (en adelante MR),
+                con ruc
+                20604612439 y domicilio legal en Jr. Loreto 105 dpto 508, de la Lima, Perú.
+                <br><br>
+                La presente Política de Privacidad de Datos, tiene por objeto poner en conocimiento de los Usuarios los
+                alcances
+                de la protección integral de sus datos personales asentados en los archivos; registros; bancos o bases
+                de datos;
+                u otros medios técnicos de tratamiento de datos implementados por COMPRA LOCAL, asegurando el respeto al
+                derecho
+                a la intimidad de las personas.
+                <br><br>
+                Compra Local tiene la calidad de “Encargado del Tratamiento”, conforme lo establecido en la Ley de
+                Protección de
+                Datos Personales – Ley No. 29733. En ese sentido, MR tendrá acceso a datos de los usuarios por lo que se
+                obliga
+                a protegerlos aplicando las exigencias y requerimientos previstos en la Ley de Protección de Datos
+                Personales
+                (Ley No. 29733), su reglamento aprobado por Decreto Supremo No. 003-2013-JUS y demás normas relacionadas
+                que
+                regulan la materia.
+                <br><br>
+                Por medio de la aceptación de estos términos y condiciones, el Usuario tiene conocimiento que sus datos
+                personales y en general, la información que brinde al Sitio Web serán utilizados para los fines
+                comerciales de
+                MR y todas sus lineas de negocio, en relación a la comercialización de sus productos y/o a la prestación
+                de sus
+                servicios ya sean éstos contratados por el Usuario, productos y/o servicios existentes o nuevos; y por
+                consiguiente, autoriza y da su consentimiento previo, informado, expreso e inequívoco para que MR pueda
+                contactarlo a través de llamadas, mensajes de texto, mensajes de correo electrónico, telemarketing y/o
+                cualquiera similar que incluya la venta y/o promoción de los productos y/o servicios de MR ya sean éstos
+                contratados por el Usuario, productos y/o servicios existentes o nuevos. La presente autorización de
+                ninguna
+                manera significará que MR esté utilizando métodos comerciales agresivos o engañosos según lo
+                especificado en el
+                artículo 58 inciso e de la Ley N° 29751 – Código de Defensa y Protección al Consumidor; por ende, el
+                Usuario
+                libera a MR de cualquier reclamo, queja, denuncia, indemnización y/o similar en relación al uso no
+                autorizado de
+                sus datos. Cabe señalar que, el consentimiento del Usuario podrá ser revocado, en cualquier momento y
+                conforme a
+                la normativa que rige la protección de datos personales.
+                <br><br>
+                Para cualquier información pueden escribir sus dudas, consultas a admin@compralocal.pe
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Alerts section-->
+<app-succ-err-mesages #alertComp></app-succ-err-mesages>

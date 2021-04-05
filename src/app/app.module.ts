@@ -23,6 +23,10 @@ import { OrderDetailComponent } from './order-detail/order-detail.component';
 import { HowWorksComponent } from './how-works/how-works.component';
 import { BlogComponent } from './blog/blog.component';
 import { PostComponent } from './post/post.component';
+import { SuccErrMesagesComponent } from './succ-err-mesages/succ-err-mesages.component';
+import { WelcomeComponent } from './welcome/welcome.component';
+import { PlansComponent } from './plans/plans.component';
+import { PlanDetailComponent } from './plan-detail/plan-detail.component';
 
 
 let config = new AuthServiceConfig([
@@ -55,7 +59,11 @@ export function provideConfig() {
     HowWorksComponent,
     BlogComponent,
     PostComponent,
-    SafeHtmlPipe
+    SafeHtmlPipe,
+    SuccErrMesagesComponent,
+    WelcomeComponent,
+    PlansComponent,
+    PlanDetailComponent
   ],
   imports: [
     BrowserModule,

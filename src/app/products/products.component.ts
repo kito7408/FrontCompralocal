@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { CartGet } from '../classes/cartGet';
 import { CartPost } from '../classes/cartPost';
@@ -11,6 +11,7 @@ import { UserService } from '../services/user.service';
 import { ProdDetailComponent } from '../prod-detail/prod-detail.component';
 import { CategoriaService } from '../services/categoria.service';
 import { CategoryGet } from '../classes/categoryGet';
+import { SuccErrMesagesComponent } from '../succ-err-mesages/succ-err-mesages.component';
 
 @Component({
   selector: 'app-products',
@@ -20,7 +21,7 @@ import { CategoryGet } from '../classes/categoryGet';
 export class ProductsComponent implements OnInit {
 
   productos: any;
-  prodPerPage: number = 10;
+  prodPerPage: number = 20;
   // prodOnPage: any;
   // actualPage: number;
   // numberOfPages: number;
@@ -30,12 +31,10 @@ export class ProductsComponent implements OnInit {
   thereMoreProds: boolean;
   // user: User;
   isInProd: boolean;
-  successAlert: boolean;
-  successMessage: string;
-  errorAlert: boolean;
-  errorMessage: string;
   detailProd: ProductGet;
   categorias: CategoryGet[];
+
+  @Input('onlyRead') onlyRead: boolean = false;
 
   // page: number = 0;
   // pageArr: Array<number> = [];
@@ -44,6 +43,7 @@ export class ProductsComponent implements OnInit {
 
   @ViewChild('prodDetailComp') prodDetailComp: ProdDetailComponent;
   @ViewChild('closeProdFastViewModal') closeProdFastViewModal: ElementRef;
+  @ViewChild('alertComp') alertComp: SuccErrMesagesComponent;
 
   constructor(
     private prodService: ProductService,
@@ -103,13 +103,13 @@ export class ProductsComponent implements OnInit {
         });
         break;
       case 2:
-        this.prodService.getBySubCategoriaId(Number(this.prodService.filter)).subscribe((data) => {
-          this.productos = data;
-          if (data && data.length > 0) {
-            this.filterString = "Productos > " + data[0].category.name + " > " + data[0].subcategory.name;
-          }
-          this.startPag();
-        });
+        // this.prodService.getBySubCategoriaId(Number(this.prodService.filter)).subscribe((data) => {
+        //   this.productos = data;
+        //   if (data && data.length > 0) {
+        //     this.filterString = "Productos > " + data[0].category.name + " > " + data[0].subcategory.name;
+        //   }
+        //   this.startPag();
+        // });
         break;
       case 3:
         if (this.prodService.filter.length < 3) {
@@ -154,6 +154,8 @@ export class ProductsComponent implements OnInit {
 
     if (this.productos.length == 0) {
       this.noProds = true;
+    } else {
+      this.noProds = false;
     }
 
     if ((this.pageNum * this.prodPerPage) < this.productos.length) {
@@ -243,12 +245,12 @@ export class ProductsComponent implements OnInit {
             this.cartService.cartQuantity += element.quantity;
             this.cartService.cartTotalPrice += element.totalPrice;
           });
-          this.successEvent('Producto agregado al carrito');
+          this.alertComp.successEvent('Producto agregado al carrito');
         }, (err) => {
-          this.errorEvent('No se pudo agregar el producto al carrito');
+          this.alertComp.errorEvent('No se pudo agregar el producto al carrito');
         });
       }, (err) => {
-        this.errorEvent('No se pudo agregar el producto al carrito');
+        this.alertComp.errorEvent('No se pudo agregar el producto al carrito');
       });
     }
     else {
@@ -279,7 +281,7 @@ export class ProductsComponent implements OnInit {
 
       localStorage.setItem('cartLocal', JSON.stringify(this.cartService.cartInfo));
 
-      this.successEvent('Producto agregado al carrito');
+      this.alertComp.successEvent('Producto agregado al carrito');
     }
   }
 
@@ -287,23 +289,5 @@ export class ProductsComponent implements OnInit {
     this.detailProd = prod;
     this.prodDetailComp.prodId = prod.id;
     this.prodDetailComp.updateInfo(prod);
-  }
-
-  successEvent(msg: string) {
-    this.successAlert = true;
-    this.successMessage = msg;
-    setTimeout(() => {
-      this.successAlert = false;
-      this.successMessage = '';
-    }, 3000);
-  }
-
-  errorEvent(msg: string) {
-    this.errorAlert = true;
-    this.errorMessage = msg
-    setTimeout(() => {
-      this.errorAlert = false;
-      this.errorMessage = '';
-    }, 3000);
   }
 }
