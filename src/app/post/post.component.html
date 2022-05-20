@@ -1,6 +1,6 @@
 <div class="container position-relative">
     <div class="position-absolute back-section">
-        <i class="far fa-arrow-alt-circle-left back" routerLink="/blog" routerLinkActive="active"></i>
+        <i class="far fa-arrow-alt-circle-left back" (click)="goBackPage()"></i>
     </div>
     <div class="img-post-section">
         <img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/blog-posts/' + post.image" alt=""

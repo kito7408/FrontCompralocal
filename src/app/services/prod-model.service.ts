@@ -66,6 +66,14 @@ export class ProdModelService {
     return this.http.delete<ProdMod>(newUrl, { headers: headers });
   }
 
+  deleteAllFromProd(id_prod: number): Observable<ProdMod> {
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-type', 'application/json');
+    headers = headers.set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    const newUrl = this.url + '/allFromProd/' + id_prod;
+    return this.http.delete<ProdMod>(newUrl, { headers: headers });
+  }
+
   saveMany(dataArr: ProdMod[]): Observable<ProdMod[]> {
     let headers = new HttpHeaders();
     headers = headers.set('Content-type', 'application/json');

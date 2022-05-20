@@ -1,22 +1,25 @@
 <div class="container prod-detail">
-  <div [className]="isInHome? 'card' : 'card mt-5'">
+  <div [className]="isInHome? 'card' : 'card mt-5 position-relative'">
+    <div *ngIf="isInProdDetail" class="position-absolute back-section">
+      <i class="far fa-arrow-alt-circle-left back" (click)="goBackPage()"></i>
+    </div>
     <div class="card-body" *ngIf="producto">
       <div class="prod-detail-title">
         <h5 class="card-title">
           {{producto.category.name}} > <b>{{producto.name}}</b>
         </h5>
-        <!-- <div class="admin-options text-right"
+        <div class="admin-options text-right"
           *ngIf="userService.userInfo && userService.userInfo.userTypeId == 1 && isInProdDetail">
           <button class="btn btn-info" (click)="prodToUpdate()" *ngIf="!onUpdate">Editar</button>
-          <button class="btn btn-danger ml-3" (click)="deleteProd()" [disabled]="deleting" *ngIf="!onUpdate">
+          <button class="btn btn-danger ml-3" data-toggle="modal" data-target="#modalDeleteProd" [disabled]="deleting"
+            *ngIf="!onUpdate">
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="deleting"></span>
             Eliminar
           </button>
-          <button class="btn btn-success ml-3" (click)="updateProd()" [disabled]="updating" *ngIf="onUpdate">
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="updating"></span>
-            Guardar Cambios
+          <button class="btn btn-danger ml-3" (click)="cancelUpdate()" *ngIf="onUpdate">
+            Cancelar
           </button>
-        </div> -->
+        </div>
       </div>
       <!-- <div class="row">
         <div class="col-md-8">
@@ -57,132 +60,345 @@
           </div>
         </div>
       </div> -->
-      <div class="prod-detail-content">
+      <div class="prod-detail-content" *ngIf="!onUpdate">
         <div class="text-center prod-detail-section" id="detail-img">
-          <div [className]="onUpdate? 'side-imgs full-width' : 'side-imgs'">
-            <h5 *ngIf="onUpdate">Cambiar imagen</h5>
-            <div class="small-img-section" *ngIf="producto.image1">
-              <img [src]="path + producto.image1" (click)="changeImg(1)">
-              <!-- <img src="../../assets/imgs/producto-prueba.png" (click)="changeImg(1)"> -->
-              <input type="file" (change)="selectFileSupp($event)" *ngIf="onUpdate">
+          <div class="prod-detail-info-section">
+            <div class="side-imgs">
+              <div class="small-img-section" *ngIf="producto.image1">
+                <img [src]="path + producto.image1" (click)="changeImg(1)">
+              </div>
+              <div class="small-img-section" *ngIf="producto.image2">
+                <img [src]="path + producto.image2" (click)="changeImg(2)">
+              </div>
+              <div class="small-img-section" *ngIf="producto.image3">
+                <img [src]="path + producto.image3" (click)="changeImg(3)">
+              </div>
+              <div class="small-img-section" *ngIf="producto.image4">
+                <img [src]="path + producto.image4" (click)="changeImg(4)">
+              </div>
+              <div class="small-img-section" *ngIf="producto.image5">
+                <img [src]="path + producto.image5" (click)="changeImg(5)">
+              </div>
             </div>
-            <div class="small-img-section" *ngIf="producto.image2">
-              <img [src]="path + producto.image2" (click)="changeImg(2)">
-              <!-- <img src="../../assets/imgs/producto-prueba.png" (click)="changeImg(2)"> -->
-              <input type="file" (change)="selectFileSupp($event)" *ngIf="onUpdate">
-            </div>
-            <div class="small-img-section" *ngIf="producto.image3">
-              <img [src]="path + producto.image3" (click)="changeImg(3)">
-              <!-- <img src="../../assets/imgs/producto-prueba.png" (click)="changeImg(3)"> -->
-              <input type="file" (change)="selectFileSupp($event)" *ngIf="onUpdate">
-            </div>
-            <div class="small-img-section" *ngIf="producto.image4">
-              <img [src]="path + producto.image4" (click)="changeImg(4)">
-              <!-- <img src="../../assets/imgs/producto-prueba.png" (click)="changeImg(4)"> -->
-              <input type="file" (change)="selectFileSupp($event)" *ngIf="onUpdate">
-            </div>
-            <div class="small-img-section" *ngIf="producto.image5">
-              <img [src]="path + producto.image5" (click)="changeImg(5)">
-              <!-- <img src="../../assets/imgs/producto-prueba.png" (click)="changeImg(5)"> -->
-              <input type="file" (change)="selectFileSupp($event)" *ngIf="onUpdate">
-            </div>
+            <img [src]="pathImg" class="prod-img">
           </div>
-          <img [src]="pathImg" class="prod-img" *ngIf="!onUpdate">
-          <!-- <img src="../../assets/imgs/producto-prueba.png" class="prod-img" *ngIf="!onUpdate"> -->
+          <p class="mt-3">{{producto.description}}</p>
         </div>
         <div class="prod-info-section" id="detail-info">
-          <h4 *ngIf="!onUpdate">
+          <h4>
             {{producto.name}}
             <b *ngIf="avgStars > 0" class="ml-3">{{avgStars | number:'1.2-2'}}</b>
             <i *ngIf="avgStars > 0" class="fas fa-star"></i>
           </h4>
-          <div class="form-group row" *ngIf="onUpdate">
-            <label for="prodName" class="col-sm-6 col-form-label">Nombre</label>
-            <div class="col-sm-6">
-              <input type="text" name="prodName" id="prodName" [(ngModel)]="producto.name">
-            </div>
-          </div>
-          <p *ngIf="!onUpdate">Proveedor: <a (click)="goToSupplier(producto.supplier.name)"
+          <p>Proveedor: <a (click)="goToSupplier(producto.supplier.name)"
               [className]="isInProdDetail? 'btn btn-link' : 'btn-none'">{{producto.supplier.name}}</a></p>
-          <h5>Envío S./10</h5>
-          <p>Recíbelo el {{fecha_entrega}} en Lima</p>
-          
-          <div class="form-group">
-            <label for="modelProd"><b>Modelo</b></label>
+          <h5 class="mb-2">
+            Envío 
+            <b *ngIf="!calculando">S./{{deliveryPrice}}</b>
+            <b *ngIf="calculando">
+              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            </b>
+          </h5>
+
+          <button class="btn btn-cl1" (click)="toCalcEnv()">Calcular envío</button>
+
+
+          <div *ngIf="onCalcEnv" class="calc-section">
+            <form #calcEnvForm="ngForm" (ngSubmit)="calcEnv(calcEnvForm)">
+              <div class="form-group">
+                <label for="calcDep">Departamento</label>
+                <select class="form-control" id="calcDep" name="calcDep" [(ngModel)]="calcDep"
+                  (ngModelChange)="getProvinciasByDepartamento(calcDep)" [disabled]="calculando" required>
+                  <option value="{{dep.id_ubigeo}}" *ngFor="let dep of departamentos">{{dep.nombre_ubigeo}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="calcProv">Provincia: <sup>*</sup></label>
+                <select class="form-control" id="calcProv" name="calcProv" [(ngModel)]="calcProv"
+                  (ngModelChange)="getDistritosByProvincias(calcProv)" [disabled]="calcDep == '' || calculando" required>
+                  <option value="{{prov.id_ubigeo}}" *ngFor="let prov of provByDep">{{prov.nombre_ubigeo}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="calcDis">Distrito: <sup>*</sup></label>
+                <select class="form-control" id="calcDis" name="calcDis" [(ngModel)]="calcDis"
+                  [disabled]="calcProv == '' || calculando" required>
+                  <option value="{{dis.nombre_ubigeo}}" *ngFor="let dis of disByProv">{{dis.nombre_ubigeo}}</option>
+                </select>
+              </div>
+
+              <button type="submit" class="btn btn-success btn-block" [disabled]="calcEnvForm.invalid">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="calculando"></span>
+                Calcular
+              </button>
+            </form>
+          </div>
+
+          <p class="mt-3">Recíbelo entre el {{fecha_entrega}} y el {{fecha_entrega2}} en {{dist_entrega}}</p>
+
+          <div class="form-group mt-2" *ngIf="producto.productModels.length > 0">
+            <label><b>Modelo</b></label>
 
             <ul class="list-group list-group-horizontal">
               <li class="list-group-item" (click)="selectModel(mod)" *ngFor="let mod of producto.productModels">
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="prodModel" [id]="'prodMod' + mod.id"
                     [value]="mod.id" [(ngModel)]="prodModSelect">
-                  <img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/product-models/' + mod.image" class="imgMod">
+                  <img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/product-models/' + mod.image"
+                    class="imgMod">
+                </div>
+                <div class="text-center">
+                  <small>{{mod.name}}</small>
                 </div>
               </li>
             </ul>
-
-            <!-- <select class="form-control" id="modelProd" name="modelProd" [(ngModel)]="prodModSelect">
-              <option value="{{mod.id}}" *ngFor="let mod of producto.productModels">{{mod.name}}</option>
-            </select> -->
           </div>
-
-          <!-- <p>{{producto.description}}</p> -->
         </div>
         <div class="action-section" id="detail-action">
           <div class="card border-dark product-options">
             <div class="card-body">
-              <div class="row-flex mt-2" *ngIf="!onUpdate">
+              <div class="row-flex mt-2">
                 <!-- <div class="col-6"> -->
-                  <h5>Precio</h5>
+                <h5>Precio</h5>
                 <!-- </div> -->
                 <!-- <div class="col-6"> -->
-                  <h5 class="text-right fw-600" *ngIf="!producto.isOffer">S/.{{carritoItem.totalPrice | number:'1.2-2'}}
-                  </h5>
-                  <h5 class="text-right fw-600" *ngIf="producto.isOffer"><s>S/. {{priceWithoutOffer |
-                      number:'1.2-2'}}</s><br> S/. {{carritoItem.totalPrice | number:'1.2-2'}}</h5>
+                <h5 class="text-right fw-600" *ngIf="!producto.isOffer">S/.{{carritoItem.totalPrice | number:'1.2-2'}}
+                </h5>
+                <h5 class="text-right fw-600" *ngIf="producto.isOffer"><s>S/. {{priceWithoutOffer |
+                    number:'1.2-2'}}</s><br> S/. {{carritoItem.totalPrice | number:'1.2-2'}}</h5>
                 <!-- </div> -->
               </div>
-              <div class="form-group row" *ngIf="onUpdate">
-                <label for="prodPrice" class="col-sm-6 col-form-label">Precio</label>
-                <div class="col-sm-6">
-                  <input type="number" name="prodPrice" id="prodPrice" [(ngModel)]="producto.price">
-                </div>
-              </div>
-              <div class="form-check" *ngIf="onUpdate">
-                <input class="form-check-input" type="checkbox" id="prodIsOffer" [(ngModel)]="producto.isOffer">
-                <label class="form-check-label" for="prodIsOffer">
-                  ¿Está en oferta?
-                </label>
-              </div>
-              <div class="form-group row" *ngIf="onUpdate && producto.isOffer">
-                <label for="prodPriceOffer" class="col-sm-6 col-form-label">Precio en oferta</label>
-                <div class="col-sm-6">
-                  <input type="number" name="prodPriceOffer" id="prodPriceOffer" [(ngModel)]="producto.priceOffer">
-                </div>
-              </div>
-              <div class="row-flex mt-2" *ngIf="!onUpdate">
+              <div class="row-flex mt-2">
                 <!-- <div class="col-6"> -->
-                  <label for="prodCantidad">Cantidad</label>
+                <label for="prodCantidad">Cantidad</label>
                 <!-- </div> -->
                 <!-- <div class="col-6 text-right"> -->
-                  <input type="number" name="prodCantidad" id="prodCantidad" [(ngModel)]="carritoItem.quantity"
-                    (ngModelChange)="updatePrecioTotal()">
+                <input type="number" name="prodCantidad" id="prodCantidad" [(ngModel)]="carritoItem.quantity"
+                  (ngModelChange)="updatePrecioTotal()">
                 <!-- </div> -->
               </div>
-              <div class="text-center mt-2" *ngIf="!onUpdate">
-                <!-- <button class="btn btn-success text-center" (click)="addToCart()"
-                  [disabled]="carritoItem.quantity < 1">Agregar al carrito</button> -->
+              <div class="col-flex mt-2">
+                <label for="cartComment">Comentario</label>
+                <textarea class="w-100" name="cartComment" id="cartComment" cols="30" rows="4" maxlength="150"
+                  [(ngModel)]="carritoItem.comment"></textarea>
+              </div>
+              <div class="text-center mt-2">
                 <button class="btn btn-success text-center" (click)="addToCart()"
-                disabled>Agregar al carrito</button>
+                  [disabled]="carritoItem.quantity < 1">Agregar al carrito</button>
+                <!-- <button class="btn btn-success text-center" (click)="addToCart()"
+                disabled>Agregar al carrito</button> -->
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      <div *ngIf="onUpdate">
+
+
+        <form #newProductEditForm="ngForm" (ngSubmit)="editProd(newProductEditForm)">
+          <div class="modal-body">
+            <div class="form-row">
+              <div class="form-group col-6">
+                <label for="nombreProdEdit">Nombre <sup>*</sup></label>
+                <input type="text" class="form-control" id="nombreProdEdit" name="nombreProdEdit"
+                  [(ngModel)]="newProduct.name" [disabled]="loading" required>
+              </div>
+              <div class="form-group col-6">
+                <label for="categoriaProdEdit">Categoria <sup>*</sup></label>
+                <select class="form-control" id="categoriaProdEdit" name="categoriaProdEdit"
+                  [(ngModel)]="newProduct.categoryId" [disabled]="loading" required>
+                  <option value="{{cat.id}}" *ngFor="let cat of categorias">{{cat.name}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-6">
+                <label for="proveedorProdEdit">Proveedor <sup>*</sup></label>
+                <select class="form-control" id="proveedorProdEdit" name="proveedorProdEdit"
+                  [(ngModel)]="newProduct.supplierId" [disabled]="loading || suppSelected" required>
+                  <option value="{{supp.id}}" *ngFor="let supp of suppliers">{{supp.name}}</option>
+                </select>
+              </div>
+              <div class="form-group col-6">
+                <label for="precioProdEdit">Precio <sup>*</sup></label>
+                <input type="number" class="form-control" id="precioProdEdit" name="precioProdEdit"
+                  [(ngModel)]="newProduct.price" [disabled]="loading" required>
+              </div>
+            </div>
+            <div class="form-row mb-3">
+              <div class="form-check col-6">
+                <input type="checkbox" class="mr-2" id="isOfferEdit" name="isOfferEdit" [(ngModel)]="newProduct.isOffer"
+                  [disabled]="loading">
+                <label class="form-check-label" for="isOfferEdit">¿Está en oferta?</label>
+              </div>
+              <div class="form-group col-6" *ngIf="newProduct.isOffer">
+                <label for="precioOfertaProdEdit">Precio en oferta <sup>*</sup></label>
+                <input type="number" class="form-control" id="precioOfertaProdEdit" name="precioOfertaProdEdit"
+                  [(ngModel)]="newProduct.priceOffer" [disabled]="loading">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="unitProdEdit">Unidad de medida <sup>*</sup></label>
+              <select class="form-control" id="unitProdEdit" name="unitProdEdit" [(ngModel)]="newProduct.unit"
+                [disabled]="loading" required>
+                <option value="und">Unidad</option>
+                <option value="kg">Kilogramos</option>
+                <option value="g">Gramos</option>
+                <option value="L">Litros</option>
+                <option value="ml">Mililitros</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="descripcionProdEdit">Descripción</label>
+              <textarea class="form-control" id="descripcionProdEdit" name="descripcionProdEdit" cols="30" rows="4"
+                [(ngModel)]="newProduct.description" [disabled]="loading"></textarea>
+            </div>
+            <div class="form-group justify-content-between">
+              <label for="imagenProdEdit">Imagen <sup>*</sup> <button type="button"
+                  class="btn btn-success ml-3 rounded-circle" (click)="addProdImg()"
+                  *ngIf="prodImgCant < 5">+</button><button type="button" class="btn btn-danger ml-3 rounded-circle"
+                  (click)="rmvProdImg()" *ngIf="prodImgCant > 1">-</button></label>
+              <div *ngFor="let img of prodImgArr" class="imgToEdit">
+                <b class="mr-3">{{img+1}}.</b><img [src]="imgEdit[img]" alt="No Image" class="w-25">
+                <input type="file" class="form-control-file d-inline-block ml-3 mb-3 w-75" [disabled]="loading"
+                  (change)="selectFile($event, img)">
+              </div>
+            </div>
+            <div class="text-center" [innerHtml]='filemsg' *ngIf="filemsg" style="color: red;"></div>
+
+            <label for="prodModelsEdit"><b>Modelo(s)</b> <button type="button"
+                class="btn btn-success ml-3 rounded-circle" (click)="addProdModel()"
+                *ngIf="prodModelCant < 3">+</button><button type="button" class="btn btn-danger ml-3 rounded-circle"
+                (click)="rmvProdModel()" *ngIf="prodModelCant > 0">-</button></label>
+
+            <div class="p-4" *ngIf="prodModelArr.length > 0">
+              <div *ngFor="let mod of prodModelArr" class="mb-3 p-3 border border-info">
+
+                <div class="form-group mb-2">
+                  <label>Imagen</label>
+                  <div class="imgToEdit">
+                    <img [src]="imgModEdit[mod]" alt="No Image" class="w-25">
+                    <input type="file" class="form-control-file ml-3 mb-3" [disabled]="loading"
+                      (change)="selectFile2($event, mod)">
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-6">
+                    <label [for]="'prodModelEdit' + mod">Nombre</label>
+                    <input type="text" class="form-control" [name]="'prodModelEdit' + mod" [id]="'prodModelEdit' + mod"
+                      [(ngModel)]="prodModelData[mod].name" [disabled]="loading" required>
+                  </div>
+                  <div class="form-group col-6">
+                    <label [for]="'prodModelImgEdit' + mod">Produc. Img</label>
+                    <select class="form-control" [name]="'prodModelImgEdit' + mod" [id]="'prodModelImgEdit' + mod"
+                      [(ngModel)]="prodModelData[mod].prodImgNum" [disabled]="loading" required>
+                      <option value="{{imgNum}}" *ngFor="let imgNum of prodImgArr">{{imgNum + 1}}</option>
+                    </select>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="p-4" *ngIf="prodModelArr.length < 1">
+              El producto no tiene modelos.
+            </div>
+            <div [innerHtml]='filemsg2' *ngIf="filemsg2" style="color: red;"></div>
+
+            <hr>
+            <h5>Delivery</h5>
+
+            <label for="deliveryZoneEdit"><b>Lima</b> <button type="button" id="addDelZoneEdit" name="addDelZoneEdit"
+                class="btn btn-success ml-3 rounded-circle" (click)="addDelZone()">+</button><button type="button"
+                id="rmvDelZoneEdit" name="rmvDelZoneEdit" class="btn btn-danger ml-3 rounded-circle"
+                (click)="rmvDelZone()" *ngIf="delZoneCant > 1">-</button></label>
+
+            <div class="p-4">
+              <div *ngFor="let zone of delZoneArr" class="mb-3 p-3 border border-info">
+
+                <h5>Zona {{zone.num + 1}}</h5>
+
+                <div class="form-group">
+                  <label [for]="'districtZonesEdit' + zone.num">Selec. Distritos</label>
+                  <select class="form-control" [name]="'districtZonesEdit' + zone.num"
+                    [id]="'districtZonesEdit' + zone.num" [disabled]="loading" [(ngModel)]="zone.districtSelected"
+                    (ngModelChange)="selectDistrict(zone.num)">
+                    <option value="{{dis.nombre_ubigeo}}" *ngFor="let dis of distritosLima">{{dis.nombre_ubigeo}}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="mt-3 border border-dark p-3" *ngIf="zone.districts && zone.districts.length > 0">
+                  <div class="d-inline-block tag-dist" *ngFor="let item of zone.districts; let i = index">
+                    <label>{{item}}</label><b (click)="deleteDisSelected(zone.num, i)">x</b>
+                  </div>
+                </div>
+
+                <div class="form-group mt-3">
+                  <label [for]="'districtZonesPriceEdit' + zone.num">Precio</label>
+                  <input type="number" class="form-control" [id]="'districtZonesPriceEdit' + zone.num"
+                    [name]="'districtZonesPriceEdit' + zone.num" [(ngModel)]="zone.price">
+                </div>
+
+              </div>
+            </div>
+
+            <div class="form-check mb-3">
+              <input type="checkbox" class="form-check-input" id="toProvEdit" name="toProvEdit"
+                [(ngModel)]="newProduct.toProv" [disabled]="loading">
+              <label class="form-check-label" for="toProvEdit">Envío a Provincias</label>
+            </div>
+            <div class="form-group" *ngIf="newProduct.toProv">
+              <label for="provDelPriceEdit">Precio</label>
+              <input type="number" class="form-control" id="provDelPriceEdit" name="provDelPriceEdit"
+                [(ngModel)]="provDeliveryPrice">
+            </div>
+
+            <label><b>Días de Envío</b></label>
+            <div class="mb-3">
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="allDaysEdit" name="allDaysEdit"
+                  [(ngModel)]="allDays" [disabled]="loading" (ngModelChange)="sendAllDays()">
+                <label class="form-check-label" for="allDaysEdit">Todos los días</label>
+              </div>
+              <div class="form-check" *ngFor="let item of daysToSend">
+                <input type="checkbox" class="form-check-input" [id]="'dayEdit'+item.name" [name]="'dayEdit'+item.name"
+                  [(ngModel)]="item.send" [disabled]="loading" (ngModelChange)="sendDay()">
+                <label class="form-check-label" [for]="'dayEdit'+item.name">{{item.name}}</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="numDaysToSendEdit">Número de días para tener disponible el producto <sup>*</sup></label>
+              <input type="number" class="form-control" id="numDaysToSendEdit" name="numDaysToSendEdit"
+                [(ngModel)]="newProduct.numDaysToSend" [disabled]="loading" required>
+            </div>
+  
+            <div class="form-group">
+              <label for="numDaysToSend2Edit">Número de días para que llegue al cliente <sup>*</sup></label>
+              <input type="number" class="form-control" id="numDaysToSend2Edit" name="numDaysToSend2Edit"
+                [(ngModel)]="newProduct.numDaysToSend2" [disabled]="loading" required>
+            </div>
+
+            <hr>
+            <p>* Campos Obligatorios</p>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success btn-block" [disabled]="loading || newProductEditForm.invalid">
+              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="loading"></span>
+              Guardar Cambios
+            </button>
+          </div>
+        </form>
+
+
+      </div>
     </div>
   </div>
 
   <div class="mt-5 coment-section" id="comments" *ngIf="!onUpdate">
-    <h3>Comentarios:</h3>
+    <h3>Reseñas:</h3>
     <div *ngIf="userService.userInfo">
       <p class="user-comment">
         <b class="mr-3">{{userService.userInfo.name}} {{userService.userInfo.last_name}}</b>
@@ -191,7 +407,7 @@
       </p>
       <textarea name="comentUser" id="comentUser" cols="30" rows="3" class="coment-area"
         [(ngModel)]="newProdComment.content"></textarea>
-      <button class="btn btn-success" (click)="addProdComment()">Agregar Comentario</button>
+      <button class="btn btn-success" (click)="addProdComment()">Agregar Reseña</button>
       <hr>
     </div>
     <div class="all-coments">
@@ -204,12 +420,35 @@
         </p>
       </div>
       <div *ngIf="prodAllComments && prodAllComments.length == 0">
-        No hay comentarios sobre este producto.
+        No hay reseñas sobre este producto.
       </div>
     </div>
   </div>
 </div>
 
+
+<!-- Modal -->
+<div class="modal fade" id="modalDeleteProd" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 *ngIf="producto" class="modal-title" id="modalDeleteProdLongTitle">¿Eliminar producto {{producto.name}}?
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeModalDeleteProd>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Confirma que deseas eliminar el producto.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="deleteProd()">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!--Alerts section-->
 <app-succ-err-mesages #alertComp></app-succ-err-mesages>

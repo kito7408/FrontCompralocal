@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ProductPost } from '../classes/productPost';   //solo tiene los ids de categoria y supplier
 import { ProductGet } from '../classes/productGet';     //tiene los objetos categoria y supplier
@@ -18,11 +18,11 @@ export class ProductService {
 
   constructor(private http: HttpClient) { }
 
-  getAll(): Observable<ProductGet[]>{
+  getAll(): Observable<ProductGet[]> {
     return this.http.get<ProductGet[]>(this.url);
   }
 
-  getSortedByBuyed(): Observable<ProductGet[]>{
+  getSortedByBuyed(): Observable<ProductGet[]> {
     const newUrl = this.url + '/mostbuyed';
     return this.http.get<ProductGet[]>(newUrl);
   }
@@ -52,7 +52,7 @@ export class ProductService {
     return this.http.get<ProductGet[]>(newUrl);
   }
 
-  save(producto: ProductPost):Observable<ProductPost>{
+  save(producto: ProductPost): Observable<ProductPost> {
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', 'Bearer ' + localStorage.getItem('token'));
 
@@ -73,16 +73,48 @@ export class ProductService {
     formData.append('isOffer', String(producto.isOffer));
     formData.append('priceOffer', String(producto.priceOffer));
     formData.append('unit', String(producto.unit));
+    formData.append('toProv', String(producto.toProv));
+    formData.append('daysToSend', producto.daysToSend);
+    formData.append('numDaysToSend', String(producto.numDaysToSend));
+    formData.append('numDaysToSend2', String(producto.numDaysToSend2));
 
     return this.http.post<ProductPost>(this.url, formData, { headers: headers });
   }
 
-  update(producto: ProductPost): Observable<ProductPost> {
+  update(producto: ProductPost, newImgs: boolean[]): Observable<ProductPost> {
     let headers = new HttpHeaders();
-    headers = headers.set('Content-type', 'application/json');
     headers = headers.set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+
+    const formData: FormData = new FormData();
+    formData.append('id', String(producto.id));
+    formData.append('image', producto.image1);
+    formData.append('image', producto.image2);
+    formData.append('image', producto.image3);
+    formData.append('image', producto.image4);
+    formData.append('image', producto.image5);
+    formData.append('name', producto.name);
+    formData.append('categoryId', String(producto.categoryId));
+    formData.append('price', String(producto.price));
+    formData.append('description', String(producto.description));
+    formData.append('isTrent', String(producto.isTrent));
+    formData.append('numSellOnWeek', String(producto.numSellOnWeek));
+    formData.append('supplierId', String(producto.supplierId));
+    formData.append('isOffer', String(producto.isOffer));
+    formData.append('priceOffer', String(producto.priceOffer));
+    formData.append('unit', String(producto.unit));
+    formData.append('toProv', String(producto.toProv));
+    formData.append('daysToSend', producto.daysToSend);
+    formData.append('numDaysToSend', String(producto.numDaysToSend));
+    formData.append('numDaysToSend2', String(producto.numDaysToSend2));
+
+    formData.append('changeImg1', String(newImgs[0]));
+    formData.append('changeImg2', String(newImgs[1]));
+    formData.append('changeImg3', String(newImgs[2]));
+    formData.append('changeImg4', String(newImgs[3]));
+    formData.append('changeImg5', String(newImgs[4]));
+
     const newUrl = this.url + '/' + producto.id;
-    return this.http.put<ProductPost>(newUrl,producto, { headers: headers });
+    return this.http.put<ProductPost>(newUrl, formData, { headers: headers });
   }
 
   delete(id: number): Observable<ProductPost> {
@@ -98,6 +130,6 @@ export class ProductService {
     headers = headers.set('Content-type', 'application/json');
     headers = headers.set('Authorization', 'Bearer ' + localStorage.getItem('token'));
     const newUrl = this.url + '/sales';
-    return this.http.put<any>(newUrl, {data: prodInfo}, { headers: headers });
+    return this.http.put<any>(newUrl, { data: prodInfo }, { headers: headers });
   }
 }

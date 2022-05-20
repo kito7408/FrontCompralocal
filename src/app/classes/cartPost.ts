@@ -5,4 +5,6 @@ export class CartPost{
     isBuyed: boolean;
     userId: number;
     productId: number;
+    productModelId: number;
+    comment: string;
 }

@@ -167,6 +167,32 @@ input.ng-untouched{
     border-radius: 25px;
 }
 
+.back{
+    font-size: 2rem;
+    cursor: pointer;
+    color: black;
+}
+
+.back-section{
+    top: 1rem;
+    left: -2.5rem;
+}
+
+.followBuy{
+    text-align: right;
+}
+
+.backBuy{
+    text-align: left;
+}
+
+.nollegaProd{
+    color: red;
+    border: 1px solid red;
+    text-align: center;
+    border-radius: 15px;
+}
+
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -177,4 +203,15 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+
+@media(max-width: 575px){
+    .followBuy{
+        text-align: center;
+    }
+    .backBuy{
+        text-align: center;
+        margin-bottom: 1rem;
+    }
 }

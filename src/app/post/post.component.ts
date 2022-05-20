@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { blogItemGet } from '../classes/blogItemGet';
 import { BlogService } from '../services/blog.service';
+import { Location } from '@angular/common';
 import * as moment from 'moment';
 
 @Component({
@@ -20,7 +21,8 @@ export class PostComponent implements OnInit {
 
   constructor(
     private blogService: BlogService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private _location: Location
   ) {
     this.listRows = 1;
     this.itemsPerRow = 4;
@@ -66,5 +68,9 @@ export class PostComponent implements OnInit {
     } else {
       this.thereMore = false;
     }
+  }
+
+  goBackPage() {
+    this._location.back();
   }
 }

@@ -16,4 +16,8 @@ export class ProductPost{
     isOffer: boolean;
     priceOffer: number;
     unit: string;
+    toProv: boolean;
+    daysToSend: string;
+    numDaysToSend: number;
+    numDaysToSend2: number;
 }

@@ -13,6 +13,18 @@ a{
     margin-right: 10px;
 }
 
+.social_button{
+    font-size: 2rem;
+}
+
+.text-uppercase{
+    font-family: var(--font2Bold);
+}
+
+.follow-us{
+    font-family: var(--font2Bold);
+}
+
 @media(max-width: 575px){
     .footer-logo-section{
         display: none;

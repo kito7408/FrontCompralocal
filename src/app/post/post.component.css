@@ -16,6 +16,10 @@
     margin-bottom: 2rem;
 }
 
+.post-title>h3{
+    font-family: var(--font2Bold);
+}
+
 .post-content{
     text-align: justify;
 }
@@ -38,10 +42,12 @@
     color: var(--primary2);
     font-size: x-large;
     font-weight: 700;
+    font-family: var(--font1Bold);
 }
 
 .frase-section{
-    background-color: #49ffe5;
+    /* background-color: #49ffe5; */
+    background-color: var(--primary3);
     padding: 2rem;
 }
 
@@ -79,6 +85,7 @@
 
 .one-post-title{
     font-weight: 600;
+    font-family: var(--font1Bold);
 }
 
 li{
@@ -98,6 +105,7 @@ ul{
     font-weight: 700;
     color: #777;
     margin-bottom: 2rem;
+    font-family: var(--font2Bold);
 }
 
 .post-author{

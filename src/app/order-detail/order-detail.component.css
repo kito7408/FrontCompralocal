@@ -1,5 +1,6 @@
 .order-product-img{
     max-height: 7rem;
+    max-width: 7rem;
 }
 
 .back{
@@ -7,4 +8,15 @@
     margin-left: -2rem;
     margin-bottom: 1rem;
     cursor: pointer;
+}
+
+.detail-prod-name{
+    display: flex;
+    align-items: center;
+    align-content: center;
+    flex-direction: row;
+}
+
+.section-order-img{
+    width: 8rem;
 }

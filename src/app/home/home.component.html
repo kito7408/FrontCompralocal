@@ -1,3 +1,13 @@
+<!--Seccion contadores-->
+<div class="row">
+  <div class="col-sm-6 count-section br-1-n">
+    Arboles plantados: <b>{{numTrees}}</b>
+  </div>
+  <div class="col-sm-6 count-section">
+    Horas enseñadas: <b>{{numTeachs}}</b>
+  </div>
+</div>
+
 <!--Seccion slider carrusel-->
 <div id="carouselExampleIndicators" class="carousel slide carousel-fade position-relative" data-ride="carousel"
   data-interval="2000" #carousel>
@@ -77,7 +87,7 @@
 <!--Sección guia-->
 <div class="info">
   <div class="container text-center">
-    <h1 class="fw-700 cat-title">Responsable, fresco y sano</h1>
+    <h1 class="title-section">Responsable, fresco y sano</h1>
     <!-- <ul class="list-group list-group-horizontal justify-content-between mt-5">
       <li class="list-group-item text-center rounded" (click)="goToCategory(1)">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="img-category" fill="currentColor">
@@ -201,21 +211,21 @@
     <div class="row mt-5">
       <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
         <img src="../../assets/imgs/celular.png" class="info-img">
-        <p class="guide-subtitle1">1. Haz tu pedido online</p>
+        <p class="guide-subtitle1">1. Haz tu pedido online.</p>
         <!-- <p class="guide-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed porta in ex at commodo.
           Donec a porta ex. In vel ante dapibus, convallis massa et, viverra augue. Curabitur eu cursus elit, id tristique
           mi.</p> -->
       </div>
       <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
         <img src="../../assets/imgs/envio.png" class="info-img">
-        <p class="guide-subtitle2">2. Tu pedido se envía directo al productor/a</p>
+        <p class="guide-subtitle2">2. Éste se envía directo al productor.</p>
         <!-- <p class="guide-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed porta in ex at commodo.
           Donec a porta ex. In vel ante dapibus, convallis massa et, viverra augue. Curabitur eu cursus elit, id tristique
           mi.</p> -->
       </div>
       <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
         <img src="../../assets/imgs/entrega.png" class="info-img">
-        <p class="guide-subtitle3">3. Tu compra será entregada de manera programada</p>
+        <p class="guide-subtitle3">3. Tu compra será entregada en la fecha indicada.</p>
         <!-- <p class="guide-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed porta in ex at commodo.
           Donec a porta ex. In vel ante dapibus, convallis massa et, viverra augue. Curabitur eu cursus elit, id tristique
           mi.</p> -->
@@ -244,6 +254,7 @@
 <!-- Separador -->
 <div class="container mt-5">
   <hr>
+  <a class="nav-link d-none" data-toggle="modal" data-target="#ModalNewPass" #openModalNewPass>Open</a>
 </div>
 
 <!--Header productos-->
@@ -259,7 +270,7 @@
 <div class="container text-right">
   <button class="btn btn-cl1" (click)="sortByBuyed()">+ Comprados</button>
 </div> -->
-<table class="container table table-bordered mt-5 text-center">
+<table class="container table table-bordered mt-5 text-center" id="homeProd">
   <thead>
     <tr>
       <th scope="col">
@@ -274,7 +285,7 @@
       </th> -->
       <th scope="col">
         <button class="btn btn-link" (click)="filterProds(3)">
-          Los + comprados
+          Los más comprados
         </button>
       </th>
     </tr>
@@ -410,39 +421,6 @@
   </div>
 </div>
 
-<!-- Separador -->
-<div class="container mt-5">
-  <hr>
-</div>
-
-<!--Sección motivo-->
-<div class="container text-center mt-5">
-  <div class="mb-5">
-    <h3 class="motive-title">Tu eliges cómo apoyar</h3>
-  </div>
-  <div class="row">
-    <div class="col-md-6 fix-heigh-img">
-      <div class="fix-heigh-img">
-        <img src="../../assets/imgs/andoforestando.png" class="info-img1" routerLink="/reforestacion"
-          routerLinkActive="active">
-      </div>
-      <h4 class="guide-subtitle">Reforestación</h4>
-    </div>
-    <div class="col-md-6 fix-heigh-img">
-      <div class="fix-heigh-img">
-        <img src="../../assets/imgs/educa-imacta-crece.jpg" class="info-img2" routerLink="/educacion"
-          routerLinkActive="active">
-      </div>
-      <h4 class="guide-subtitle">Educación</h4>
-    </div>
-    <!-- <div class="col-md-4 fix-heigh-img">
-      <div class="fix-heigh-img">
-        <img src="../../assets/imgs/1planeta.jpg" class="info-img3">
-      </div>
-      <h4 class="guide-subtitle">Planeta</h4>
-    </div> -->
-  </div>
-</div>
 
 <!-- Separador -->
 <div class="container mt-5">
@@ -451,7 +429,7 @@
 
 <!-- Sección Proveedores/Productores -->
 <div class="container supp text-center">
-  <h1>Emprendimientos</h1>
+  <h1 class="title-section">Emprendimientos</h1>
   <div id="carouselSupps" class="carousel carousel-fade mt-5" data-ride="carousel" data-interval="2000"
     *ngIf="suppliers">
     <ol *ngIf="suppList.length > 3" class="carousel-indicators" [innerHtml]='inHTMLSupp | safeHtml'>
@@ -488,6 +466,40 @@
   <!-- <h2 class="mb-5">Pronto tu marca ocupará este lugar</h2> -->
 </div>
 
+<!-- Separador -->
+<div class="container mt-5">
+  <hr>
+</div>
+
+<!--Sección motivo-->
+<div class="container text-center mt-5 mb-5">
+  <div class="mb-5">
+    <h3 class="title-section">Tu eliges cómo apoyar</h3>
+  </div>
+  <div class="row">
+    <div class="col-md-6 fix-heigh-img">
+      <div class="fix-heigh-img">
+        <img src="../../assets/imgs/andoforestando.png" class="info-img1" routerLink="/reforestacion"
+          routerLinkActive="active">
+      </div>
+      <h4 class="guide-subtitle">Reforestación</h4>
+    </div>
+    <div class="col-md-6 fix-heigh-img">
+      <div class="fix-heigh-img">
+        <img src="../../assets/imgs/educa-imacta-crece.jpg" class="info-img2" routerLink="/educacion"
+          routerLinkActive="active">
+      </div>
+      <h4 class="guide-subtitle">Educación</h4>
+    </div>
+    <!-- <div class="col-md-4 fix-heigh-img">
+      <div class="fix-heigh-img">
+        <img src="../../assets/imgs/1planeta.jpg" class="info-img3">
+      </div>
+      <h4 class="guide-subtitle">Planeta</h4>
+    </div> -->
+  </div>
+</div>
+
 <!--Seccion youtube-->
 <!-- <div class="container-fluid text-center">
   <youtube-player videoId="LiLUqhDwOcs">
@@ -497,31 +509,27 @@
 <!--Seccion noticias-->
 <div class="cl-bg3 pt-5 pb-5">
   <div class="container text-center">
-    <h1 class="cl-c2 fw-700">Últimas Noticias</h1>
+    <h1 class="title-section">Últimas Noticias</h1>
     <div class="row" *ngIf="lastPosts && lastPosts.length > 0">
       <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
         <div class="post-content" routerLink="/post/{{lastPosts[0].id}}" routerLinkActive="active">
           <img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/blog-posts/' + lastPosts[0].image" alt=""
             class="img-post">
-          <div>
-            <!-- <div class="info-post">
+          <!-- <div class="info-post">
               {{lastPosts[0].date}}
             </div> -->
-            <div class="post-title">
-              {{lastPosts[0].title}}
-            </div>
+          <div class="post-title">
+            {{lastPosts[0].title}}
           </div>
         </div>
         <div class="post-content" routerLink="/post/{{lastPosts[2].id}}" routerLinkActive="active">
           <img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/blog-posts/' + lastPosts[2].image" alt=""
             class="img-post">
-          <div>
-            <!-- <div class="info-post">
+          <!-- <div class="info-post">
               {{lastPosts[2].date}}
             </div> -->
-            <div class="post-title">
-              {{lastPosts[2].title}}
-            </div>
+          <div class="post-title">
+            {{lastPosts[2].title}}
           </div>
         </div>
       </div>
@@ -529,25 +537,21 @@
         <div class="post-content" routerLink="/post/{{lastPosts[1].id}}" routerLinkActive="active">
           <img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/blog-posts/' + lastPosts[1].image" alt=""
             class="img-post">
-          <div>
-            <!-- <div class="info-post">
+          <!-- <div class="info-post">
               {{lastPosts[1].date}}
             </div> -->
-            <div class="post-title">
-              {{lastPosts[1].title}}
-            </div>
+          <div class="post-title">
+            {{lastPosts[1].title}}
           </div>
         </div>
         <div class="post-content" routerLink="/post/{{lastPosts[3].id}}" routerLinkActive="active">
           <img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/blog-posts/' + lastPosts[3].image" alt=""
             class="img-post">
-          <div>
-            <!-- <div class="info-post">
+          <!-- <div class="info-post">
               {{lastPosts[3].date}}
             </div> -->
-            <div class="post-title">
-              {{lastPosts[3].title}}
-            </div>
+          <div class="post-title">
+            {{lastPosts[3].title}}
           </div>
         </div>
       </div>
@@ -631,6 +635,41 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="ModalNewPass" tabindex="-1" role="dialog" aria-labelledby="ModalNewPass"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalNewPassLongTitle">Nueva contraseña</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeModalNewPass>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form #newPassForm="ngForm" (ngSubmit)="newPass(newPassForm)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="userNewPass">Nueva contraseña</label>
+            <input type="password" class="form-control" id="userNewPass" name="userNewPass"
+              [(ngModel)]="userNewPass" required>
+          </div>
+          <div class="form-group">
+            <label for="userNewPassRe">Repetir nueva contraseña</label>
+            <input type="password" class="form-control" id="userNewPassRe" name="userNewPassRe"
+              [(ngModel)]="userNewPassRe" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="newPassForm.invalid">
+            Actualizar contraseña
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <!-- 
 <div class="modal fade" id="ModalPromociones" tabindex="-1" role="dialog" aria-labelledby="ModalPromociones"
   aria-hidden="true">

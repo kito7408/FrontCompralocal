@@ -75,4 +75,18 @@ export class UserService {
     const newUrl = this.url + '/login/socialmedia';
     return this.http.post<any>(newUrl, {email: email}, { headers: headers });
   }
+
+  newPassStep1(email: string): Observable<any> {
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-type', 'application/json');
+    const newUrl = this.url + '/newpass-step1';
+    return this.http.post<any>(newUrl, {email: email}, { headers: headers });
+  }
+
+  newPassStep2(data: any): Observable<any> {
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-type', 'application/json');
+    const newUrl = this.url + '/newpass-step2';
+    return this.http.post<any>(newUrl, data, { headers: headers });
+  }
 }

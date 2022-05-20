@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { from } from 'rxjs';
@@ -54,6 +54,8 @@ export class SupplierComponent implements OnInit {
   @ViewChild('closeAddProductModal') closeAddProductModal: ElementRef;
   @ViewChild('alertComp') alertComp: SuccErrMesagesComponent;
 
+  @Output() logEvent = new EventEmitter;
+
   constructor(
     private suppService: SupplierService,
     private route: ActivatedRoute,
@@ -78,7 +80,7 @@ export class SupplierComponent implements OnInit {
           this.suppName = this.suppName.replace(/-+/g, " ");
           this.suppService.getByName(this.suppName).subscribe((data) => {
             this.supplier = data;
-
+            this.supplier.description = this.supplier.description.replace(/\n/g, "<br>");
             this.prodService.filterType = 5;
             this.prodService.filter = String(this.supplier.id);
             this.prodComp.listProducts();
@@ -126,12 +128,7 @@ export class SupplierComponent implements OnInit {
   }
 
   newProdF() {
-    this.prodImgCant = 1;
-    this.prodImgArr = [0];
-    this.prodImgFileArr = new Array<File>();
-    this.filemsg = '';
-    this.newProduct = new ProductPost;
-    this.newProduct.name = 'askdnaks'
+    this.logEvent.emit('newProdFromSupp ' + this.supplier.id);
   }
 
   addProdImg() {
@@ -199,11 +196,14 @@ export class SupplierComponent implements OnInit {
     this.changeImg2 = false;
     this.suppPrevInfo = this.supplier;
     this.suppOnEdit = true;
+
+    this.supplier.description = this.supplier.description.replace(/<br>/g,"\n");
   }
 
   cancelEditSupp() {
     this.suppOnEdit = false;
     this.supplier = this.suppPrevInfo;
+    this.supplier.description = this.supplier.description.replace(/\n/g, "<br>");
   }
 
   selectFileSupp1(event) {
@@ -272,6 +272,7 @@ export class SupplierComponent implements OnInit {
 
         this.suppService.update(suppDataToSend).subscribe((data: any) => {
           this.supplier = data.data;
+          this.supplier.description = this.supplier.description.replace(/\n/g, "<br>");
           setTimeout(() => {
             this.loading = false;
             this.suppOnEdit = false;
@@ -301,6 +302,7 @@ export class SupplierComponent implements OnInit {
     this.suppService.update(suppDataToSend).subscribe((data: any) => {
 
       this.alertComp.successEvent('Proveedor inhabilitado');
+      this.logEvent.emit('unableSupp');
       setTimeout(() => {
         this.unabling = false;
         this.router.navigate(['/home']);

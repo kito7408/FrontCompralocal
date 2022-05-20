@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, Pipe, PipeTransform, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { blogItemGet } from '../classes/blogItemGet';
 import { CategoryGet } from '../classes/categoryGet';
 import { Supplier } from '../classes/supplier';
@@ -14,6 +14,8 @@ import { NgForm } from '@angular/forms';
 import { SubscriptionService } from '../services/subscription.service';
 import { Subscription } from '../classes/subscription';
 import { SuccErrMesagesComponent } from '../succ-err-mesages/succ-err-mesages.component';
+import { UserService } from '../services/user.service';
+import { HelpProyectService } from '../services/help-proyect.service';
 const departamentosJSON = require('../../assets/js/departamentos.json');
 const provinciasJSON = require('../../assets/js/provincias.json');
 const distritosJSON = require('../../assets/js/distritos.json');
@@ -51,25 +53,66 @@ export class HomeComponent implements OnInit {
   distritos: any = distritosJSON;
   provByDep: any[];
   disByProv: any[];
+  dataToken: any = {};
+  userNewPass: string = '';
+  userNewPassRe: string = '';
+  numTrees: number = 0;
+  numTeachs: number = 0;
+
   // @ViewChild('closeModalPromociones') closeModalPromociones: ElementRef;
+  @ViewChild('closeModalNewPass') closeModalNewPass: ElementRef;
+  @ViewChild('openModalNewPass') openModalNewPass: ElementRef;
 
   constructor(
     private catService: CategoriaService,
     private routes: Router,
+    private route: ActivatedRoute,
     private prodService: ProductService,
     private suppService: SupplierService,
     private blogService: BlogService,
-    private subsService: SubscriptionService
+    private subsService: SubscriptionService,
+    public userService: UserService,
+    private helpProyServ: HelpProyectService
   ) {
     this.getCategorias();
     this.getSuppliers();
     this.getLastPosts();
+
+    this.route.params.subscribe((params) => {
+      if (params['token']) {
+        var decoToken = atob(params['token']);
+        var itemsToken = decoToken.split('-/');
+
+        if (itemsToken.length == 4) {
+          this.dataToken = {
+            name: itemsToken[0],
+            email: itemsToken[1],
+            dni: itemsToken[2],
+            pass: itemsToken[3]
+          }
+          setTimeout(() => {
+            this.openModalNewPass.nativeElement.click();
+          }, 2000);
+        } else {
+          this.routes.navigate(['/home']);
+        }
+      }
+    });
   }
 
   ngOnInit() {
     const tag = document.createElement('script');
     tag.src = "https://www.youtube.com/iframe_api";
     document.body.appendChild(tag);
+
+    this.getCounts();
+  }
+
+  getCounts(){
+    this.helpProyServ.getAll().subscribe((res) => {
+      this.numTrees = res[0].num;
+      this.numTeachs = res[1].num;
+    });
   }
 
   getCategorias() {
@@ -105,7 +148,7 @@ export class HomeComponent implements OnInit {
 
   getLastPosts() {
     this.blogService.getAll().subscribe((data) => {
-      this.lastPosts = data.slice(0,4);
+      this.lastPosts = data.slice(0, 4);
       this.lastPosts.forEach(element => {
         element.date = moment.utc(element.createdAt).format('DD/MM/YYYY').toString();
       });
@@ -167,7 +210,7 @@ export class HomeComponent implements OnInit {
   //   }
   // }
 
-  goToSupplier(suppName: string){
+  goToSupplier(suppName: string) {
     var suppLink = suppName.replace(/\s+/g, "-");
     this.routes.navigate(['/fuerza/' + suppLink]);
   }
@@ -206,7 +249,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  getProvinciasByDepartamento(dep_id: string){
+  getProvinciasByDepartamento(dep_id: string) {
     this.provSub = '';
     this.subInfo.distrito = '';
     this.subInfo.provincia = '';
@@ -214,7 +257,7 @@ export class HomeComponent implements OnInit {
     this.subInfo.departamento = this.departamentos.find(x => x.id_ubigeo === dep_id).nombre_ubigeo;
   }
 
-  getDistritosByProvincias(prov_id: string){
+  getDistritosByProvincias(prov_id: string) {
     this.subInfo.distrito = '';
     this.disByProv = this.distritos[prov_id];
     this.subInfo.provincia = this.provByDep.find(x => x.id_ubigeo === prov_id).nombre_ubigeo;
@@ -223,4 +266,28 @@ export class HomeComponent implements OnInit {
   // modalProm(){
   //   this.subInfo = new Subscription;
   // }
+
+  newPass(form: NgForm) {
+
+    if (form.valid) {
+      if (this.userNewPass == this.userNewPassRe) {
+
+        var dataNewPass = {
+          data: this.dataToken,
+          newPass: this.userNewPass
+        }
+
+        this.userService.newPassStep2(dataNewPass).subscribe((result) => {
+          this.alertComp.successEvent("Se ha actualizado la contraseña de la cuenta.");
+          this.closeModalNewPass.nativeElement.click();
+        }, (error) => {
+          this.alertComp.errorEvent("Ocurrio un error al querer actualizar la contraseña.")
+        })
+
+      } else {
+        this.alertComp.errorEvent("Los campos no coinciden.")
+      }
+    }
+
+  }
 }

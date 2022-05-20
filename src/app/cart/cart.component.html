@@ -1,4 +1,7 @@
-<div class="container pt-5">
+<div class="container pt-5 position-relative">
+  <div class="position-absolute back-section pt-5">
+    <i class="far fa-arrow-alt-circle-left back" (click)="goBackPage()"></i>
+  </div>
   <h2>Compra Rápida</h2>
   <h4>Completa los siguientes campos para realizar tu pedido</h4>
 
@@ -36,13 +39,13 @@
               required email>
           </div>
         </div>
-        <div class="form-row">
+        <div class="form-row" *ngIf="!userService.userInfo">
           <div class="form-group col-6">
             <label for="userPassCart">Contraseña: <sup>*</sup></label>
             <input type="password" class="form-control" id="userPassCart" name="userPassCart"
               [(ngModel)]="newUser.password" [disabled]="userService.userInfo" required>
           </div>
-          <div class="form-group col-6" *ngIf="!userService.userInfo">
+          <div class="form-group col-6">
             <label for="reuserPassCart">Confirmar Contraseña: <sup>*</sup></label>
             <input type="password" class="form-control" id="reuserPassCart" name="reuserPassCart" [(ngModel)]="repass"
               required>
@@ -106,6 +109,7 @@
           <div class="form-group col-6">
             <label for="userDistCart">Distrito: <sup>*</sup></label>
             <select class="form-control" id="userDistCart" name="userDistCart" [(ngModel)]="dirSelec.distrito"
+              (ngModelChange)="selectDistrito()"
               [disabled]="dirOnSelec || dirSelec.provincia == null || dirSelec.provincia == ''" required>
               <option value="{{dis.nombre_ubigeo}}" *ngFor="let dis of disByProv">{{dis.nombre_ubigeo}}</option>
             </select>
@@ -189,7 +193,7 @@
         </div>
         <div class="row info-titles">
           <div class="col-4 offset-1">
-            Descripción
+            Producto
           </div>
           <div class="col-2">
             Precio unitario
@@ -203,14 +207,19 @@
         </div>
         <div class="row info-content" *ngFor="let item of cartService.cartInfo; index as i;">
           <div class="col-1">
-            <!-- <img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/products/' + item.product.image1"
-              class="prod-img"> -->
-            <img src="../../assets/imgs/producto-prueba.png" class="prod-img">
+            <img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/products/' + item.product.image1"
+              class="prod-img">
+            <!-- <img src="../../assets/imgs/producto-prueba.png" class="prod-img"> -->
           </div>
-          <div class="col-4">
+          <div class="col-2">
             <a routerLink="/products/{{item.product.id}}" routerLinkActive="active">{{item.product.name}}</a>
             <p>
-              <small>{{item.product.description}}</small>
+              <small *ngIf="item.productModel">{{item.productModel.name}}</small>
+            </p>
+          </div>
+          <div class="col-2">
+            <p>
+              <small *ngIf="item.comment">{{item.comment}}</small>
             </p>
           </div>
           <div class="col-2 text-center">
@@ -278,8 +287,11 @@
             </button> -->
           </div>
           <div class="col-2">
-            <label for="">
+            <label for="" *ngIf="nollegaProd.length == 0 || !nollegaProd[i]">
               {{item.totalPrice | number:'1.2-2'}}
+            </label>
+            <label for="" *ngIf="nollegaProd.length > 0 && nollegaProd[i]" class="nollegaProd">
+              El producto no llega al destino seleccionado
             </label>
           </div>
         </div>
@@ -321,12 +333,12 @@
           </div>
         </div>
         <div class="row mt-3">
-          <div class="col-12 col-md-4">
-            <button class="btn btn-secondary" routerLink="/home" routerLinkActive="active">
+          <div class="col-12 col-sm-4 backBuy">
+            <button class="btn btn-secondary" routerLink="/home" routerLinkActive="active" fragment="homeProd">
               < Continuar Comprando </button>
           </div>
-          <div class="col-12 col-md-4 offset-md-4 text-right">
-            <button class="btn btn-primary" (click)="finalizarCompra(userForm)">
+          <div class="col-12 col-sm-4 offset-sm-4 followBuy">
+            <button class="btn btn-primary" (click)="finalizarCompra(userForm)" [disabled]="!nollegaProd.length == 0 && !orderllega">
               Finalizar Compra
             </button>
             <a class="d-none" data-toggle="modal" data-target="#ModalAyuda" #modalSelectProy>Selecciona Proyecto</a>
@@ -339,74 +351,6 @@
   </div>
 
 </div>
-
-
-
-<!-- <div>
-  <div class="container mt-5 mb-2 table-wrapper-scroll-y my-custom-scrollbar" *ngIf="cartService.cartInfo.length != 0">
-    <table class="table text-center table-bordered table-striped" *ngIf="cartService.cartInfo.length > 0">
-      <thead class="thead-light">
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Imagen</th>
-          <th scope="col">Producto</th>
-          <th scope="col">Precio</th>
-          <th scope="col">Cantidad</th>
-          <th scope="col">Subtotal</th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of cartService.cartInfo; index as i;">
-          <th scope="row">1</th>
-          <td><img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/products/' + item.product.image" class="prod-img"></td>
-          <td>{{item.product.name}}</td>
-          <td *ngIf="!item.product.isOffer">{{item.product.price | number:'1.2-2'}}</td>
-          <td *ngIf="item.product.isOffer"><s>{{item.product.price  | number:'1.2-2'}}</s> {{item.product.priceOffer | number:'1.2-2'}}</td>
-          <td>
-            <button type="button" class="btn btn-outline-secondary pt-0 pb-1 pr-1 pl-1" [disabled]="item.quantity == 1"
-              (click)="menosCantidad(item.productId)">
-              <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-left" fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd"
-                  d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
-              </svg>
-            </button>
-            <div class="cantText">{{item.quantity}}</div>
-            <button type="button" class="btn btn-outline-secondary pt-0 pb-1 pr-1 pl-1"
-              (click)="masCantidad(item.productId)">
-              <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right" fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd"
-                  d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z" />
-              </svg>
-            </button>
-          </td>
-          <td>{{item.totalPrice | number:'1.2-2'}}</td>
-          <td>
-            <button type="button" class="btn btn-outline-secondary" (click)="deleteItem(item)">
-              <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
-                <path fill-rule="evenodd"
-                  d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
-              </svg>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div *ngIf="cartService.cartInfo.length == 0" class="text-center">
-    <img src="../../assets/imgs/no-prods.png" class="sadImage">
-  </div>
-  <div class="container mb-4 d-block text-right" *ngIf="cartService.cartInfo.length > 0">
-    <button type="button" class="btn btn-cl2" data-toggle="modal" data-target="#ModalAyuda" *ngIf="userService.userInfo">Pagar</button>
-    <button type="button" class="btn btn-cl2" data-toggle="modal" data-target="#ModaNoLogged" *ngIf="!userService.userInfo">Pagar</button>
-  </div>
-</div> -->
-
 
 
 <!--Modal Tarjeta-->
@@ -423,7 +367,8 @@
         <div class="modal-body">
           <div class="form-group">
             <input type="text" class="form-control" id="tarjetaNum" name="tarjetaNum" [(ngModel)]="tarjeta.card_number"
-              placeholder="Número de Tarjeta" minlength="19" maxlength="19" [disabled]="paying" (ngModelChange)="card_number_eval()">
+              placeholder="Número de Tarjeta" minlength="19" maxlength="19" [disabled]="paying"
+              (ngModelChange)="card_number_eval()">
           </div>
           <div class="form-row">
             <div class="form-group col-md-3">

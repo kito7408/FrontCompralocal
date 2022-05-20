@@ -1,12 +1,13 @@
 import { CategoryPost } from "./categoryPost";
 import { Supplier } from "./supplier";
 import { ProdMod } from "./prodModel";
+import { DeliveryZone } from "./deliveryZone";
 // import { Subcategory } from "./subCategory";
 
 export class ProductGet{
     id: number;
     name: string;
-    description: Text;
+    description: any;
     price: number;
     image1: any;
     image2: any;
@@ -25,4 +26,9 @@ export class ProductGet{
     priceOffer: number;
     unit: string;
     productModels: ProdMod[];
+    toProv: boolean;
+    daysToSend: string;
+    numDaysToSend: number;
+    numDaysToSend2: number;
+    deliveryZones: DeliveryZone[];
 }

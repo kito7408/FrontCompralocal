@@ -78,6 +78,8 @@ export class BlogComponent implements OnInit {
       this.posting = true;
       this.newPost.image = this.postImg;
       this.newPost.userId = this.userService.userInfo.id;
+      console.log(this.newPost);
+      
 
       this.blogService.save(this.newPost).subscribe((data:any) => {
         this.listAll();
@@ -87,6 +89,7 @@ export class BlogComponent implements OnInit {
         this.alertComp.successEvent('Post publicado correctamente');
       }, (error) => {
         console.log(error);
+        this.posting = false;
         this.alertComp.errorEvent('Error al publicar el post');
       });
     }

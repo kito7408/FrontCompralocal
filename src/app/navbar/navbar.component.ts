@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, Inject,
 import { User } from '../classes/user';
 import { ProductPost } from '../classes/productPost';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 import { CategoryPost } from '../classes/categoryPost';
 import { CategoryGet } from '../classes/categoryGet';
@@ -26,6 +27,8 @@ import { Subscription } from '../classes/subscription';
 import { SubscriptionService } from '../services/subscription.service';
 import { ProdModelService } from '../services/prod-model.service';
 import { ProdMod } from '../classes/prodModel';
+import { DeliveryZoneService } from '../services/delivery-zone.service';
+import { DeliveryZone, DeliveryZoneLocal } from '../classes/deliveryZone';
 const departamentosJSON = require('../../assets/js/departamentos.json');
 const provinciasJSON = require('../../assets/js/provincias.json');
 const distritosJSON = require('../../assets/js/distritos.json');
@@ -68,9 +71,6 @@ export class NavbarComponent implements OnInit {
 
   prodModelCant: number = 0;
   prodModelArr: number[] = [];
-  prodModelNames: string[] = [];
-  prodModelImgs = new Array<File>();
-  prodModelPImg: number[] = [];
   prodModelData = new Array<ProdMod>();
   filemsg2: string = '';
 
@@ -90,6 +90,46 @@ export class NavbarComponent implements OnInit {
   cateOtros: string = '';
   @ViewChild('closeModalInfo') closeModalInfo: ElementRef;
 
+  delZoneArr = new Array<DeliveryZoneLocal>();
+  delZoneCant: number = 0;
+  distritosLima = distritosJSON[3927];
+  provDeliveryPrice = 0;
+  daysToSend = [
+    {
+      send: false,
+      name: 'Lunes'
+    },
+    {
+      send: false,
+      name: 'Martes'
+    },
+    {
+      send: false,
+      name: 'Miércoles'
+    },
+    {
+      send: false,
+      name: 'Jueves'
+    },
+    {
+      send: false,
+      name: 'Viernes'
+    },
+    {
+      send: false,
+      name: 'Sabado'
+    },
+    {
+      send: false,
+      name: 'Domingo'
+    },
+  ];
+  allDays: boolean = false;
+
+  suppSelected: boolean = false;
+
+  usernameResetPass: string = '';
+
   private socialUser: SocialUser;
   private loggedIn: boolean;
 
@@ -103,6 +143,7 @@ export class NavbarComponent implements OnInit {
   // @ViewChild('closeAddSubCategoriaModal') closeAddSubCategoriaModal: ElementRef;
   @ViewChild('modalStart') modalStart: ElementRef;
   @ViewChild('loginButton') loginButton: ElementRef;
+  @ViewChild('closeModalResetPass') closeModalResetPass: ElementRef;
   @ViewChild('alertComp') alertComp: SuccErrMesagesComponent;
 
   @Output() addEvent = new EventEmitter;
@@ -117,7 +158,9 @@ export class NavbarComponent implements OnInit {
     private authService: AuthService,
     public cartService: CartService,
     private subsService: SubscriptionService,
-    private prodModService: ProdModelService
+    private prodModService: ProdModelService,
+    private delZoneService: DeliveryZoneService,
+    private location: Location
     // private sbcService: SubcategoryService
   ) {
     this.loading = false;
@@ -128,16 +171,18 @@ export class NavbarComponent implements OnInit {
     this.repass = '';
     this.newUser.userTypeId = 2;
     this.newProduct.isOffer = false;
+    this.newProduct.toProv = false;
     this.newProduct.priceOffer = 0;
     this.getCategorias();
     this.getSuppliers();
     this.addProdImg();
-    this.addProdModel();
+    // this.addProdModel();
+    this.addDelZone();
     // var modAux = new ProdMod;
     // this.prodModelData.push(modAux);
     // this.prodModelCant = 1;
     // this.prodModelArr.push(0);
-    
+
     if (localStorage.getItem('user')) {
       this.userService.userInfo = JSON.parse(localStorage.getItem('user'));
       this.updateCart();
@@ -158,7 +203,7 @@ export class NavbarComponent implements OnInit {
   onWindowScroll() {
     // console.log(document.documentElement.scrollHeight);
     // console.log(document.documentElement.scrollTop);
-    
+
     if (document.body.scrollTop > 50 ||
       document.documentElement.scrollTop > 50) {
       document.getElementById('nav-options').classList.add('fixed-top');
@@ -180,9 +225,11 @@ export class NavbarComponent implements OnInit {
       this.loggedIn = (result != null);
     });
 
-    setTimeout(() => {
-      this.modalStart.nativeElement.click();
-    }, 3000);
+    if (!this.location.path().includes('/home/')) {
+      setTimeout(() => {
+        this.modalStart.nativeElement.click();
+      }, 3000);
+    }
   }
 
   addProdImg() {
@@ -208,6 +255,20 @@ export class NavbarComponent implements OnInit {
     this.prodModelData.pop();
     this.prodModelArr.pop();
     this.prodModelCant--;
+  }
+
+  addDelZone() {
+    var newZone = new DeliveryZoneLocal;
+    newZone.num = this.delZoneCant;
+    newZone.price = 0;
+    newZone.districts = [];
+    this.delZoneArr.push(newZone);
+    this.delZoneCant++;
+  }
+
+  rmvDelZone() {
+    this.delZoneArr.pop();
+    this.delZoneCant--;
   }
 
   updateCart() {
@@ -262,11 +323,23 @@ export class NavbarComponent implements OnInit {
   actionsOnLogin(dataUser) {
     localStorage.setItem('user', JSON.stringify(dataUser.user));
     localStorage.setItem('token', dataUser.token);
-    
+
     // localStorage.setItem('cartLocal', JSON.stringify(this.cartService.cartInfo));
     this.userService.userInfo = dataUser.user;
     this.alertComp.successEvent('Bienvenido ' + dataUser.user.name);
     this.cartLocalToDB();
+  }
+
+  newPass(form: NgForm){
+    if (form.valid) {
+      this.userService.newPassStep1(this.usernameResetPass).subscribe((result) => {
+        this.alertComp.successEvent("Se ha enviado el correo exitosamente.");
+        this.closeModalResetPass.nativeElement.click();
+      }, (error) => {
+        this.alertComp.errorEvent("No se ha encontrado un usuario con el email indicado.");
+        this.closeModalResetPass.nativeElement.click();
+      });
+    }
   }
 
   logout() {
@@ -356,7 +429,6 @@ export class NavbarComponent implements OnInit {
 
   selectFile2(event, imgIndx: number) {
     this.prodModelData[imgIndx].image = <File>event.target.files[0];
-    
     this.evaluateProdModelArrImg();
   }
 
@@ -410,29 +482,31 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  saveProdModels(id_prod: number) {
-    var contDataSaved = 0;
-    this.prodModelData.forEach(element => {
-      element.productId = id_prod;
+  saveProdModels(prodInfo: any) {
 
-      this.prodModService.save(element).subscribe(result => {
-        contDataSaved++;
-        
-        if (contDataSaved == this.prodModelData.length) {
-          console.log("info guardada");
+    if (this.prodModelData.length > 0) {
+      var contDataSaved = 0;
+      this.prodModelData.forEach(element => {
+        element.productId = prodInfo.id;
+
+        this.prodModService.save(element).subscribe(result => {
+          contDataSaved++;
+
+          if (contDataSaved == this.prodModelData.length) {
+            this.saveDeliveryZones(prodInfo);
+          }
+
+        }, err => {
+          console.log("error prodmod", err);
           this.loading = false;
-          this.closeModal();
-          this.listAll();
-          this.alertComp.successEvent('Producto agregado correctamente');
-        }
-        
-      }, err => {
-        console.log("error prodmod", err);
-        this.alertComp.errorEvent("error al guardar los modelos");
-        return;
-      });
+          this.alertComp.errorEvent("error al guardar los modelos");
+          return;
+        });
 
-    });
+      });
+    } else {
+      this.saveDeliveryZones(prodInfo);
+    }
 
     // this.prodModelItems.forEach(element => {
     //   var dataItem = new ProdMod;
@@ -443,16 +517,52 @@ export class NavbarComponent implements OnInit {
 
     // this.prodModService.saveMany(this.prodModelData).subscribe(result => {
     //   console.log("info guardada");
-      
+
     // }, err => {
     //   console.log("error prodmod", err);
     //   this.alertComp.errorEvent("error al guardar los modelos")
     // });
   }
 
+  saveDeliveryZones(prod: any) {
+
+    var arrData = new Array<DeliveryZone>();
+
+    this.delZoneArr.forEach(element => {
+      var dataZone = new DeliveryZone;
+      dataZone.price = element.price;
+      dataZone.districts = element.districts;
+      dataZone.productId = prod.id;
+
+      arrData.push(dataZone);
+    });
+
+    if (prod.toProv) {
+      var deliveryToProv = new DeliveryZone;
+      deliveryToProv.price = this.provDeliveryPrice;
+      deliveryToProv.districts = ['provincias'];
+      deliveryToProv.productId = prod.id;
+
+      arrData.push(deliveryToProv);
+    }
+
+    this.delZoneService.saveMany(arrData).subscribe(result => {
+      setTimeout(() => {
+        this.loading = false;
+        this.closeModal();
+        this.listAll();
+        this.alertComp.successEvent('Producto agregado correctamente');
+      }, 3000);
+    }, err => {
+      this.loading = false;
+      console.log("error prodmod", err);
+      this.alertComp.errorEvent("error al guardar los modelos");
+    });
+  }
+
   addProd(form: NgForm) {
     if (form.valid) {
-      if (this.filemsg == '') {
+      if (this.filemsg == '' && this.filemsg2 == '') {
         this.loading = true;
         this.newProduct.image1 = this.prodImgFileArr[0];
         this.newProduct.image2 = this.prodImgFileArr[1];
@@ -460,11 +570,23 @@ export class NavbarComponent implements OnInit {
         this.newProduct.image4 = this.prodImgFileArr[3];
         this.newProduct.image5 = this.prodImgFileArr[4];
 
+        var daysString = '';
+        this.daysToSend.forEach((element, index) => {
+          if (element.send) {
+            if (daysString != '') {
+              daysString += ',';
+            }
+            daysString += element.name;
+          }
+        });
+
+        this.newProduct.daysToSend = daysString;
+
         this.newProduct.numSellOnWeek = 0;
         this.newProduct.isTrent = false;
         // this.newProduct.subcategoryId = 1;
         this.prodService.save(this.newProduct).subscribe((data: any) => {
-          this.saveProdModels(data.data.id);
+          this.saveProdModels(data.data);
         }, (error) => {
           console.log(error);
           this.loading = false;
@@ -528,9 +650,9 @@ export class NavbarComponent implements OnInit {
 
   getCategorias() {
     this.catService.getAll().subscribe((data: CategoryGet[]) => {
-      data.splice(3,1);
-      data.splice(1,1);
-      
+      data.splice(3, 1);
+      data.splice(1, 1);
+
       this.categorias = data;
     });
   }
@@ -548,7 +670,7 @@ export class NavbarComponent implements OnInit {
   }
 
   signInWithGoogle(): void {
-    this.loading = true;
+    // this.loading = true;
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then((data: SocialUser) => {
       this.userService.loginSocialMedia(data.email).subscribe((userData) => {
         this.actionsOnLogin(userData.data);
@@ -557,7 +679,7 @@ export class NavbarComponent implements OnInit {
   }
 
   signInWithFB(): void {
-    this.loading = true;
+    // this.loading = true;
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID).then((data: SocialUser) => {
       this.userService.loginSocialMedia(data.email).subscribe((userData) => {
         this.actionsOnLogin(userData.data);
@@ -609,14 +731,18 @@ export class NavbarComponent implements OnInit {
     this.prodModelArr = [];
     this.prodModelData = new Array<ProdMod>();
     this.filemsg2 = '';
-    this.addProdModel();
+    // this.addProdModel();
+
+    this.delZoneCant = 0;
+    this.delZoneArr = new Array<DeliveryZoneLocal>();
+    this.addDelZone();
 
     this.newProduct = new ProductPost;
   }
 
   goUp() {
     // document.documentElement.scrollTop = 0;
-    document.getElementById('first').scrollIntoView({behavior: 'smooth'});
+    document.getElementById('first').scrollIntoView({ behavior: 'smooth' });
   }
 
   getProvinciasByDepartamento(dep_id: string) {
@@ -669,7 +795,7 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  getProvinciasByDepartamentoSub(dep_id: string){
+  getProvinciasByDepartamentoSub(dep_id: string) {
     this.provSub = '';
     this.subInfo.distrito = '';
     this.subInfo.provincia = '';
@@ -677,10 +803,32 @@ export class NavbarComponent implements OnInit {
     this.subInfo.departamento = this.departamentos.find(x => x.id_ubigeo === dep_id).nombre_ubigeo;
   }
 
-  getDistritosByProvinciasSub(prov_id: string){
+  getDistritosByProvinciasSub(prov_id: string) {
     this.subInfo.distrito = '';
     this.disByProv = this.distritos[prov_id];
     this.subInfo.provincia = this.provByDep.find(x => x.id_ubigeo === prov_id).nombre_ubigeo;
+  }
+
+  selectDistrict(num: number) {
+    if (!this.delZoneArr[num].districts.includes(this.delZoneArr[num].districtSelected)) {
+      this.delZoneArr[num].districts.push(this.delZoneArr[num].districtSelected);
+    }
+  }
+
+  deleteDisSelected(num: number, index: number) {
+    this.delZoneArr[num].districts.splice(index, 1);
+  }
+
+  sendAllDays() {
+    if (this.allDays) {
+      this.daysToSend.forEach(element => {
+        element.send = true;
+      });
+    } else {
+      this.daysToSend.forEach(element => {
+        element.send = false;
+      });
+    }
   }
 
   //Event Emitters
@@ -720,4 +868,5 @@ export class NavbarComponent implements OnInit {
       this.routes.navigate(['/products']);
     }
   }
+
 }

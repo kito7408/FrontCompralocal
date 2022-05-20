@@ -47,6 +47,7 @@ export class BlogService {
     const formData: FormData = new FormData();
     formData.append('image', post.image);
     formData.append('title', post.title);
+    formData.append('author', post.author);
     formData.append('content', String(post.content));
     formData.append('userId', String(post.userId));
 

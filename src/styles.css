@@ -1,24 +1,61 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@fortawesome/fontawesome-free/css/all.css";
 
+@font-face {
+    font-family: "Louis George Cafe";
+    src: local("Louis George Cafe"), url(./assets/fonts/louis_george_caf/LouisGeorgeCafe.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "Louis George Cafe Bold";
+    src: local("Louis George Cafe Bold"), url(./assets/fonts/louis_george_caf/LouisGeorgeCafeBold.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "SlabTallX";
+    src: local("SlabTallX"), url(./assets/fonts/slab_tall_x/SlabTallX.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "SlabTallX Medium";
+    src: local("SlabTallX Medium"), url(./assets/fonts/slab_tall_x/SlabTallX-Medium.ttf) format("truetype");
+}
+
 :root {
     /* --primary1: #ba1cb3; */
-    --primary1: #fc52ff;
+    /* --primary1: #fc52ff; */
+    /* --primary1: #df39ce; */
+    --primary1: #f9ae54;
     /* --primary2: #5e17eb; */
-    --primary2: #7530ff; 
-    --primary3: #1aa9e8;
+    /* --primary2: #7530ff;  */
+    /* --primary2: #6c33c8;  */
+    --primary2: #688052; 
+    /* --primary3: #1aa9e8; */
+    /* --primary3: #e1f1ff; */
+    --primary3: #fde0db;
 
     --dark1: #b46caa;
-    --dark2: #5755a1;
-    --dark3: #4faee2;
+    /* --dark2: #5755a1; */
+    --dark2: #585395;
+    /* --dark3: #4faee2; */
+    /* --dark3: #adceed; */
+    --dark3: #fa9584;
 
     --degradado1: #c18ebe;
     --degradado2: #8a8ac1;
     --degradado3: #94c9e0;
+
+    /* --font1: 'Montserrat', sans-serif;
+    --font2: 'Shadows Into Light Two'; */
+    --font1: 'Louis George Cafe';
+    --font2: 'SlabTallX';
+
+    --font1Bold: 'Luis George Cafe Bold';
+    --font2Bold: 'SlabTallX Medium'
 }
 
 body{
-    font-family: 'Montserrat', sans-serif !important;
+    font-family: var(--font1);
 }
 
 .row{
@@ -71,7 +108,7 @@ body{
 
 .btn-cl3{
     background-color: var(--primary3);
-    color: white;
+    color: var(--primary2);
 }
 
 .btn-cl3:hover{
@@ -125,6 +162,38 @@ body{
 
 .form-check>input, .form-check>label{
     cursor: pointer;
+}
+
+.w-10{
+    width: 10%;
+}
+
+.w-20{
+    width: 20%;
+}
+
+.w-30{
+    width: 30%;
+}
+
+.w-40{
+    width: 40%;
+}
+
+.w-60{
+    width: 60%;
+}
+
+.w-70{
+    width: 70%;
+}
+
+.w-80{
+    width: 80%;
+}
+
+.w-90{
+    width: 90%;
 }
 
 @media(max-width: 575px){

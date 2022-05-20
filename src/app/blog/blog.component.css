@@ -33,6 +33,7 @@
 
 .post-title{
     font-weight: 600;
+    font-family: var(--font1Bold);
 }
 
 .post-reciente{

@@ -181,7 +181,7 @@
     <div *ngIf="supplier">
       <h5>Mi historia</h5>
       <div *ngIf="!suppOnEdit">
-        <p *ngIf="supplier.description">{{supplier.description}}</p>
+        <p *ngIf="supplier.description" [innerHtml]='supplier.description'></p>
         <p *ngIf="!supplier.description">No hay información.</p>
       </div>
       <div *ngIf="suppOnEdit">
@@ -226,7 +226,7 @@
   <div *ngIf="suppOnEdit" class="text-center">
     <button class="btn btn-danger unable mr-3" (click)="unableSupp()" [disabled]="loading || unabling">
       <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="unabling"></span>
-      Desabilitar
+      Deshabilitar
     </button>
   </div>
 

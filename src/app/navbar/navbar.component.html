@@ -112,7 +112,7 @@
         (click)="newUserF()">Registrarse</button>
     </div>
 
-    <!-- <div class="dropdown">
+    <div class="dropdown">
       <button type="button" class="btn btn-link2 dropdown-toggle position-relative">
         <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-bag-fill mr-2" fill="currentColor"
           xmlns="http://www.w3.org/2000/svg">
@@ -144,7 +144,8 @@
                 <tr *ngFor="let c of cartService.cartInfo; index as i;" (click)="goToProducto(c.product.id)"
                   class="cart-item">
                   <td>
-                    <img src="../../assets/imgs/producto-prueba.png" class="cart-img">
+                    <img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/products/' + c.product.image1"
+                      class="cart-img">
                   </td>
                   <td>
                     <p *ngIf="c.product.isOffer">{{c.product.name}} ({{c.product.priceOffer | number:'1.2-2'}})</p>
@@ -165,7 +166,7 @@
         </div>
 
       </div>
-    </div> -->
+    </div>
 
 
     <!-- <img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/products/' + c.product.image1"
@@ -249,6 +250,40 @@
             <i class="fab fa-facebook"></i>
             Iniciar con Facebook
           </button> -->
+          <button class="btn btn-link" data-dismiss="modal" data-toggle="modal" data-target="#ModalResetPass">
+            ¿Olvidaste tu contraseña?
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="ModalResetPass" tabindex="-1" role="dialog" aria-labelledby="ModalResetPass"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalResetPassLongTitle">¿Olvidaste tu contraseña?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeModalResetPass>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <small class="px-3 pt-3">Ingresa el email correspondiente a tu usuario, se te enviará un correo con los pasos para
+        generar una nueva contraseña.</small>
+      <form #resetPassForm="ngForm" (ngSubmit)="newPass(resetPassForm)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="usernameResetPass">Email</label>
+            <input type="email" class="form-control" id="usernameResetPass" name="usernameResetPass"
+              [(ngModel)]="usernameResetPass" required email>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="resetPassForm.invalid">
+            Enviar Correo
+          </button>
         </div>
       </form>
     </div>
@@ -550,15 +585,15 @@
           <div class="form-group">
             <label for="proveedorProd">Proveedor <sup>*</sup></label>
             <select class="form-control" id="proveedorProd" name="proveedorProd" [(ngModel)]="newProduct.supplierId"
-              [disabled]="loading" required>
+              [disabled]="loading || suppSelected" required>
               <option value="{{supp.id}}" *ngFor="let supp of suppliers">{{supp.name}}</option>
             </select>
           </div>
           <div class="form-group justify-content-between">
-            <label for="imagenProd">Imagen <sup>*</sup> <button class="btn btn-success ml-3 rounded-circle"
-                (click)="addProdImg()" *ngIf="prodImgCant < 5">+</button><button
-                class="btn btn-danger ml-3 rounded-circle" (click)="rmvProdImg()"
-                *ngIf="prodImgCant > 1">-</button></label>
+            <label for="imagenProd">Imagen <sup>*</sup> <button type="button"
+                class="btn btn-success ml-3 rounded-circle" (click)="addProdImg()"
+                *ngIf="prodImgCant < 5">+</button><button type="button" class="btn btn-danger ml-3 rounded-circle"
+                (click)="rmvProdImg()" *ngIf="prodImgCant > 1">-</button></label>
             <div *ngFor="let img of prodImgArr" class="text-center">
               <b>{{img+1}}.</b> <input type="file" class="form-control-file d-inline-block ml-3 mb-3 w-75"
                 [disabled]="loading" (change)="selectFile($event, img)">
@@ -566,12 +601,12 @@
           </div>
           <div [innerHtml]='filemsg' *ngIf="filemsg" style="color: red;"></div>
 
-          <label for="modelProd"><b>Modelo(s)</b> <sup>*</sup> <button class="btn btn-success ml-3 rounded-circle"
-              (click)="addProdModel()" *ngIf="prodModelCant < 5">+</button><button
-              class="btn btn-danger ml-3 rounded-circle" (click)="rmvProdModel()"
-              *ngIf="prodModelCant > 1">-</button></label>
+          <label for="prodModels"><b>Modelo(s)</b> <button type="button"
+              class="btn btn-success ml-3 rounded-circle" (click)="addProdModel()"
+              *ngIf="prodModelCant < 3">+</button><button type="button" class="btn btn-danger ml-3 rounded-circle"
+              (click)="rmvProdModel()" *ngIf="prodModelCant > 0">-</button></label>
 
-          <div class="p-4">
+          <div class="p-4" *ngIf="prodModelArr.length > 0">
             <div *ngFor="let mod of prodModelArr" class="mb-3 p-3 border border-info">
 
               <div class="form-group mb-2">
@@ -596,6 +631,9 @@
               </div>
 
             </div>
+          </div>
+          <div class="p-4" *ngIf="prodModelArr.length < 1">
+            El producto no tiene modelos.
           </div>
           <div [innerHtml]='filemsg2' *ngIf="filemsg2" style="color: red;"></div>
 
@@ -630,6 +668,79 @@
             <textarea class="form-control" id="descripcionProd" name="descripcionProd" cols="30" rows="4"
               [(ngModel)]="newProduct.description" [disabled]="loading"></textarea>
           </div>
+          <hr>
+          <h5>Delivery</h5>
+
+          <label for="deliveryZone"><b>Lima</b> <button type="button" class="btn btn-success ml-3 rounded-circle"
+              (click)="addDelZone()">+</button><button type="button" class="btn btn-danger ml-3 rounded-circle"
+              (click)="rmvDelZone()" *ngIf="delZoneCant > 1">-</button></label>
+
+          <div class="p-4">
+            <div *ngFor="let zone of delZoneArr" class="mb-3 p-3 border border-info">
+
+              <h5>Zona {{zone.num + 1}}</h5>
+
+              <div class="form-group">
+                <label [for]="'districtZones' + zone.num">Selec. Distritos</label>
+                <select class="form-control" [name]="'districtZones' + zone.num" [id]="'districtZones' + zone.num"
+                  [disabled]="loading" [(ngModel)]="zone.districtSelected" (ngModelChange)="selectDistrict(zone.num)">
+                  <option value="{{dis.nombre_ubigeo}}" *ngFor="let dis of distritosLima">{{dis.nombre_ubigeo}}</option>
+                </select>
+              </div>
+
+              <div class="mt-3 border border-dark p-3" *ngIf="zone.districts && zone.districts.length > 0">
+                <div class="d-inline-block tag-dist" *ngFor="let item of zone.districts; let i = index">
+                  <label>{{item}}</label><b (click)="deleteDisSelected(zone.num, i)">x</b>
+                </div>
+              </div>
+
+              <div class="form-group mt-3">
+                <label [for]="'districtZonesPrice' + zone.num">Precio</label>
+                <input type="number" class="form-control" [id]="'districtZonesPrice' + zone.num"
+                  [name]="'districtZonesPrice' + zone.num" [(ngModel)]="zone.price">
+              </div>
+
+            </div>
+          </div>
+
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="toProv" name="toProv" [(ngModel)]="newProduct.toProv"
+              [disabled]="loading">
+            <label class="form-check-label" for="toProv">Envío a Provincias</label>
+          </div>
+          <div class="form-group" *ngIf="newProduct.toProv">
+            <label for="provDelPrice">Precio</label>
+            <input type="number" class="form-control" id="provDelPrice" name="provDelPrice"
+              [(ngModel)]="provDeliveryPrice">
+          </div>
+
+          <h6>Días de Envío</h6>
+          <div>
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="allDays" name="allDays" [(ngModel)]="allDays"
+                [disabled]="loading" (ngModelChange)="sendAllDays()">
+              <label class="form-check-label" for="allDays">Todos los días</label>
+            </div>
+            <div class="form-check" *ngFor="let item of daysToSend">
+              <input type="checkbox" class="form-check-input" [id]="'day'+item.name" [name]="'day'+item.name"
+                [(ngModel)]="item.send" [disabled]="loading">
+              <label class="form-check-label" [for]="'day'+item.name">{{item.name}}</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="numDaysToSend">Número de días para tener disponible el producto <sup>*</sup></label>
+            <input type="number" class="form-control" id="numDaysToSend" name="numDaysToSend"
+              [(ngModel)]="newProduct.numDaysToSend" [disabled]="loading" required>
+          </div>
+
+          <div class="form-group">
+            <label for="numDaysToSend2">Número de días para que llegue al cliente <sup>*</sup></label>
+            <input type="number" class="form-control" id="numDaysToSend2" name="numDaysToSend2"
+              [(ngModel)]="newProduct.numDaysToSend2" [disabled]="loading" required>
+          </div>
+
+          <hr>
           <p>* Campos Obligatorios</p>
         </div>
         <div class="modal-footer">
@@ -851,17 +962,17 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body text-center">
         <p>Puedes contactarnos mediante los siguientes medios:</p>
         <div class="text-center">
           <p>
-            <i class="fab fa-whatsapp"></i> 973-853-443
+            <i class="fab fa-whatsapp"></i> 973-850-220
           </p>
           <!-- <p>
             <i class="fas fa-at"></i> ayuda@compralocal.pe
           </p> -->
           <p>
-            <i class="far fa-envelope"></i> admin@compralocal.pe
+            <i class="far fa-envelope"></i> compralocal@compralocal.pe
           </p>
         </div>
       </div>
@@ -873,21 +984,39 @@
 </div>
 
 <div class="modal fade" id="ModalStart" tabindex="-1" role="dialog" aria-labelledby="ModalStart" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-    <div class="modal-content">
+  <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+    <div class="modal-content modal-start-content">
       <button type="button" class="close close-modal-custom" data-dismiss="modal" aria-label="Close" #closeStartModal>
         <span aria-hidden="true">&times;</span>
       </button>
-      <img src="../../assets/imgs/start-img.png" alt="CompraLocal concepto" class="img-concepto">
-      <div class="buttons-fixed">
+      <!-- <img src="../../assets/imgs/start-img.png" alt="CompraLocal concepto" class="img-concepto"> -->
+      <h1>Bienvenidos!</h1>
+      <h5>Gracias por visitar <label>www.compralocal.pe</label></h5>
+      <div class="modal-buttons-section">
+        <div class="row">
+          <div class="col-md-6">
+            <button class="btn btn-cl3" data-toggle="modal" data-target="#ModalInfo" (click)="selectClientType(2)">
+              Soy comprador
+            </button>
+          </div>
+          <div class="col-md-6">
+            <button class="btn btn-cl3" data-toggle="modal" data-target="#ModalInfo" (click)="selectClientType(1)">
+              Soy emprendedor
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="buttons-fixed">
         <button class="btn btn-cl3" data-toggle="modal" data-target="#ModalInfo" (click)="selectClientType(2)">
-          <!-- <img src="../../assets/imgs/toClick.png" alt="parapersonas" class="img-over-button"> -->
-          Para personas
+          Soy comprador
         </button>
         <button class="btn btn-cl3" data-toggle="modal" data-target="#ModalInfo" (click)="selectClientType(1)">
-          <!-- <img src="../../assets/imgs/toClick.png" alt="paraemprendedores" class="img-over-button"> -->
-          Para emprendedores
+          Soy emprendedor
         </button>
+      </div> -->
+      <!-- <h5>Team CompraLocal</h5> -->
+      <div class="logo-final-modal">
+        <img src="../../assets/imgs/logo_new_blanco.png" alt="Logo Compralocal">
       </div>
     </div>
   </div>

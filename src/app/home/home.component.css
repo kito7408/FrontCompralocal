@@ -141,7 +141,8 @@
 
 .category .list-group-item{
     cursor: pointer;
-    background-color: #ba1cb31f;
+    /* background-color: #ba1cb31f; */
+    background-color: var(--primary3);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -149,7 +150,8 @@
 }
 
 .category .list-group-item:hover{
-    background-color: var(--primary1);
+    /* background-color: var(--primary1); */
+    background-color: var(--dark3);
     color: white;
 }
 
@@ -237,7 +239,7 @@
 }
 
 th > button{
-    color: var(--primary3);
+    color: var(--primary2);
 }
 
 .supplier > h1{
@@ -247,11 +249,6 @@ th > button{
 
 .supp{
     margin-top: 3rem;
-}
-
-.supp > h1{
-    color: var(--primary3);
-    font-weight: 600;
 }
 
 .img-post{
@@ -278,7 +275,7 @@ th > button{
 }
 
 .post-content:hover{
-    background-color: #1c9dd6;
+    background-color: var(--dark3);
 }
 
 .post-content:hover{
@@ -298,6 +295,8 @@ th > button{
 .post-title{
     font-weight: 600;
     font-size: 1.25rem;
+    width: calc(50% - 1rem);
+    margin-left: 1rem;
 }
 
 .btn-outline-secondary{
@@ -425,6 +424,29 @@ sup{
     font-weight: 700;
 }
 
+.title-section{
+    color: var(--primary2);
+    font-family: var(--font2Bold);
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.count-section{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    background-color: var(--primary1);
+    color: white;
+    font-size: 20px;
+}
+
+.br-1-n{
+    border-right: 1px solid;
+}
+
 @media(max-width: 575px){
     .guide-steps{
         display: none;
@@ -469,6 +491,12 @@ sup{
     .option-section{
         width: 100%;
     }
+    .post-title{
+        font-size: .75rem;
+    }
+    .title-section, .title-section-2{
+        font-size: 1.75rem;
+    }
 }
 
 @media(min-width: 576px) and (max-width: 767px){
@@ -505,6 +533,12 @@ sup{
     }
     .option-section{
         width: 100%;
+    }
+    .post-title{
+        font-size: .75rem;
+    }
+    .title-section, .title-section-2{
+        font-size: 1.75rem;
     }
 }
 

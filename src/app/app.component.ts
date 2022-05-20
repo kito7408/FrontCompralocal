@@ -38,10 +38,19 @@ export class AppComponent {
       componentReference.logEvent.subscribe(event => {
         if (event == 'login') {
           this.navbarCL.loginButton.nativeElement.click();
+        } 
+        else if (event.includes('newProdFromSupp')) {
+          var suppSelectedId = event.split(' ')[1];
+          this.navbarCL.newProdF();
+          this.navbarCL.newProduct.supplierId = Number(suppSelectedId);
+          this.navbarCL.suppSelected = true;
         }
-      })
+        else if (event == 'unableSupp') {
+          this.navbarCL.updateCart();
+        }
+      });
     }
-    
+
     this.compo = componentReference;
 
     if (this.router.url.includes('/ventajas') || this.router.url.includes('/nuevo-socio') || this.router.url == '/') {
@@ -70,6 +79,7 @@ export class AppComponent {
           // this.compo.getTotals();
         }
         break;
+
       default:
         break;
     }

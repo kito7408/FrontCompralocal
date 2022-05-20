@@ -5,7 +5,7 @@
   <h2>Orden #{{order.num}}</h2>
   <p *ngIf="userService.userInfo.userTypeId == 1">Usuario: <b>{{order.user.name}} {{order.user.last_name}}</b></p>
   <p>Fecha de la orden: <b>{{order.date}}</b></p>
-  <p>Precio total de la orden: <b>{{order.totalPrice}}</b></p>
+  <p>Precio total de la orden: <b>{{order.totalPrice | number:'1.2-2'}}</b></p>
   <p>Método de pago: <b>{{order.paymentMethod}}</b></p>
   <p>Método de envío: <b>{{order.deliveryMethod}}</b></p>
   <p>El proyecto al que apoya esta compra es <b>{{order.helpproyect.name}}</b></p>
@@ -13,11 +13,17 @@
   <p>Comentario: {{order.coment}}</p>
   <button class="btn btn-danger" (click)="sendMailRecordatorio()"
     *ngIf="order.paymentState == 'Pendiente de Pago'">Enviar recordatorio de pago.</button>
-  <p>Estado de la orden: 
-    <b id="orderState" [className]="(order.paymentState == 'Pagado')? 'text-info' : (order.paymentState == 'Entregado')? 'text-success' : 'text-danger'">{{order.paymentState}}</b>
-    <button class="btn btn-danger ml-3" *ngIf="userService.userInfo.userTypeId == 1 && order.paymentState != 'Pendiente de Pago'" (click)="changeState('Pendiente de Pago')">Pendiente de Pago</button>
-    <button class="btn btn-info ml-3" *ngIf="userService.userInfo.userTypeId == 1 && order.paymentState != 'Pagado'" (click)="changeState('Pagado')">Pagado</button>
-    <button class="btn btn-success ml-3" *ngIf="userService.userInfo.userTypeId == 1 && order.paymentState != 'Entregado'" (click)="changeState('Entregado')">Entregado</button>
+  <p>Estado de la orden:
+    <b id="orderState"
+      [className]="(order.paymentState == 'Pagado')? 'text-info' : (order.paymentState == 'Entregado')? 'text-success' : 'text-danger'">{{order.paymentState}}</b>
+    <button class="btn btn-danger ml-3"
+      *ngIf="userService.userInfo.userTypeId == 1 && order.paymentState != 'Pendiente de Pago'"
+      (click)="changeState('Pendiente de Pago')">Pendiente de Pago</button>
+    <button class="btn btn-info ml-3" *ngIf="userService.userInfo.userTypeId == 1 && order.paymentState != 'Pagado'"
+      (click)="changeState('Pagado')">Pagado</button>
+    <button class="btn btn-success ml-3"
+      *ngIf="userService.userInfo.userTypeId == 1 && order.paymentState != 'Entregado'"
+      (click)="changeState('Entregado')">Entregado</button>
   </p>
   <hr>
   <h5>Detalle de la orden.</h5>
@@ -25,6 +31,7 @@
     <thead class="thead-light">
       <tr>
         <th scope="col">Producto</th>
+        <th scope="col" class="w-40">Delivery</th>
         <th scope="col">Precio</th>
         <th scope="col">Cantidad</th>
         <th scope="col">Subtotal</th>
@@ -32,26 +39,31 @@
     </thead>
     <tbody>
       <tr *ngFor="let cart of order.carts">
-        <td class="align-middle">
-          <img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/products/' + cart.product.image1" alt=""
-            class="order-product-img">
-          {{cart.product.name}}
+        <td class="detail-prod-name">
+          <div class="section-order-img">
+            <img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/products/' + cart.product.image1" alt=""
+              class="order-product-img">
+          </div>
+          <div>
+            {{cart.product.name}} <br> <a routerLink="/products/{{cart.product.id}}" routerLinkActive="active">detalle</a>
+          </div>
         </td>
-        <td class="align-middle">{{cart.product.price}}</td>
+        <td class="align-middle">Recíbelo entre el {{cart.fecha_entrega}} y el {{cart.fecha_entrega2}} en {{order.direction.distrito}}</td>
+        <td class="align-middle">{{cart.totalPrice / cart.quantity | number:'1.2-2'}}</td>
         <td class="align-middle">{{cart.quantity}}</td>
-        <td class="align-middle">{{cart.totalPrice}}</td>
+        <td class="align-middle">{{cart.totalPrice | number:'1.2-2'}}</td>
       </tr>
       <tr>
-        <th scope="row" colspan="3">Total Productos</th>
-        <th>{{order.productsPrice}}</th>
+        <th scope="row" colspan="4">Total Productos</th>
+        <th>{{order.productsPrice | number:'1.2-2'}}</th>
       </tr>
       <tr>
-        <th scope="row" colspan="3">Total Envío</th>
-        <th>{{order.deliveryPrice}}</th>
+        <th scope="row" colspan="4">Total Envío</th>
+        <th>{{order.deliveryPrice | number:'1.2-2'}}</th>
       </tr>
       <tr>
-        <th scope="row" colspan="3">Importe total de la compra</th>
-        <th>{{order.totalPrice}}</th>
+        <th scope="row" colspan="4">Importe total de la compra</th>
+        <th>{{order.totalPrice | number:'1.2-2'}}</th>
       </tr>
     </tbody>
   </table>

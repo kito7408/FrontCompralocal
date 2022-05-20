@@ -23,6 +23,14 @@ input{
 
 .prod-detail-section{
     display: flex;
+    align-content: flex-start;
+    align-self: flex-start;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.prod-detail-info-section{
+    display: flex;
     align-content: center;
     align-self: center;
     flex-direction: row;
@@ -146,6 +154,71 @@ i{
     background-color: var(--degradado3);
 }
 
+.back{
+    font-size: 2rem;
+    cursor: pointer;
+    color: black;
+}
+
+.back-section{
+    top: 1rem;
+    left: -2.5rem;
+}
+
+.imgToEdit{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.imgToEdit>input{
+    width: auto !important;
+}
+
+
+.tag-dist{
+    margin: 0px 5px 10px 5px;
+    border: 1px solid var(--primary1);
+    border-radius: 15px;
+    padding: 5px;
+}
+
+.tag-dist>label{
+    padding: 0 5px 0 0;
+    border-right: 1px solid var(--primary1);
+    margin-bottom: 0;
+}
+
+.tag-dist>b{
+    padding: 0 0 0 5px;
+    color: red;
+    cursor: pointer;
+}
+
+
+input.ng-invalid{
+    border-color: red;
+}
+
+input.ng-untouched{
+    border-color: #ced4da;
+}
+
+sup{
+    color: red;
+    font-size: 110% !important;
+    top: 0 !important;
+}
+
+.calc-section{
+    margin: 1rem;
+    padding: 1rem;
+    border: 1px solid black;
+    border-radius: 15px;
+}
+
 @media(max-width: 575px){
     .prod-detail-content{
         grid-template-areas: 
@@ -163,7 +236,7 @@ i{
         'p2';
         grid-template-columns: 100%;
     }
-    .prod-detail-section{
+    .prod-detail-info-section{
         flex-direction: column;
     }
     .side-imgs{
@@ -193,7 +266,7 @@ i{
     .coment-section{
         width: 100%;
     }
-    .prod-detail-section{
+    .prod-detail-info-section{
         flex-direction: column;
     }
     .side-imgs{

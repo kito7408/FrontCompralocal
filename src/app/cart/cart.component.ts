@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Location } from '@angular/common';
 import { ProductGet } from '../classes/productGet';
 import { User } from '../classes/user';
 import { CartGet } from '../classes/cartGet';
@@ -68,6 +69,8 @@ export class CartComponent implements OnInit {
   dataReview = new PageReviewPost;
   // cantOriginal: number[];
   // @Output() cartEvent = new EventEmitter;
+  nollegaProd: boolean[] = [];
+  orderllega: boolean = false;
 
   @ViewChild('closeModaPayment') closeModaPayment: ElementRef;
   @ViewChild('closeModaAyuda') closeModaAyuda: ElementRef;
@@ -85,7 +88,8 @@ export class CartComponent implements OnInit {
     private productService: ProductService,
     private orderService: OrderService,
     private dirService: DirectionService,
-    private pageReviewS: PagereviewService
+    private pageReviewS: PagereviewService,
+    private _location: Location
   ) {
     this.charging = false;
     this.paying = false;
@@ -131,6 +135,8 @@ export class CartComponent implements OnInit {
     } else {
       this.routes.navigate(['/home']);
     }
+
+    this.setDeliveryPrice();
   }
 
   listCarrito() {
@@ -138,6 +144,7 @@ export class CartComponent implements OnInit {
     if (this.userService.userInfo) {
       this.cartService.getByUserId(this.userService.userInfo.id).subscribe((data) => {
         this.cartService.cartInfo = data;
+
         this.getTotals();
         // data.forEach(element => {
         //   this.cantOriginal.push(element.quantity);
@@ -276,18 +283,40 @@ export class CartComponent implements OnInit {
   sendMail(order_id: number) {
     this.orderService.getById(order_id).subscribe((orderData: any) => {
       orderData.date = moment(orderData.createdAt).locale('es').format('LL');
+
+      orderData.carts.forEach(element => {
+        var daysToSendStart = element.product.numDaysToSend + element.product.numDaysToSend2;
+        var daysToSendEnd = element.product.numDaysToSend + element.product.numDaysToSend2 + 2;
+
+        for (let index = 0; index < 7; index++) {
+          if (element.product.daysToSend.includes(this.capitalize(moment(orderData.createdAt).add(daysToSendStart + index, 'days').locale('es').format('dddd')))) {
+            element.fecha_entrega = this.capitalize(moment(orderData.createdAt).add(daysToSendStart + index, 'days').locale('es').format('dddd LL'));
+            element.fecha_entrega2 = this.capitalize(moment(orderData.createdAt).add(daysToSendEnd + index, 'days').locale('es').format('dddd LL'));
+            break;
+          }
+        }
+      });
+
       this.orderService.sendUserMail(orderData).subscribe((data) => {
         setTimeout(() => {
           this.orderService.sendAdminMail(orderData).subscribe((data2) => {
             if (orderData.paymentMethod != 'culqi') {
               setTimeout(() => {
-                this.orderService.sendPagoPendienteMail(orderData);
-              }, 1000);
+                this.orderService.sendPagoPendienteMail(orderData).subscribe((data3) => {
+                  console.log("pago pendiente mail send");
+
+                });
+              }, 2000);
             }
           });
-        }, 1000);
+        }, 2000);
       });
     })
+  }
+
+  capitalize(s) {
+    if (typeof s !== 'string') return ''
+    return s.charAt(0).toUpperCase() + s.slice(1)
   }
 
   closeModalTarjetaInfo() {
@@ -327,7 +356,7 @@ export class CartComponent implements OnInit {
     }
   }
 
-  saveReview(){
+  saveReview() {
     if (this.showReview && this.starsSelected) {
       this.dataReview.stars = this.numStarsSelected;
       this.dataReview.userId = this.userService.userInfo.id;
@@ -487,7 +516,8 @@ export class CartComponent implements OnInit {
     this.dirSelec.provincia = '';
     this.provByDep = this.provincias[dep_id];
     this.dirSelec.departamento = this.departamentos.find(x => x.id_ubigeo === dep_id).nombre_ubigeo;
-    this.deliveryPrice = 0;
+    this.setDeliveryPrice();
+    this.getTotals();
   }
 
   getDistritosByProvincias(prov_id: string) {
@@ -495,6 +525,12 @@ export class CartComponent implements OnInit {
     this.disByProv = this.distritos[prov_id];
     this.dirSelec.provincia = this.provByDep.find(x => x.id_ubigeo === prov_id).nombre_ubigeo;
     this.setDeliveryPrice();
+    this.getTotals();
+  }
+
+  selectDistrito() {
+    this.setDeliveryPrice();
+    this.getTotals();
   }
 
   setDirectionsFromList() {
@@ -519,6 +555,7 @@ export class CartComponent implements OnInit {
     this.provOrd = this.provByDep.find(x => x.nombre_ubigeo === dir.provincia).id_ubigeo;
     this.disByProv = this.distritos[this.provOrd];
     this.setDeliveryPrice();
+    this.getTotals();
   }
 
   openLogin() {
@@ -527,14 +564,50 @@ export class CartComponent implements OnInit {
 
   setDeliveryPrice() {
     this.deliveryPrice = 0;
-    if (this.dirSelec.provincia == 'Lima') {
+    this.nollegaProd = [];
+
+    if ((this.depOrd != '3926' && this.depOrd != '') || (this.provOrd != '3927' && this.provOrd != '')) {
       this.cartService.cartInfo.forEach(element => {
-        this.deliveryPrice += (10 * element.quantity);
-      });
-    } else {
-      this.cartService.cartInfo.forEach(element => {
-        this.deliveryPrice += (15 * element.quantity);
+        if (element.product.toProv) {
+          this.deliveryPrice += element.product.deliveryZones[element.product.deliveryZones.length - 1].price;
+          this.nollegaProd.push(false);
+        } else {
+          this.nollegaProd.push(true);
+        }
       });
     }
+
+    if (this.depOrd == '3926' && this.provOrd == '3927' && this.dirSelec.distrito != '') {
+      this.cartService.cartInfo.forEach((element, index) => {
+        this.nollegaProd.push(true);
+        element.product.deliveryZones.forEach(item => {
+          if (item.districts.includes(this.dirSelec.distrito)) {
+            this.deliveryPrice += item.price;
+            this.nollegaProd[index] = false;
+          }
+        });
+      });
+    }
+
+    this.orderllega = true;
+    this.nollegaProd.forEach(element => {
+      if (element) {
+        this.orderllega = false;
+      }
+    });
+
+    // if (this.dirSelec.provincia == 'Lima') {
+    //   this.cartService.cartInfo.forEach(element => {
+    //     this.deliveryPrice += (10 * element.quantity);
+    //   });
+    // } else {
+    //   this.cartService.cartInfo.forEach(element => {
+    //     this.deliveryPrice += (15 * element.quantity);
+    //   });
+    // }
+  }
+
+  goBackPage() {
+    this._location.back();
   }
 }

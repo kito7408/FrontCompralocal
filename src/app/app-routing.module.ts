@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, ExtraOptions } from '@angular/router';
 import { BlogComponent } from './blog/blog.component';
 import { CartComponent } from './cart/cart.component';
 import { HomeComponent } from './home/home.component';
@@ -18,6 +18,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'products', component: ProductsComponent },
   { path: 'home', component: HomeComponent },
+  { path: 'home/:token', component: HomeComponent },
   { path: 'products/:id', component: ProdDetailComponent },
   { path: 'cart', component: CartComponent },
   { path: 'fuerza/:name', component: SupplierComponent },
@@ -38,8 +39,15 @@ const routes: Routes = [
 
 ];
 
+const routerOptions: ExtraOptions = {
+  useHash: false,
+  anchorScrolling: 'enabled',
+  relativeLinkResolution: 'legacy',
+  scrollPositionRestoration: 'enabled'
+};
+
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy', scrollPositionRestoration: 'enabled' })],
+  imports: [RouterModule.forRoot(routes, routerOptions)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

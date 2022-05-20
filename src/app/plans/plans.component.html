@@ -83,7 +83,7 @@
                 </div>
                 <div class="col-lg-8">
                     <div class="init-info-text">
-                        Se parte del Primer Marketplace peruano de triple impacto para las marcas y productores/as
+                        Se parte del Primer Marketplace peruano de triple impacto para las marcas y productores
                         locales.
                     </div>
                     <div class="info-second-img">
@@ -109,7 +109,7 @@
     </div> -->
     <div class="container" id="plans2" [style.height.px]="imgHeigh" [style.padding-top.px]="(imgHeigh / 10) + 26">
         <div class="membresia-content">
-            <div class="membresia-section-title">
+            <div class="membresia-section-title pb-5">
                 <div class="row">
                     <div class="col-md-3">
                         <div class="text-title">
@@ -133,7 +133,7 @@
                                 (por venta)
                             </div>
                             <div class="subcribe-button">
-                                <button class="btn btn-success" routerLink="/ventajas/socio" routerLinkActive="active">
+                                <button class="btn btn-cl1" routerLink="/ventajas/socio" routerLinkActive="active">
                                     Comenzar <br> ahora
                                     <!-- <i class="fas fa-chevron-right"></i> -->
                                 </button>
@@ -353,9 +353,9 @@
         <div class="container" [style.padding-top.px]="(imgHeigh / 10) + 26" [style.height.px]="imgHeigh">
             <div class="proposito-title">
                 <b class="color-verde">Nuestro Propósito</b><br><br>
-                Proveer un espacio de oportunidades para el desarrollo de los productores y productoras locales y
-                acercar
-                a nuestros socios y sus clientes la posibilidad de impactar positivamente en el planeta y la sociedad.
+                Proveer un espacio de oportunidades para el desarrolllo de productores y productoras locales para así
+                acercar tanto a nuestros socios como a sus clientes a la posibilidad de impactar positivamente en el
+                planeta y la sociedad.
             </div>
             <div class="proposito-content">
                 <div class="row">
@@ -364,15 +364,15 @@
                             <img src="../../assets/imgs/proposito-img-1.png" alt="proposito1">
                             <div>
                                 Un porcentaje de los ingresos de la página, son para apoyar un proyecto Sostenible -
-                                Educación o Reforestación
+                                Educación o Reforestación, que será seleccionado por el cliente.
                             </div>
                         </div>
                         <div class="proposito-section">
                             <img src="../../assets/imgs/proposito-img-2.png" alt="proposito2">
                             <div>
-                                Cada cliente podrá seleccionar el proyecto que más le interese apoyar.<br>
-                                El delivery lo paga el cliente, nuestros socios logísticos son Sharff y Olva Currier,
-                                así que nos comprometemos a usar y cumplir con sus requerimientos.
+                                El delivery lo paga el cliente. Para realizar la entrega de los productos, cada socio
+                                recibirá un guia que deberá colocar en el packaging. Compra Local recomendará los
+                                servicios de entrega a nivel nacional e internacional.
                             </div>
                         </div>
                     </div>
@@ -388,9 +388,7 @@
                             <img src="../../assets/imgs/proposito-img-4.png" alt="proposito4">
                             <div>
                                 Juntos podremos continuar desarrollándonos y creando experiencias para nuestras marcas y
-                                nuestro entorno.<br>
-                                Los pagos a las marcas serán de manera quincenal, considerando los martes como fechas de
-                                cierre contable. Nuestra política de devoluciones es de 14 días.
+                                nuestro entorno.
                             </div>
                         </div>
                     </div>
@@ -488,7 +486,8 @@
                             <div class="form-group">
                                 <label for="contactConsulta">¿Cuál es tu consulta? <sup>*</sup></label>
                                 <textarea class="form-control" name="contactConsulta" id="contactConsulta" cols="30"
-                                    rows="4" [(ngModel)]="newContact.consulta" maxlength="250" [disabled]="loading" required></textarea>
+                                    rows="4" [(ngModel)]="newContact.consulta" maxlength="250" [disabled]="loading"
+                                    required></textarea>
                             </div>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary"

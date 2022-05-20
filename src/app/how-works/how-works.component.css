@@ -5,7 +5,8 @@ li{
 }
 
 .info-content{
-    background-color: #49ffe5;
+    /* background-color: #49ffe5; */
+    background-color: var(--primary3);
     /* border: 1px solid var(--primary1); */
     margin-top: 1rem;
     padding-top: 1rem;
@@ -30,4 +31,8 @@ li{
 
 .info-block{
     margin-top: 3.5rem;
+}
+
+.page-title{
+    font-family: var(--font2Bold);
 }
