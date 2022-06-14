@@ -33,7 +33,7 @@
                 <p class="fw-700 prod-title">{{prod.name}}</p>
               </div>
               <small>({{prod.unit}})</small>
-              <p>{{prod.supplier.name}}</p>
+              <p class="supp_name_onprod">{{prod.supplier.name}}</p>
               <p class="cl-c1 fw-600" *ngIf="!prod.isOffer">S/. {{prod.price | number:'1.2-2'}}</p>
               <p class="cl-c1 fw-600" *ngIf="prod.isOffer"> <s>S/. {{prod.price | number:'1.2-2'}}</s> S/.
                 {{prod.priceOffer | number:'1.2-2'}}</p>

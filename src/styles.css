@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@fortawesome/fontawesome-free/css/all.css";
+@import "~bootstrap-icons/font/bootstrap-icons.css";
 
 @font-face {
     font-family: "Louis George Cafe";
@@ -25,14 +26,17 @@
     /* --primary1: #ba1cb3; */
     /* --primary1: #fc52ff; */
     /* --primary1: #df39ce; */
-    --primary1: #f9ae54;
+    /* --primary1: #f9ae54; */
+    --primary1: #c4aa97;
     /* --primary2: #5e17eb; */
     /* --primary2: #7530ff;  */
     /* --primary2: #6c33c8;  */
-    --primary2: #688052; 
+    /* --primary2: #688052;  */
+    --primary2: #c6a68d; 
     /* --primary3: #1aa9e8; */
     /* --primary3: #e1f1ff; */
-    --primary3: #fde0db;
+    /* --primary3: #fde0db; */
+    --primary3: #ebdaa8;
 
     --dark1: #b46caa;
     /* --dark2: #5755a1; */
@@ -86,6 +90,10 @@ body{
     background-color: var(--primary3);
 }
 
+.cl-bg-transparent{
+    background-color: rgba(0, 0, 0, 0);
+}
+
 .btn-cl1{
     background-color: var(--primary1);
     color: white;
@@ -118,6 +126,57 @@ body{
 
 .btn-disabled{
     cursor: not-allowed;
+}
+
+.btn-link{
+    cursor: pointer;
+    color: var(--primary2);
+}
+
+.btn-link:hover{
+    color: var(--dark2);
+}
+
+.btn-link2{
+    cursor: pointer;
+    color: white;
+}
+
+.btn-link2:hover{
+    color: var(--primary1);
+}
+
+.btn-link3{
+    cursor: pointer;
+    color: white;
+}
+
+.btn-link3:hover{
+    color: var(--primary3);
+}
+
+.btn-link-black{
+    color: black;
+    cursor: pointer;
+}
+
+.btn-link-black:hover{
+    color: black;
+    text-decoration: underline;
+}
+
+.btn-link-gray{
+    color: #8c8c8c;
+    cursor: pointer;
+}
+
+.btn-link-gray:hover{
+    color: #8c8c8c;
+    text-decoration: underline;
+}
+
+.btn-subr{
+    text-decoration: underline;
 }
 
 .fw-100{

@@ -1,0 +1,470 @@
+<div class="big-screen" id="big-screen">
+
+    <div id="plans1" [style.height.px]="imgHeigh - 90">
+
+        <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-ride="carousel"
+            data-interval="2000">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img class="d-block w-100" src="../../assets/imgs/alpaca_1_1.jpeg" alt="1 slide">
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block w-100" src="../../assets/imgs/alpaca_2.jpg" alt="2 slide">
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+
+
+        <!-- <div class="container flex-content-center">
+            <div class="row">
+                <div class="col-lg-4 no-small-screen">
+                    <div class="info-first-img">
+                        <img src="../../assets/imgs/info-img-1.png" alt="info1">
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="init-info-text">
+                        Se parte del Primer Marketplace peruano de triple impacto para las marcas y productores
+                        locales.
+                    </div>
+                    <div class="info-second-img">
+                        <img src="../../assets/imgs/info-img-2.png" alt="info2">
+                    </div>
+                    <div class="init-info-text">
+                        Aprovecha todos nuestros beneficios y más.
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+
+    <div class="container d-flex" id="plans2" [style.height.px]="imgHeigh"
+        [style.padding-top.px]="(imgHeigh / 10) + 26">
+
+        <div class="row section-2-home w-100">
+            <div class="col-1"></div>
+            <div class="col-4 position-relative">
+                <img class="d-block w-100 cat-img" src="../../assets/imgs/alpaca_3.jpg" alt="1 slide">
+                <div class="msg-sub-img">
+                    <a class="btn-link-gray">PRENDAS</a>
+                </div>
+            </div>
+            <div class="col-2"></div>
+            <div class="col-4 position-relative">
+                <img class="d-block w-100 cat-img" src="../../assets/imgs/alpaca_8.jpg" alt="1 slide">
+                <div class="msg-sub-img">
+                    <a class="btn-link-gray">ACCESORIOS</a>
+                </div>
+            </div>
+            <div class="col-1"></div>
+        </div>
+
+        <!-- <div class="membresia-content">
+            <div class="membresia-section-title pb-5">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="text-title">
+                            <h1>
+                                Membresía
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="title-message">
+                            Juntos, llevemos tu marca a otro nivel
+                        </div>
+                        <div class="membresia-cost">
+                            <div>
+                                <h1>S/.59</h1>
+                                (mensuales)
+                            </div>
+                            <h3>+</h3>
+                            <div>
+                                <h1>15%</h1>
+                                (por venta)
+                            </div>
+                            <div class="subcribe-button">
+                                <button class="btn btn-cl1" routerLink="/ventajas/socio" routerLinkActive="active">
+                                    Comenzar <br> ahora
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="membresia-section-info">
+                <div class="row">
+                    <div class="col-md-4 first-membresia-img">
+                        <div class="info-item justify-content-center">
+                            <img src="../../assets/imgs/subscription-img-1.png" alt="membresia1">
+                            <div class="info-text">
+                                Tu propia tienda virtual
+                                <small><b>www.compralocal.pe/juntos/TUMARCA</b></small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 membresia-info-items">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="info-item">
+                                    <div class="half-height flex-content-center">
+                                        <img src="../../assets/imgs/subscription-img-2.png" alt="membresia2">
+                                    </div>
+                                    <div class="info-text">
+                                        Publica todos tus productos
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="info-item">
+                                    <div class="half-height flex-content-center">
+                                        <img src="../../assets/imgs/subscription-img-3.png" alt="membresia3">
+                                    </div>
+                                    <div class="info-text">
+                                        Libro de reclamaciones
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="info-item">
+                                    <div class="half-height flex-content-center">
+                                        <img src="../../assets/imgs/subscription-img-6.png" alt="membresia6">
+                                    </div>
+                                    <div class="info-text">
+                                        Aceptamos todas las tarjetas
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="info-item">
+                                    <div class="half-height flex-content-center">
+                                        <img src="../../assets/imgs/subscription-img-7.png" alt="membresia7">
+                                    </div>
+                                    <div class="info-text">
+                                        Presencia en redes sociales
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 membresia-info-items">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="info-item">
+                                    <div class="half-height flex-content-center">
+                                        <img src="../../assets/imgs/subscription-img-4.png" alt="membresia4">
+                                    </div>
+                                    <div class="info-text">
+                                        Loyalti y descuentos
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="info-item">
+                                    <div class="half-height flex-content-center">
+                                        <img src="../../assets/imgs/subscription-img-5.png" alt="membresia5">
+                                    </div>
+                                    <div class="info-text">
+                                        Posicionamiento en buscadores
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="info-item">
+                                    <div class="half-height flex-content-center">
+                                        <img src="../../assets/imgs/subscription-img-8.png" alt="membresia8">
+                                    </div>
+                                    <div class="info-text">
+                                        Impacto social y ambiental
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="info-item">
+                                    <div class="half-height flex-content-center">
+                                        <img src="../../assets/imgs/subscription-img-9.png" alt="membresia9">
+                                    </div>
+                                    <div class="info-text">
+                                        Seguridad digital SSL
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="color-relleno"></div>
+                <small><b>
+                        *Adicionalmente, CompraLocal podrá elaborar paquetes diseñados a la medida de cada marca,
+                        marketing digital, estrategias de venta virtual, entre otras.
+                    </b></small>
+            </div>
+        </div> -->
+
+    </div>
+    <div class="nuestro-proposito" id="plans3" [style.height.px]="imgHeigh">
+        <div class="container-fluid d-flex" [style.padding-top.px]="(imgHeigh / 10) + 26" [style.height.px]="imgHeigh">
+
+            <div class="row section-2-home w-100">
+                <div class="col-4 position-relative">
+                    <img class="d-block w-100 h-100" src="../../assets/imgs/alpaca_5.jpg" alt="1 slide">
+                    <div class="msg-on-img">
+                        <a class="btn-link2">CÁRDIGAN</a>
+                        <!-- <a class="btn-link2 btn-subr">ver todo</a> -->
+                    </div>
+                </div>
+                <div class="col-4 position-relative">
+                    <img class="d-block w-100 h-100" src="../../assets/imgs/alpaca_7.jpg" alt="1 slide">
+                    <div class="msg-on-img">
+                        <a class="btn-link2">PONCHOS</a>
+                        <!-- <a class="btn-link2 btn-subr">ver todo</a> -->
+                    </div>
+                </div>
+                <div class="col-4 position-relative">
+                    <img class="d-block w-100 h-100" src="../../assets/imgs/alpaca_6.jpg" alt="1 slide">
+                    <div class="msg-on-img">
+                        <a class="btn-link2">CHALECOS</a>
+                        <!-- <a class="btn-link2 btn-subr">ver todo</a> -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="proposito-title">
+                <b class="color-verde">Nuestro Propósito</b><br><br>
+                Proveer un espacio de oportunidades para el desarrolllo de productores y productoras locales para así
+                acercar tanto a nuestros socios como a sus clientes a la posibilidad de impactar positivamente en el
+                planeta y la sociedad.
+            </div>
+            <div class="proposito-content">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="proposito-section">
+                            <img src="../../assets/imgs/proposito-img-1.png" alt="proposito1">
+                            <div>
+                                Un porcentaje de los ingresos de la página, son para apoyar un proyecto Sostenible -
+                                Educación o Reforestación, que será seleccionado por el cliente.
+                            </div>
+                        </div>
+                        <div class="proposito-section">
+                            <img src="../../assets/imgs/proposito-img-2.png" alt="proposito2">
+                            <div>
+                                El delivery lo paga el cliente. Para realizar la entrega de los productos, cada socio
+                                recibirá un guia que deberá colocar en el packaging. Compra Local recomendará los
+                                servicios de entrega a nivel nacional e internacional.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="proposito-section">
+                            <img src="../../assets/imgs/proposito-img-3.png" alt="proposito3">
+                            <div>
+                                Las marcas inscritas podrán participar en voluntariados, como en talleres y eventos
+                                virtuales que se organicen.
+                            </div>
+                        </div>
+                        <div class="proposito-section">
+                            <img src="../../assets/imgs/proposito-img-4.png" alt="proposito4">
+                            <div>
+                                Juntos podremos continuar desarrollándonos y creando experiencias para nuestras marcas y
+                                nuestro entorno.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+
+    <div class="container-fluid" id="plans4" [style.height.px]="imgHeigh" [style.padding-top.px]="(imgHeigh / 10) + 26">
+
+        <div class="row mb-5">
+            <div class="col-4">
+                <div class="guia-section">
+                    <i class="bi bi-shield-lock"></i>
+                    <div class="text-guia">
+                        <label>PAGO SEGURO</label>
+                        <p>Revisar términos y condiciones</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="guia-section">
+                    <i class="bi bi-truck"></i>
+                    <div class="text-guia">
+                        <label>DELIVERY A NIVEL NACIONAL</label>
+                        <p>Compra desde la comodidad de tu hogar</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="guia-section">
+                    <i class="bi bi-globe"></i>
+                    <div class="text-guia">
+                        <label>ENVÍOS INTERNACIONALES</label>
+                        <p>Elige tu destino de envío</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container supp text-center">
+            <h1 class="title-section">Nuestros Tejedores</h1>
+            <div id="carouselSupps" class="carousel carousel-fade mt-5" data-ride="carousel" data-interval="2000"
+              *ngIf="suppliers">
+              <ol *ngIf="suppList.length > 3" class="carousel-indicators" [innerHtml]='inHTMLSupp | safeHtml'>
+              </ol>
+              <div class="carousel-inner">
+                <div
+                  [className]="(suppList.length <= 3)? 'd-none' : (pageNum == 0)? 'carousel-item supp-carousel active' : 'carousel-item supp-carousel'"
+                  *ngFor="let pageNum of numList">
+          
+                  <div class="h-100" *ngFor="let supp of suppList.slice(pageNum, pageNum + 3)">
+                    <img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/suppliers/' + supp.image_person"
+                      alt="No Image" (click)="goToSupplier(supp.name)">
+                    <b class="suppName">{{supp.name}}</b>
+                  </div>
+          
+                </div>
+                <div *ngIf="suppList.length <= 3" class="carousel-item supp-carousel active">
+                  <div *ngFor="let supp of suppList">
+                    <img [src]="'https://compralocal-images.s3.us-east-2.amazonaws.com/suppliers/' + supp.image_person"
+                      alt="Supplier Image" (click)="goToSupplier(supp.name)">
+                    <b class="suppName">{{supp.name}}</b>
+                  </div>
+                </div>
+              </div>
+              <a *ngIf="suppList.length > 3" class="carousel-control-prev" href="#carouselSupps" role="button" data-slide="prev">
+                <i class="fas fa-arrow-alt-circle-left carousel-icon-custom"></i>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a *ngIf="suppList.length > 3" class="carousel-control-next" href="#carouselSupps" role="button" data-slide="next">
+                <i class="fas fa-arrow-alt-circle-right carousel-icon-custom"></i>
+                <span class="sr-only">Next</span>
+              </a>
+            </div>
+          </div>
+
+        <!-- <div class="pasos-title">
+            Pasos a Seguir
+        </div>
+        <div class="pasos-content">
+            <div class="row">
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="pasosImg">
+                        <img src="../../assets/imgs/pasos-img-1.png" alt="pasos1">
+                    </div>
+                    <div class="pasos-text">
+                        Escoge la opción que más se acomode a tus necesidades.
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="pasosImg">
+                        <img src="../../assets/imgs/pasos-img-2.png" alt="pasos2">
+                    </div>
+                    <div class="pasos-text">
+                        Completa la ficha que recibiras en tu correo y mándanos tus mejores fotos.
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="pasosImg">
+                        <img src="../../assets/imgs/pasos-img-3.png" alt="pasos3">
+                    </div>
+                    <div class="pasos-text">
+                        Revisaremos tu información en un plazo máximo de 48 horas.
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="pasosImg">
+                        <img src="../../assets/imgs/pasos-img-4.png" alt="pasos4">
+                    </div>
+                    <div class="pasos-text">
+                        Si todo esta OK, ya puedes entrar a tu página:<br>
+                        <small><b>www.compralocal.pe/juntos/TUMARCA</b></small><br>
+                        Empieza a ganar.
+                    </div>
+                </div>
+            </div>
+            <div class="pasos-final-message">
+                No te preocupes, estaremos en comunicación permanente.
+            </div>
+        </div> -->
+    </div>
+
+    <!-- <div id="plans5" [style.height.px]="imgHeigh">
+        <div class="container" [style.padding-top.px]="(imgHeigh / 10) + 26" [style.height.px]="imgHeigh">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="contactanos-img">
+                        <div class="contactanos-title">
+                            Contáctanos
+                        </div>
+                        <img src="../../assets/imgs/contactanos-img-1.png" alt="contactanos1">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-contactanos">
+                        <form #contactForm="ngForm" (ngSubmit)="contact(contactForm)">
+                            <h3>Tus datos</h3>
+
+                            <div class="form-row">
+                                <div class="form-group col-6">
+                                    <label for="contactName">Nombres <sup>*</sup></label>
+                                    <input type="text" class="form-control" id="contactName" name="contactName"
+                                        [(ngModel)]="newContact.name" [disabled]="loading" required>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label for="contactLastName">Apellidos <sup>*</sup></label>
+                                    <input type="text" class="form-control" id="contactLastName" name="contactLastName"
+                                        [(ngModel)]="newContact.last_name" [disabled]="loading" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="contactEmail">Email <sup>*</sup></label>
+                                <input type="email" class="form-control" id="contactEmail" name="contactEmail"
+                                    [(ngModel)]="newContact.email" [disabled]="loading" required email>
+                            </div>
+                            <div class="form-group">
+                                <label for="contactLastPhone">Celular <sup>*</sup></label>
+                                <input type="tel" class="form-control" id="contactLastPhone" name="contactLastPhone"
+                                    [(ngModel)]="newContact.phone" [disabled]="loading" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contactConsulta">¿Cuál es tu consulta? <sup>*</sup></label>
+                                <textarea class="form-control" name="contactConsulta" id="contactConsulta" cols="30"
+                                    rows="4" [(ngModel)]="newContact.consulta" maxlength="250" [disabled]="loading"
+                                    required></textarea>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary"
+                                    [disabled]="contactForm.invalid || loading">
+                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                                        *ngIf="loading"></span>
+                                    Enviar información
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- <img src="../../assets/imgs/plans6.png" alt="plans6" class="planImage" id="plans6" [style.height.px]="imgHeigh"> -->
+</div>

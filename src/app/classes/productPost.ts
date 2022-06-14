@@ -11,7 +11,7 @@ export class ProductPost{
     numSellOnWeek: number;
     isTrent: boolean;
     categoryId: number;
-    // subcategoryId: number;
+    subcategoryId: number;
     supplierId: number;
     isOffer: boolean;
     priceOffer: number;

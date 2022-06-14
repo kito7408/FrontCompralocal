@@ -151,8 +151,11 @@
             <div class="form-check">
               <input class="form-check-input" type="radio" name="metEnvio" id="envio2" value="Delivery CompraLocal"
                 [(ngModel)]="deliveryMethod">
-              <label class="form-check-label" for="envio2">
+              <!-- <label class="form-check-label" for="envio2">
                 Delivery CompraLocal
+              </label> -->
+              <label class="form-check-label" for="envio2">
+                Delivery
               </label>
             </div>
           </div>
@@ -327,8 +330,10 @@
         </div>
         <div class="row">
           <div class="col-12">
-            <span>Si desea agregar un comentario sobre su orden o recomendación sobre su experiencia en CompraLocal, por
-              favor escribalo enseguida.</span>
+            <!-- <span>Si desea agregar un comentario sobre su orden o recomendación sobre su experiencia en CompraLocal, por
+              favor escribalo enseguida.</span> -->
+              <span>Si desea agregar un comentario sobre su orden o recomendación sobre su experiencia, por
+                favor escribalo enseguida.</span>
             <textarea name="coment" id="coment" cols="30" rows="5" [(ngModel)]="orderInfo.coment"></textarea>
           </div>
         </div>

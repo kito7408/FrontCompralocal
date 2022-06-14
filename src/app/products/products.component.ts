@@ -103,13 +103,13 @@ export class ProductsComponent implements OnInit {
         });
         break;
       case 2:
-        // this.prodService.getBySubCategoriaId(Number(this.prodService.filter)).subscribe((data) => {
-        //   this.productos = data;
-        //   if (data && data.length > 0) {
-        //     this.filterString = "Productos > " + data[0].category.name + " > " + data[0].subcategory.name;
-        //   }
-        //   this.startPag();
-        // });
+        this.prodService.getBySubCategoriaId(Number(this.prodService.filter)).subscribe((data:any) => {
+          this.productos = data;
+          if (data && data.length > 0) {
+            this.filterString = "Productos > " + data[0].category.name + " > " + data[0].subcategory.name;
+          }
+          this.startPag();
+        });
         break;
       case 3:
         if (this.prodService.filter.length < 3) {

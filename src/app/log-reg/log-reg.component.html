@@ -1,0 +1,71 @@
+<div class="container d-flex" [style.height.px]="imgHeigh - 90" *ngIf="!userService.userInfo">
+  <div class="row align-self-center h-50 w-100 align-items-center">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Registrarse</h5>
+          <a class="btn btn-block btn-primary" (click)="newUserPopUp()">Registrarse</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Iniciar Sesión</h5>
+          <form #logForm="ngForm" (ngSubmit)="login(logForm)">
+            <div class="form-group">
+              <label for="logMail">Dirección de correo electrónico</label>
+              <input type="email" class="form-control" name="logMail" id="logMail" [(ngModel)]="logUsername"
+                [disabled]="loading" required email>
+            </div>
+            <div class="form-group">
+              <label for="logPass">Contraseña</label>
+              <input type="password" class="form-control" name="logPass" id="logPass" [(ngModel)]="logPass"
+                [disabled]="loading" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block" [disabled]="loading || logForm.invalid">
+              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" *ngIf="loading"></span>
+              Iniciar Sesión
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="userService.userInfo" class="container d-flex" [style.height.px]="imgHeigh - 90">
+  <div class="align-self-center align-items-center">
+    <h2>Mi Cuenta</h2>
+    <p>Bienvenido a tu cuenta. Aquí puede administrar toda tu información personal y pedidos.</p>
+    <ul>
+      <li *ngIf="userService.userInfo.userTypeId == 2">
+        <a class="btn-link" (click)="myOrds()">Historial de pedidos y detalles</a>
+      </li>
+      <li>
+        <a class="btn-link" (click)="myDirs()">Mis direcciones</a>
+      </li>
+      <li>
+        <a class="btn-link" (click)="myInfo()">Mi información personal</a>
+      </li>
+      <li>
+        <a class="btn-link" (click)="logout()">Cerrar sesión</a>
+      </li>
+    </ul>
+    <div *ngIf="userService.userInfo.userTypeId == 1">
+      <hr>
+      <h3>Opciones de administrador</h3>
+      <ul>
+        <li>
+          <a class="btn-link" (click)="addProd()">Agregar Producto</a>
+        </li>
+        <li>
+          <a class="btn-link" (click)="addUser()">Agregar Usuario</a>
+        </li>
+        <li>
+          <a class="btn-link" (click)="listOrds()">Lista de pedidos de clientes</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

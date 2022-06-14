@@ -133,7 +133,7 @@ export class CartComponent implements OnInit {
       });
       this.totalOrderPrice = this.cartService.cartTotalPrice + this.deliveryPrice;
     } else {
-      this.routes.navigate(['/home']);
+      // this.routes.navigate(['/home']);
     }
 
     this.setDeliveryPrice();

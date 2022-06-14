@@ -152,24 +152,6 @@ td > p{
     color: var(--primary2);
 }
 
-.btn-link{
-    color: var(--primary2);
-}
-
-.btn-link:hover{
-    color: var(--dark2);
-}
-
-.btn-link2{
-    /* color: #49ffe5; */
-    /* color: var(--primary3); */
-    color: white;
-}
-
-.btn-link2:hover{
-    color: var(--primary3);
-}
-
 .dropdown-menu-right .dropdown-item{
     color: var(--primary2);
 }

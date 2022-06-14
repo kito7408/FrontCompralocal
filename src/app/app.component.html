@@ -1,3 +1,4 @@
-<app-navbar (addEvent)="emitterAction($event)" #navbarCL *ngIf="!onlyMiddle"></app-navbar>
+<!-- <app-navbar (addEvent)="emitterAction($event)" #navbarCL *ngIf="!onlyMiddle"></app-navbar> -->
+<app-alpaca-navbar (addEvent)="emitterAction($event)" #navbarCL *ngIf="!onlyMiddle"></app-alpaca-navbar>
 <router-outlet (activate)="onActivate($event)"></router-outlet>
 <app-footer *ngIf="!onlyMiddle"></app-footer>

@@ -27,6 +27,9 @@ import { SuccErrMesagesComponent } from './succ-err-mesages/succ-err-mesages.com
 import { WelcomeComponent } from './welcome/welcome.component';
 import { PlansComponent } from './plans/plans.component';
 import { PlanDetailComponent } from './plan-detail/plan-detail.component';
+import { AlpacaHomeComponent } from './alpaca-home/alpaca-home.component';
+import { AlpacaNavbarComponent } from './alpaca-navbar/alpaca-navbar.component';
+import { LogRegComponent } from './log-reg/log-reg.component';
 
 
 let config = new AuthServiceConfig([
@@ -63,7 +66,10 @@ export function provideConfig() {
     SuccErrMesagesComponent,
     WelcomeComponent,
     PlansComponent,
-    PlanDetailComponent
+    PlanDetailComponent,
+    AlpacaHomeComponent,
+    AlpacaNavbarComponent,
+    LogRegComponent
   ],
   imports: [
     BrowserModule,

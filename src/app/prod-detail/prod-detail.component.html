@@ -92,7 +92,7 @@
           </h4>
           <p>Proveedor: <a (click)="goToSupplier(producto.supplier.name)"
               [className]="isInProdDetail? 'btn btn-link' : 'btn-none'">{{producto.supplier.name}}</a></p>
-          <h5 class="mb-2">
+          <!-- <h5 class="mb-2">
             Envío 
             <b *ngIf="!calculando">S./{{deliveryPrice}}</b>
             <b *ngIf="calculando">
@@ -100,7 +100,7 @@
             </b>
           </h5>
 
-          <button class="btn btn-cl1" (click)="toCalcEnv()">Calcular envío</button>
+          <button class="btn btn-cl1" (click)="toCalcEnv()">Calcular envío</button> -->
 
 
           <div *ngIf="onCalcEnv" class="calc-section">

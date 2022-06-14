@@ -2,7 +2,7 @@ import { CategoryPost } from "./categoryPost";
 import { Supplier } from "./supplier";
 import { ProdMod } from "./prodModel";
 import { DeliveryZone } from "./deliveryZone";
-// import { Subcategory } from "./subCategory";
+import { Subcategory } from "./subCategory";
 
 export class ProductGet{
     id: number;
@@ -17,10 +17,10 @@ export class ProductGet{
     numSellOnWeek: number;
     isTrent: boolean;
     categoryId: number;
-    // subcategoryId: number;
+    subcategoryId: number;
     supplierId: number;
     category: CategoryPost;
-    // subcategory: Subcategory;
+    subcategory: Subcategory;
     supplier: Supplier;
     isOffer: boolean;
     priceOffer: number;

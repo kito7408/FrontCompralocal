@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { AlpacaNavbarComponent } from './alpaca-navbar/alpaca-navbar.component';
 import { NavbarComponent } from './navbar/navbar.component';
 
 declare var gtag;
@@ -16,7 +17,8 @@ export class AppComponent {
   compo: any;
   onlyMiddle: boolean = false;
 
-  @ViewChild('navbarCL') navbarCL: NavbarComponent;
+  // @ViewChild('navbarCL') navbarCL: NavbarComponent;
+  @ViewChild('navbarCL') navbarCL: AlpacaNavbarComponent;
 
   constructor(
     private router: Router
@@ -38,7 +40,7 @@ export class AppComponent {
       componentReference.logEvent.subscribe(event => {
         if (event == 'login') {
           this.navbarCL.loginButton.nativeElement.click();
-        } 
+        }
         else if (event.includes('newProdFromSupp')) {
           var suppSelectedId = event.split(' ')[1];
           this.navbarCL.newProdF();
@@ -48,6 +50,61 @@ export class AppComponent {
         else if (event == 'unableSupp') {
           this.navbarCL.updateCart();
         }
+      });
+    }
+
+    if (componentReference.userEvent) {
+      componentReference.userEvent.subscribe(event => {
+
+        switch (event) {
+          case 'register':
+            this.navbarCL.registerButton.nativeElement.click();
+            break;
+
+          case 'login':
+            let userToLog = JSON.parse(localStorage.getItem('userToLog'));
+            localStorage.removeItem('userToLog');
+
+            this.navbarCL.newUser.email = userToLog.user;
+            this.navbarCL.newUser.password = userToLog.pass;
+            this.navbarCL.login();
+            break;
+
+          case 'logout':
+            this.navbarCL.logoutButton.nativeElement.click();
+            break;
+
+          case 'myOrds':
+            this.navbarCL.listMyOrdsButton.nativeElement.click();
+            break;
+
+          case 'addProd':
+            this.navbarCL.addProdButton.nativeElement.click();
+            break;
+
+          case 'addUser':
+            this.navbarCL.addUserButton.nativeElement.click();
+            break;
+
+          case 'allOrds':
+            this.navbarCL.listOrdsButton.nativeElement.click();
+            break;
+
+          default:
+            break;
+        }
+
+        // if (event == 'register') {
+        //   this.navbarCL.registerButton.nativeElement.click();
+        // }
+        // else if (event == 'login') {
+        //   let userToLog = JSON.parse(localStorage.getItem('userToLog'));
+        //   localStorage.removeItem('userToLog');
+
+        //   this.navbarCL.newUser.email = userToLog.user;
+        //   this.navbarCL.newUser.password = userToLog.pass;
+        //   this.navbarCL.login();
+        // }
       });
     }
 
@@ -62,6 +119,8 @@ export class AppComponent {
   }
 
   emitterAction(e) {
+    console.log("casi", e);
+
 
     switch (e) {
       case 'products':

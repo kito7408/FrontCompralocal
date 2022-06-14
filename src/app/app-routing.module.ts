@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, ExtraOptions } from '@angular/router';
+import { AlpacaHomeComponent } from './alpaca-home/alpaca-home.component';
 import { BlogComponent } from './blog/blog.component';
 import { CartComponent } from './cart/cart.component';
 import { HomeComponent } from './home/home.component';
 import { HowWorksComponent } from './how-works/how-works.component';
+import { LogRegComponent } from './log-reg/log-reg.component';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
 import { OrdersComponent } from './orders/orders.component';
 import { PlanDetailComponent } from './plan-detail/plan-detail.component';
@@ -17,7 +19,9 @@ import { WelcomeComponent } from './welcome/welcome.component';
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'products', component: ProductsComponent },
-  { path: 'home', component: HomeComponent },
+  // { path: 'home', component: HomeComponent },
+  { path: 'home2', component: HomeComponent },
+  { path: 'home', component: AlpacaHomeComponent },
   { path: 'home/:token', component: HomeComponent },
   { path: 'products/:id', component: ProdDetailComponent },
   { path: 'cart', component: CartComponent },
@@ -32,6 +36,7 @@ const routes: Routes = [
   { path: 'post/:id', component: PostComponent },
   { path: 'ventajas', component: PlansComponent },
   { path: 'ventajas/socio', component: PlanDetailComponent },
+  { path: 'user', component: LogRegComponent },
   { path: '**', redirectTo: '/home', pathMatch: 'full' },
 
   // {path: '', component: WelcomeComponent},

@@ -37,10 +37,10 @@ export class ProductService {
     return this.http.get<ProductGet[]>(newUrl);
   }
 
-  // getBySubCategoriaId(id: number): Observable<ProductGet[]> {
-  //   const newUrl = this.url + '/subcategory/' + id;
-  //   return this.http.get<ProductGet[]>(newUrl);
-  // }
+  getBySubCategoriaId(id: number): Observable<ProductGet[]> {
+    const newUrl = this.url + '/subcategory/' + id;
+    return this.http.get<ProductGet[]>(newUrl);
+  }
 
   getBySupplierId(id: number): Observable<ProductGet[]> {
     const newUrl = this.url + '/supplier/' + id;
@@ -64,7 +64,7 @@ export class ProductService {
     formData.append('image', producto.image5);
     formData.append('name', producto.name);
     formData.append('categoryId', String(producto.categoryId));
-    // formData.append('subcategoryId', String(producto.subcategoryId));
+    formData.append('subcategoryId', String(producto.subcategoryId));
     formData.append('price', String(producto.price));
     formData.append('description', String(producto.description));
     formData.append('isTrent', String(producto.isTrent));
